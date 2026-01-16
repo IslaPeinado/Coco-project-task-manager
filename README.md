@@ -1,8 +1,7 @@
 # 🥥 coco
 
-coco es una aplicación web para la gestión de proyectos y tareas, pensada con un enfoque práctico y empresarial.
-
-La aplicación permite trabajar con proyectos y tareas asociadas, controlar el acceso mediante autenticación JWT y roles, y mantener una API REST clara y documentada. El objetivo es tener una base sólida y escalable, con una estructura de código ordenada y mantenible.
+COCO es una aplicación web orientada a entornos empresariales para la gestión de proyectos y tareas, diseñada con un enfoque de seguridad, mantenibilidad y escalabilidad. El frontend, construido con Angular 20, ofrece una experiencia fluida basada en formularios reactivos y navegación estructurada. El backend, desarrollado en Java 21 con Spring Boot, expone una API REST documentada con OpenAPI/Swagger, con endpoints protegidos mediante JWT y control de acceso por roles (USUARIO/ADMIN).
+La persistencia se realiza en Oracle Database utilizando JPA/Hibernate, cuidando el modelado relacional y las buenas prácticas de acceso a datos. El repositorio incluye documentación técnica y configuración de calidad (CI, plantillas, políticas de ramas) para reflejar un flujo de trabajo similar al de un equipo real.
 
 ---
 

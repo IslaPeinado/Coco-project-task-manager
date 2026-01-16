@@ -1,0 +1,151 @@
+#############################
+# coco - Fullstack GitIgnore
+# Angular + Java 21 + Oracle
+#############################
+
+# ---------------------------
+# General / OS
+# ---------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------------------------
+# Secrets / env
+# ---------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+secrets.*
+*secret*
+*credentials*
+*.keystore
+
+# ---------------------------
+# Logs
+# ---------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------------------------
+# Node / Angular
+# ---------------------------
+node_modules/
+dist/
+dist-ssr/
+out/
+.angular/
+.cache/
+coverage/
+.tmp/
+tmp/
+*.tsbuildinfo
+
+# Angular environments (si los generas localmente)
+src/environments/environment.local.ts
+src/environments/environment.*.local.ts
+
+# Package manager locks (elige según tu caso)
+# Si usas npm, deja package-lock.json; si usas yarn/pnpm, ajusta.
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ---------------------------
+# Java / Spring Boot
+# ---------------------------
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Spring Boot
+*.pid
+*.hprof
+
+# Compiled class files
+*.class
+
+# IDE / Editors
+# ---------------------------
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+.factorypath
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# ---------------------------
+# Test / tooling outputs
+# ---------------------------
+surefire-reports/
+failsafe-reports/
+jacoco/
+*.exec
+
+# ---------------------------
+# Database / local data
+# ---------------------------
+# Si guardas dumps o ficheros locales de BD
+*.db
+*.sqlite
+*.sqlite3
+*.dmp
+*.dump
+
+# Docker local volumes (si los tienes dentro del repo, recomendable evitar)
+docker-volumes/
+**/docker-volumes/
+
+# ---------------------------
+# Generated docs / exports
+# ---------------------------
+*.pdf
+*.zip
+*.tar
+*.tar.gz
+
+# ---------------------------
+# Temporary files
+# ---------------------------
+*.swp
+*.swo
+*~
