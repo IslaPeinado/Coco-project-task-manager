@@ -6,7 +6,7 @@ on:
       - "backend/**"
       - ".github/workflows/ci-backend.yml"
   push:
-    branches: [ "dev " ]
+    branches: [ "main" ]
     paths:
       - "backend/**"
       - ".github/workflows/ci-backend.yml"
@@ -22,6 +22,9 @@ jobs:
       run:
         working-directory: backend
 
+    env:
+      SPRING_PROFILES_ACTIVE: test
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,9 +36,11 @@ jobs:
           java-version: "21"
           cache: maven
 
-      - name: Build & Test
-        run: ./mvnw -B clean test
+      - name: Ensure mvnw is executable
+        run: chmod +x mvnw
 
-      # Opcional pero “huele” a senior: verifica que compila el jar final
-      - name: Package
+      - name: Run tests (H2 profile)
+        run: ./mvnw -B -Dspring.profiles.active=test clean test
+
+      - name: Package (skip tests)
         run: ./mvnw -B -DskipTests package
