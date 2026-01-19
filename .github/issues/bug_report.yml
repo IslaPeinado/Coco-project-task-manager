@@ -1,0 +1,51 @@
+name: "🐛 Bug report"
+description: Reporta un fallo reproducible (frontend o backend)
+title: "[BUG] "
+labels: ["type: bug", "status: triage"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Frontend (Angular)
+        - Backend (Spring Boot)
+        - API / Contrato
+        - Database (Oracle)
+        - CI / DevOps
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: ¿Qué ocurre?
+      description: Describe el problema claramente.
+      placeholder: "Al crear una tarea con fecha X, la API devuelve 500..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+      description: Lista pasos concretos.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / evidencias
+      description: Pega logs relevantes (sin secretos).
