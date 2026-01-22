@@ -1,7 +1,7 @@
 # 🥥 coco
 
 COCO es una aplicación web orientada a entornos empresariales para la gestión de proyectos y tareas, diseñada con un enfoque de seguridad, mantenibilidad y escalabilidad. El frontend, construido con Angular 20, ofrece una experiencia fluida basada en formularios reactivos y navegación estructurada. El backend, desarrollado en Java 21 con Spring Boot, expone una API REST documentada con OpenAPI/Swagger, con endpoints protegidos mediante JWT y control de acceso por roles (USUARIO/ADMIN).
-La persistencia se realiza en Oracle Database utilizando JPA/Hibernate, cuidando el modelado relacional y las buenas prácticas de acceso a datos. El repositorio incluye documentación técnica y configuración de calidad (CI, plantillas, políticas de ramas) para reflejar un flujo de trabajo similar al de un equipo real.
+La persistencia se realiza en Postgres Database utilizando JPA/Hibernate, cuidando el modelado relacional y las buenas prácticas de acceso a datos. El repositorio incluye documentación técnica y configuración de calidad (CI, plantillas, políticas de ramas) para reflejar un flujo de trabajo similar al de un equipo real.
 
 ---
 
@@ -23,7 +23,7 @@ La persistencia se realiza en Oracle Database utilizando JPA/Hibernate, cuidando
 - Swagger / OpenAPI
 
 ### Base de datos
-- Oracle Database
+- Postgres Database
 
 ---
 
@@ -58,7 +58,7 @@ Frontend (Angular)
 ↓  
 API REST (Spring Boot)  
 ↓  
-Oracle Database
+Postgres Database
 
 ---
 
