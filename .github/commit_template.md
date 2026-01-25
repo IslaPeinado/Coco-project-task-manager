@@ -1,26 +1,26 @@
 # Tipos de Commits
 
 
-### 1. `feat`: Nueva funcionalidad.
-* **Ejemplo**: `feat: añadir formulario de login`
+### 1. `FEATURE`: Nueva funcionalidad.
+* **Ejemplo**: `feature: añadir formulario de login`
 
-### 2. `fix`: Corrección de errores.
-* **Ejemplo**: `fix: corregir bug en la validación de email`
+### 2. `FIX`: Corrección de errores.
+* **Ejemplo**: `FIX: corregir bug en la validación de email`
 
-### 3. `docs`: Cambios en la documentación.
-* **Ejemplo**: `docs: actualizar README con instrucciones de instalación`
+### 3. `DOCS`: Cambios en la documentación.
+* **Ejemplo**: `DOCS: actualizar README con instrucciones de instalación`
 
-### 4. `style`: Cambios en el formato, sin afectar el comportamiento.
-* **Ejemplo**: `style: ajustar indentación en archivos .js`
+### 4. `STYLE`: Cambios en el formato, sin afectar el comportamiento.
+* **Ejemplo**: `STYLE: ajustar indentación en archivos .js`
 
-### 5. `refactor`: Refactorización de código, sin añadir funcionalidades ni corregir errores.
-* **Ejemplo**: `refactor: simplificar la función de validación de contraseña`
+### 5. `REFACTOR`: Refactorización de código, sin añadir funcionalidades ni corregir errores.
+* **Ejemplo**: `REFACTOR: simplificar la función de validación de contraseña`
 
-### 6. `test`: Añadir o modificar pruebas.
-* **Ejemplo**: `test: agregar pruebas unitarias para autenticación`
+### 6. `TEST`: Añadir o modificar pruebas.
+* **Ejemplo**: `TEST: agregar pruebas unitarias para autenticación`
 
-### 7. `chore`: Cambios menores, como configuración de tareas.
-* **Ejemplo**: `chore: actualizar versión de dependencias`
+### 7. `CHORE`: Cambios menores, como configuración de tareas.
+* **Ejemplo**: `CHORE: actualizar versión de dependencias`
 
-### 8. `perf`: Mejoras en el rendimiento.
-* **Ejemplo**: `perf: optimizar la consulta de base de datos para tareas`
+### 8. `PREF`: Mejoras en el rendimiento.
+* **Ejemplo**: `PREF: optimizar la consulta de base de datos para tareas`
