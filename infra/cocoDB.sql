@@ -1,18 +1,18 @@
 -- ============================================================
 -- COCO - PostgreSQL
 -- ============================================================
-
-DROP DATABASE IF EXISTS "cocoDB";
-
-CREATE DATABASE "cocoDB"
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'es_ES.UTF-8'
-    LC_CTYPE = 'es_ES.UTF-8'
-    TEMPLATE = template0
-    CONNECTION LIMIT = -1;
-
+-- 
+-- DROP DATABASE IF EXISTS "cocoDB";
+-- 
+-- CREATE DATABASE "cocoDB"
+--     WITH
+--     OWNER = postgres
+--     ENCODING = 'UTF8'
+--     LC_COLLATE = 'es_ES.UTF-8'
+--     LC_CTYPE = 'es_ES.UTF-8'
+--     TEMPLATE = template0
+--     CONNECTION LIMIT = -1;
+-- 
 
 -- ============================================================
 --  Función
