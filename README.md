@@ -60,50 +60,5 @@ API REST (Spring Boot)
 ↓  
 Postgres Database
 
----
-
-## ✅ Requisitos
-
-- Node.js (LTS recomendado)
-- Angular CLI (si aplica)
-- Java 21
-- Maven o Gradle
-- Oracle DB (local, Docker o remoto)
-
----
-
-## ▶️ Puesta en marcha (resumen)
-
-
-### Backend
-1. Configurar la conexión a Oracle y variables de entorno.
-2. Ejecutar:
-   - `./mvnw spring-boot:run`
-   - o `mvn spring-boot:run`
-
-### Frontend
-1. Instalar dependencias:
-   - `npm install`
-2. Ejecutar:
-   - `ng serve -o`
-
----
-
-## ⚙️ Variables de entorno (ejemplo)
-
-Backend:
-- `DB_URL=jdbc:oracle:thin:@localhost:1521/XEPDB1`
-- `DB_USERNAME=...`
-- `DB_PASSWORD=...`
-- `JWT_SECRET=...`
-- `JWT_EXP_MINUTES=60`
-
----
-
-## 📚 Swagger / OpenAPI
-
-Con el backend levantado:
-- Swagger UI: `http://localhost:8080/swagger-ui/index.html`
-- OpenAPI JSON: `http://localhost:8080/v3/api-docs`
 
 
