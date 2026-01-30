@@ -1,7 +1,10 @@
 package com.coco.modules.task.infra.persistence;
 
+import com.coco.modules.task.application.port.TaskRepositoryPort;
 import com.coco.modules.task.domain.Task;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class TaskRepositoryAdapter implements TaskRepositoryPort {
@@ -15,12 +18,25 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     @Override
     public Task save(Task task) {
         TaskEntity entity = new TaskEntity();
+        if (task.getId() != null) {
+            entity.setId(task.getId());
+        }
         entity.setTitle(task.getTitle());
         entity.setDescription(task.getDescription());
         entity.setStatus(task.getStatus());
         entity.setDueDate(task.getDueDate());
         entity.setProject(task.getProject());
-        taskJpaRepository.save(entity);
-        return task;
+        TaskEntity saved = taskJpaRepository.save(entity);
+        return saved.toDomain();
+    }
+
+    @Override
+    public Optional<Task> findById(Long taskId) {
+        return taskJpaRepository.findById(taskId).map(TaskEntity::toDomain);
+    }
+
+    @Override
+    public void deleteById(Long taskId) {
+        taskJpaRepository.deleteById(taskId);
     }
 }

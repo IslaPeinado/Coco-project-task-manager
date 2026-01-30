@@ -17,6 +17,15 @@ public class TaskStatus {
     
     private Boolean is_terminal;
 
+    public static TaskStatus valueOf(String status) {
+        if (status == null || status.isBlank()) {
+            throw new IllegalArgumentException("TaskStatus status is null or blank");
+        }
+        TaskStatus taskStatus = new TaskStatus();
+        taskStatus.setStatus(status);
+        return taskStatus;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -57,5 +66,5 @@ public class TaskStatus {
         this.is_terminal = is_terminal;
     }
 
-    
+
 }
