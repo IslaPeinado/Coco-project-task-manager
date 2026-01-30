@@ -1,89 +1,68 @@
 package com.coco.modules.task.infra.persistence;
 
 
+import com.coco.modules.project.domain.Project;
 import com.coco.modules.task.domain.Task;
 import com.coco.modules.task.domain.TaskStatus;
+import com.coco.modules.user.domain.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import java.time.LocalDate;
 
-import java.time.LocalDateTime;
-
+@Getter
+@Setter
 @Entity
+@Table(name = "tasks")
 public class TaskEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    private String title;
-
-    private String description;
-
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status;
-
-    private LocalDateTime dueDate;
-
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    // Convert TaskEntity to Task (mapping method)
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "description", length = Integer.MAX_VALUE)
+    private String description;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "status", nullable = false)
+    private TaskStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "assigned_to")
+    private User assignedTo;
+
+    @Column(name = "due_date")
+    private LocalDate dueDate;
+
+
     public Task toDomain() {
         Task task = new Task();
         task.setId(this.id);
+        task.setProject(this.project);
         task.setTitle(this.title);
         task.setDescription(this.description);
         task.setStatus(this.status);
+        task.setAssignedTo(this.assignedTo);
         task.setDueDate(this.dueDate);
-        task.setProject(this.project);
         return task;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
 }

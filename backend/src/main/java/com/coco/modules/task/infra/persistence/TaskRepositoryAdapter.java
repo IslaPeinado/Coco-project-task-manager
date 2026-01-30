@@ -21,11 +21,12 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
         if (task.getId() != null) {
             entity.setId(task.getId());
         }
+        entity.setProject(task.getProject());
         entity.setTitle(task.getTitle());
         entity.setDescription(task.getDescription());
         entity.setStatus(task.getStatus());
+        entity.setAssignedTo(task.getAssignedTo());
         entity.setDueDate(task.getDueDate());
-        entity.setProject(task.getProject());
         TaskEntity saved = taskJpaRepository.save(entity);
         return saved.toDomain();
     }
