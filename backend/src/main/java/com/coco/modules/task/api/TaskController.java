@@ -16,9 +16,17 @@ public class TaskController {
         this.createTaskUseCase = createTaskUseCase;
     }
 
+    //CREATE
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody TaskCreateRequest request) {
         return createTaskUseCase.execute(request);
     }
+
+    //GET
+    @GetMapping("/{taskId}")
+    public Task getTask(@PathVariable Long taskId) {
+        return getTaskUseCase.execute(taskId);
+    }
+
 }
