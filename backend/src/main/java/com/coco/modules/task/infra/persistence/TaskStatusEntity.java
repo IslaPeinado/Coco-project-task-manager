@@ -1,5 +1,7 @@
-package com.coco.modules.task.domain;
+package com.coco.modules.task.infra.persistence;
 
+
+import com.coco.modules.task.domain.TaskStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,7 +16,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Setter
 @Entity
 @Table(name = "task_status")
-public class TaskStatus {
+public class TaskStatusEntity {
     @Id
     @Size(max = 50)
     @Column(name = "status", nullable = false, length = 50)
@@ -40,5 +42,16 @@ public class TaskStatus {
     @Column(name = "is_terminal", nullable = false)
     private Boolean isTerminal;
 
+
+
+    public TaskStatus toDomain() {
+        TaskStatus taskStatus = new TaskStatus();
+        taskStatus.setStatus(this.status);
+        taskStatus.setDisplayName(this.displayName);
+        taskStatus.setColorHex(this.colorHex);
+        taskStatus.setSortOrder(this.sortOrder);
+        taskStatus.setIsTerminal(this.isTerminal);
+        return taskStatus;
+    }
 
 }
