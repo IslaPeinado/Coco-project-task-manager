@@ -22,6 +22,7 @@ public class UpdateTaskUseCase {
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setStatus(request.getStatus());
+        task.setAssignedTo(request.getAssigned_to());
         task.setDueDate(request.getDueDate());
 
         return taskRepositoryPort.save(task);

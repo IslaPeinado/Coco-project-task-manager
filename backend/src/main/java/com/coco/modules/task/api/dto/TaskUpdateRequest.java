@@ -1,19 +1,19 @@
 package com.coco.modules.task.api.dto;
 
+import com.coco.modules.task.domain.TaskStatus;
+import com.coco.modules.user.domain.User;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class TaskUpdateRequest {
 
-    private Long projectId;
     private String title;
     private String description;
-    private String status;
-    private Long assigned_to;
-    private LocalDateTime dueDate;
+    private TaskStatus status;
+    private User assigned_to;
+    private LocalDate dueDate;
 
 }
