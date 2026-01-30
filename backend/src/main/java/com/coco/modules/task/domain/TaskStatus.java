@@ -17,7 +17,6 @@ public class TaskStatus {
     
     private Boolean is_terminal;
 
-
     public String getStatus() {
         return status;
     }
