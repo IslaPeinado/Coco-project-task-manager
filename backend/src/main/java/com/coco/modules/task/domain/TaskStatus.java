@@ -1,70 +1,44 @@
 package com.coco.modules.task.domain;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-
+@Getter
+@Setter
 @Entity
+@Table(name = "task_status")
 public class TaskStatus {
-
+    @Id
+    @Size(max = 50)
+    @Column(name = "status", nullable = false, length = 50)
     private String status;
-    
-    private String display_name;
-    
-    private String color_hex;
-    
-    private Short sort_order;
-    
-    private Boolean is_terminal;
 
-    public static TaskStatus valueOf(String status) {
-        if (status == null || status.isBlank()) {
-            throw new IllegalArgumentException("TaskStatus status is null or blank");
-        }
-        TaskStatus taskStatus = new TaskStatus();
-        taskStatus.setStatus(status);
-        return taskStatus;
-    }
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "display_name", nullable = false, length = 100)
+    private String displayName;
 
-    public String getStatus() {
-        return status;
-    }
+    @Size(max = 7)
+    @NotNull
+    @Column(name = "color_hex", nullable = false, length = 7)
+    private String colorHex;
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    @NotNull
+    @ColumnDefault("0")
+    @Column(name = "sort_order", nullable = false)
+    private Short sortOrder;
 
-    public String getDisplay_name() {
-        return display_name;
-    }
-
-    public void setDisplay_name(String display_name) {
-        this.display_name = display_name;
-    }
-
-    public String getColor_hex() {
-        return color_hex;
-    }
-
-    public void setColor_hex(String color_hex) {
-        this.color_hex = color_hex;
-    }
-
-    public Short getSort_order() {
-        return sort_order;
-    }
-
-    public void setSort_order(Short sort_order) {
-        this.sort_order = sort_order;
-    }
-
-    public Boolean getIs_terminal() {
-        return is_terminal;
-    }
-
-    public void setIs_terminal(Boolean is_terminal) {
-        this.is_terminal = is_terminal;
-    }
+    @NotNull
+    @ColumnDefault("false")
+    @Column(name = "is_terminal", nullable = false)
+    private Boolean isTerminal;
 
 
 }

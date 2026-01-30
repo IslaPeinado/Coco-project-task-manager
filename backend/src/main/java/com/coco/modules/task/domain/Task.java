@@ -1,75 +1,66 @@
 package com.coco.modules.task.domain;
 
-
+import com.coco.modules.project.domain.Project;
+import com.coco.modules.user.domain.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
+@Getter
+@Setter
 @Entity
+@Table(name = "tasks")
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    private String title;
-
-    private String description;
-
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status;
-
-    private LocalDateTime dueDate;
-
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    public Long getId() {
-        return id;
-    }
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "title", nullable = false)
+    private String title;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "description", length = Integer.MAX_VALUE)
+    private String description;
 
-    public String getTitle() {
-        return title;
-    }
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "status", nullable = false)
+    private TaskStatus status;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "assigned_to")
+    private User assignedTo;
 
-    public String getDescription() {
-        return description;
-    }
+    @Column(name = "due_date")
+    private LocalDate dueDate;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @NotNull
+    @ColumnDefault("now()")
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
 
-    public TaskStatus getStatus() {
-        return status;
-    }
+    @NotNull
+    @ColumnDefault("now()")
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
 
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
 
-    public LocalDateTime getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
 }
