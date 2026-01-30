@@ -2,6 +2,7 @@ package com.coco.modules.task.infra.persistence;
 
 
 import com.coco.modules.task.domain.Task;
+import com.coco.modules.task.domain.TaskStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
