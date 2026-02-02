@@ -52,8 +52,11 @@ public class ProjectEntity {
 
         project.setId(this.id);
         project.setName(this.name);
+        project.setDescription(this.description);
         project.setLogoUrl(this.logoUrl);
         project.setStatus(this.status);
+        project.setCreatedAt(this.createdAt);
+        project.setUpdatedAt(this.updatedAt);;
 
         return project;
     }

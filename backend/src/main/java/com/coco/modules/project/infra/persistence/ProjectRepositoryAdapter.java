@@ -4,6 +4,7 @@ import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Project;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -24,7 +25,9 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
         entity.setName(project.getName());
         entity.setDescription(project.getDescription());
         entity.setLogoUrl(project.getLogoUrl());
-        entity.setStatus(project.getStatus());
+        if (entity.getStatus() == null) {
+            entity.setStatus("ACTIVE");
+        }
         ProjectEntity saved = projectJpaRepository.save(entity);
         return saved.toDomain();
     }
@@ -38,4 +41,13 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
     public void deleteById(Long id) {
         projectJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<Project> findAll() {
+        return projectJpaRepository.findAll()
+                .stream()
+                .map(ProjectEntity::toDomain)
+                .toList();
+    }
+
 }
