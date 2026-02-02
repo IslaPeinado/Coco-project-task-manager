@@ -14,7 +14,7 @@ public class Project {
     private String name;
     private String description;
     private String logoUrl;
-    private ProjectStatus status;
+    private String status;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
     private OffsetDateTime archivedAt;

@@ -32,7 +32,6 @@ public class ProjectEntity {
     @Column(name = "logo_url", length = Integer.MAX_VALUE)
     private String logoUrl;
 
-    @Size(max = 50)
     @NotNull
     @ColumnDefault("'ACTIVE'")
     @Enumerated(EnumType.STRING)
@@ -51,7 +50,22 @@ public class ProjectEntity {
 
     @ColumnDefault("now()")
     @Column(name = "archived_at")
-    private OffsetDateTime archivedAT;
+    private OffsetDateTime archivedAt;
+
+    public static ProjectEntity fromDomain(Project project){
+        ProjectEntity entity = new ProjectEntity();
+
+        entity.id = project.getId();
+        entity.name = project.getName();
+        entity.description = project.getDescription();
+        entity.logoUrl = project.getLogoUrl();
+        entity.status = ProjectStatus.valueOf(project.getStatus());
+        entity.createdAt = project.getCreatedAt();
+        entity.updatedAt = project.getUpdatedAt();
+        entity.archivedAt = project.getArchivedAt();
+
+        return entity;
+    }
 
     public Project toDomain(){
         Project project = new Project();
@@ -60,10 +74,10 @@ public class ProjectEntity {
         project.setName(this.name);
         project.setDescription(this.description);
         project.setLogoUrl(this.logoUrl);
-        project.setStatus(this.status);
+        project.setStatus(String.valueOf(this.status));
         project.setCreatedAt(this.createdAt);
-        project.setUpdatedAt(this.updatedAt);;
-        project.setArchivedAt(this.archivedAT);
+        project.setUpdatedAt(this.updatedAt);
+        project.setArchivedAt(this.archivedAt);
 
         return project;
     }

@@ -1,9 +1,12 @@
 package com.coco.modules.project.api;
 
+import com.coco.modules.project.api.dto.ProjectCreateRequest;
 import com.coco.modules.project.api.dto.ProjectResponse;
+import com.coco.modules.project.application.CreateProjectUseCase;
 import com.coco.modules.project.application.GetProjectUseCase;
 import com.coco.modules.project.application.ListProjectsUseCase;
 import com.coco.modules.project.domain.Project;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,12 +17,15 @@ public class ProjectController {
 
     private final ListProjectsUseCase listProjects;
     private final GetProjectUseCase getProject;
+    private final CreateProjectUseCase create;
 
-    public ProjectController(ListProjectsUseCase listProjects, GetProjectUseCase getProject) {
+    public ProjectController(ListProjectsUseCase listProjects, GetProjectUseCase getProject, CreateProjectUseCase create) {
         this.listProjects = listProjects;
         this.getProject = getProject;
+        this.create = create;
     }
 
+    // GET
     @GetMapping
     public List<ProjectResponse> list(@RequestParam(defaultValue = "false") boolean includeArchived) {
         return listProjects.execute(includeArchived).stream()
@@ -27,21 +33,32 @@ public class ProjectController {
                 .toList();
     }
 
+    // GET by ID
     @GetMapping("/{id}")
     public ProjectResponse get(@PathVariable Long id) {
         return toResponse(getProject.execute(id));
     }
 
-    private static ProjectResponse toResponse(Project p) {
+    // POST
+    @PostMapping
+    public ProjectResponse create(@Valid @RequestBody ProjectCreateRequest req) {
+        Project p = new Project();
+        p.setName(req.name());
+        p.setDescription(req.description());
+        p.setLogoUrl(req.logoUrl());
+        return toResponse(create.execute(p));
+    }
+
+    private static ProjectResponse toResponse(Project project) {
         return new ProjectResponse(
-                p.getId(),
-                p.getName(),
-                p.getDescription(),
-                p.getLogoUrl(),
-                p.getStatus(),
-                p.getCreatedAt(),
-                p.getUpdatedAt(),
-                p.getArchivedAt()
+                project.getId(),
+                project.getName(),
+                project.getDescription(),
+                project.getLogoUrl(),
+                project.getStatus(),
+                project.getCreatedAt(),
+                project.getUpdatedAt(),
+                project.getArchivedAt()
         );
     }
 }

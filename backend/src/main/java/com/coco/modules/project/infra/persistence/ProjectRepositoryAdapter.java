@@ -31,4 +31,10 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
     public Optional<Project> findById(Long id) {
         return repo.findById(id).map(ProjectEntity::toDomain);
     }
+
+    @Override
+    public Project save(Project project) {
+        var entity = ProjectEntity.fromDomain(project);
+        return repo.save(entity).toDomain();
+    }
 }
