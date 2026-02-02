@@ -37,4 +37,18 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
         var entity = ProjectEntity.fromDomain(project);
         return repo.save(entity).toDomain();
     }
+
+    @Override
+    public Project update(Long id, Project project) {
+        var current = repo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found: " + id));
+
+        // Campos editables
+        current.setName(project.getName());
+        current.setDescription(project.getDescription());
+        current.setLogoUrl(project.getLogoUrl());
+        current.setUpdatedAt(project.getUpdatedAt());
+
+        return repo.save(current).toDomain();
+    }
 }

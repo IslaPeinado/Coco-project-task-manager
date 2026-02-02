@@ -12,4 +12,7 @@ public interface ProjectRepositoryPort {
     Optional<Project> findById(Long id);
 
     Project save(Project project);
+
+    Project update(Long id, Project project);
+
 }
