@@ -47,6 +47,10 @@ public class ProjectEntity {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
+    @ColumnDefault("now()")
+    @Column(name = "archived_at")
+    private OffsetDateTime archivedAT;
+
     public Project toDomain(){
         Project project = new Project();
 

@@ -15,5 +15,6 @@ public class Project {
     private String status;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
+    private OffsetDateTime archivaded_at;
 
 }
