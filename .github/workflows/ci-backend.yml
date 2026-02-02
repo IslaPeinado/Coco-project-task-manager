@@ -29,7 +29,7 @@ jobs:
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/coco_test
       SPRING_DATASOURCE_USERNAME: coco_user
       SPRING_DATASOURCE_PASSWORD: coco_user
-      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
       SPRING_FLYWAY_ENABLED: "false"
       DB_HOST: localhost
       DB_PORT: "5432"
