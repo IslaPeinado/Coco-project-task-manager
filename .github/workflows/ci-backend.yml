@@ -26,12 +26,15 @@ jobs:
 
     env:
       SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/coco_test
+      SPRING_DATASOURCE_USERNAME: coco_user
+      SPRING_DATASOURCE_PASSWORD: coco_user
       DB_HOST: localhost
       DB_PORT: "5432"
-      DB_NAME: cocoDB_test
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      APP_JWT_SECRET: "CI_SECRET_032c37e71fc74611174dfb03d65c3e941767a794377a0eaa3aba06da064951f6"
+      DB_NAME: coco_test
+      DB_USER: coco_user
+      DB_PASSWORD: coco_user
+      COCO_JWT_SECRET: "CI_SECRET_032c37e71fc74611174dfb03d65c3e941767a794377a0eaa3aba06da064951f6"
 
     services:
       postgres:
@@ -39,11 +42,11 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_DB: cocoDB_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: coco_test
+          POSTGRES_USER: coco_user
+          POSTGRES_PASSWORD: coco_user
         options: >-
-          --health-cmd "pg_isready -U postgres -d cocoDB_test"
+          --health-cmd "pg_isready -U coco_user -d coco_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
