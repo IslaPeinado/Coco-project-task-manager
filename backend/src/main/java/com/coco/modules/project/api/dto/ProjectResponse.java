@@ -11,5 +11,6 @@ public record ProjectResponse(
         String logoUrl,
         ProjectStatus status,
         OffsetDateTime createdAt,
-        OffsetDateTime updatedAt
+        OffsetDateTime updatedAt,
+        OffsetDateTime archivedAt
 ) { }

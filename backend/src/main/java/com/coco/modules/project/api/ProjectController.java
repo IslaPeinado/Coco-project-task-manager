@@ -40,7 +40,8 @@ public class ProjectController {
                 p.getLogoUrl(),
                 p.getStatus(),
                 p.getCreatedAt(),
-                p.getUpdatedAt()
+                p.getUpdatedAt(),
+                p.getArchivedAt()
         );
     }
 }
