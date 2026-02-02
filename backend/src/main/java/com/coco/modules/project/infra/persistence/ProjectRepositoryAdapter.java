@@ -2,52 +2,33 @@ package com.coco.modules.project.infra.persistence;
 
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Project;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
 
-    private final ProjectJpaRepository projectJpaRepository;
+    private final ProjectJpaRepository repo;
 
-    public ProjectRepositoryAdapter(ProjectJpaRepository projectJpaRepository){
-        this.projectJpaRepository = projectJpaRepository;
+    public ProjectRepositoryAdapter(ProjectJpaRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public Project save(Project project) {
-        ProjectEntity entity = new ProjectEntity();
-        if (project.getId() != null){
-            entity.setId(project.getId());
-        }
-        entity.setName(project.getName());
-        entity.setDescription(project.getDescription());
-        entity.setLogoUrl(project.getLogoUrl());
-        if (entity.getStatus() == null) {
-            entity.setStatus("ACTIVE");
-        }
-        ProjectEntity saved = projectJpaRepository.save(entity);
-        return saved.toDomain();
-    }
+    public List<Project> findAll(boolean includeArchived) {
+        List<ProjectEntity> entities = includeArchived
+                ? repo.findAllOrdered()
+                : repo.findAllActive();
 
-    @Override
-    public Optional<Project> findById(Long id) {
-        return projectJpaRepository.findById(id).map(ProjectEntity::toDomain);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        projectJpaRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Project> findAll() {
-        return projectJpaRepository.findAll()
-                .stream()
+        return entities.stream()
                 .map(ProjectEntity::toDomain)
                 .toList();
     }
 
+    @Override
+    public Optional<Project> findById(Long id) {
+        return repo.findById(id).map(ProjectEntity::toDomain);
+    }
 }

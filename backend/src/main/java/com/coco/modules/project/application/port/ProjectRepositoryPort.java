@@ -7,15 +7,7 @@ import java.util.Optional;
 
 public interface ProjectRepositoryPort {
 
-    // Listar proyectos
-    List<Project> findAll();
+    List<Project> findAll(boolean includeArchived);
 
-    // Guardar un nuevo proyecto o actualizar uno existente
-    Project save(Project project);
-
-    // Obtener un proyecto por su ID
     Optional<Project> findById(Long id);
-
-    // Eliminar un proyectopor su ID
-    void deleteById(Long id);
 }

@@ -1,6 +1,7 @@
 package com.coco.modules.project.infra.persistence;
 
 import com.coco.modules.project.domain.Project;
+import com.coco.modules.project.domain.ProjectStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -34,8 +35,9 @@ public class ProjectEntity {
     @Size(max = 50)
     @NotNull
     @ColumnDefault("'ACTIVE'")
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)
-    private String status;
+    private ProjectStatus status;
 
     @NotNull
     @ColumnDefault("now()")
@@ -61,6 +63,7 @@ public class ProjectEntity {
         project.setStatus(this.status);
         project.setCreatedAt(this.createdAt);
         project.setUpdatedAt(this.updatedAt);;
+        project.setArchivedAt(this.archivedAT);
 
         return project;
     }
