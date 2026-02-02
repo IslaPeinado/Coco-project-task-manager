@@ -15,4 +15,5 @@ public interface ProjectRepositoryPort {
 
     Project update(Long id, Project project);
 
+    void archive(Long id);
 }

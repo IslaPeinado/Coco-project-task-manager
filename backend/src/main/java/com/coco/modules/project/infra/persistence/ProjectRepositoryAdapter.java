@@ -2,8 +2,10 @@ package com.coco.modules.project.infra.persistence;
 
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Project;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,4 +53,14 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
 
         return repo.save(current).toDomain();
     }
+
+    @Override
+    @Transactional
+    public void archive(Long id) {
+        int updated = repo.archiveById(id, OffsetDateTime.now());
+        if (updated == 0) {
+            throw new IllegalArgumentException("Project not found: " + id);
+        }
+    }
+
 }
