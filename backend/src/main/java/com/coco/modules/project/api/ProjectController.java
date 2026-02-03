@@ -1,12 +1,10 @@
 package com.coco.modules.project.api;
 
-import com.coco.modules.project.api.dto.CreateProjectCommand;
-import com.coco.modules.project.api.dto.ProjectCreateRequest;
-import com.coco.modules.project.api.dto.ProjectResponse;
-import com.coco.modules.project.api.dto.ProjectUpdateRequest;
+import com.coco.modules.project.api.dto.*;
 import com.coco.modules.project.application.*;
 import com.coco.modules.project.domain.Project;
 import jakarta.validation.Valid;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,12 +55,13 @@ public class ProjectController {
 
     // UPDATE
     @PutMapping("/{id}")
-    public ProjectResponse update(@PathVariable Long id, @Valid @RequestBody ProjectUpdateRequest req) {
-        Project p = new Project();
-        p.setName(req.name());
-        p.setDescription(req.description());
-        p.setLogoUrl(req.logoUrl());
-        return toResponse(update.execute(id, p));
+    public ProjectResponse update(@PathVariable Long id, @Valid @RequestBody ProjectUpdateRequest req) throws ChangeSetPersister.NotFoundException {
+        var cmd = new UpdateProjectCommand(
+                req.name(),
+                req.description(),
+                req.logoUrl()
+        );
+        return toResponse(update.execute(id, cmd));
     }
 
     @DeleteMapping("/{id}")
