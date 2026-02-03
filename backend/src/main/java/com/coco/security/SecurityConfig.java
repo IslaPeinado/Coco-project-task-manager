@@ -49,9 +49,6 @@ public class SecurityConfig {
                         // Preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // PRUEBAS
-                        .requestMatchers("/api/projects/*/members/**").permitAll()
-
                         // Todo lo demás protegido
                         .anyRequest().authenticated()
                 )

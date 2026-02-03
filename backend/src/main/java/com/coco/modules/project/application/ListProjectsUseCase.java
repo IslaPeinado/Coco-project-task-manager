@@ -2,6 +2,7 @@ package com.coco.modules.project.application;
 
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Project;
+import com.coco.security.user.CurrentUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,12 +11,16 @@ import java.util.List;
 public class ListProjectsUseCase {
 
     private final ProjectRepositoryPort projectRepo;
+    private final CurrentUserService currentUser;
 
-    public ListProjectsUseCase(ProjectRepositoryPort projectRepo) {
+    public ListProjectsUseCase(ProjectRepositoryPort projectRepo, CurrentUserService currentUser) {
         this.projectRepo = projectRepo;
+        this.currentUser = currentUser;
     }
 
     public List<Project> execute(boolean includeArchived) {
-        return projectRepo.findAll(includeArchived);
+        Long userId = currentUser.getRequiredUserId();
+        return projectRepo.findAccessibleByUser(userId, includeArchived);
     }
 }
+
