@@ -1,5 +1,6 @@
 package com.coco.modules.project.infra.persistence;
 
+import com.coco.common.util.NotFoundException;
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Project;
 import jakarta.transaction.Transactional;
@@ -20,7 +21,10 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
 
     @Override
     public List<Project> findAccessibleByUser(Long userId, boolean includeArchived) {
-        return List.of();
+        List<ProjectEntity> entities = includeArchived
+                ? repo.findAccessibleAllByUserId(userId)
+                : repo.findAccessibleActiveByUserId(userId);
+        return entities.stream().map(ProjectEntity::toDomain).toList();
     }
 
     @Override
@@ -37,7 +41,7 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
     @Override
     public Project update(Long id, Project project) {
         var current = repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Project not found: " + id));
 
         // Campos editables
         current.setName(project.getName());
@@ -53,7 +57,7 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
     public void archive(Long id) {
         int updated = repo.archiveById(id, OffsetDateTime.now());
         if (updated == 0) {
-            throw new IllegalArgumentException("Project not found: " + id);
+            throw new NotFoundException("Project not found: " + id);
         }
     }
 

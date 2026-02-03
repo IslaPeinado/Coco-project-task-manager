@@ -1,6 +1,7 @@
 package com.coco.modules.project.application;
 
 import com.coco.common.util.ForbiddenException;
+import com.coco.common.util.NotFoundException;
 import com.coco.modules.project.application.members.MembershipIdResolver;
 import com.coco.modules.project.application.port.MembershipRepositoryPort;
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
@@ -39,7 +40,7 @@ public class ArchiveProjectUseCase {
         }
 
         projectRepo.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found: " + projectId));
+                .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
         projectRepo.archive(projectId);
     }
 

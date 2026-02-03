@@ -26,7 +26,7 @@ public class ApiError {
         this.timestamp = timestamp;
         this.details = List.copyOf(details);
     }
-    
+
     public record Detail(String field, String message) {
     }
 }

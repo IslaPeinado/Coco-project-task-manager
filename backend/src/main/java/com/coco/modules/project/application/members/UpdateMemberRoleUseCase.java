@@ -1,5 +1,6 @@
 package com.coco.modules.project.application.members;
 
+import com.coco.common.util.NotFoundException;
 import com.coco.modules.project.application.port.MembershipRepositoryPort;
 import com.coco.modules.project.domain.Membership;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class UpdateMemberRoleUseCase {
     @Transactional
     public Membership execute(Long projectId, Long userId, Long newRoleId) {
         var membership = membershipRepo.find(userId, projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+                .orElseThrow(() -> new NotFoundException("Member not found"));
 
         membership.setRoleId(newRoleId);
         return membershipRepo.save(membership);

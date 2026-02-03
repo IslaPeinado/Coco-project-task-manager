@@ -1,5 +1,6 @@
 package com.coco.modules.project.application.members;
 
+import com.coco.common.util.NotFoundException;
 import com.coco.modules.project.application.port.MembershipRepositoryPort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,7 @@ public class RemoveMemberUseCase {
     @Transactional
     public void execute(Long projectId, Long userId) {
         if (!membershipRepo.exists(userId, projectId)) {
-            throw new IllegalArgumentException("Member not found");
+            throw new NotFoundException("Member not found");
         }
         membershipRepo.remove(userId, projectId);
     }

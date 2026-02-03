@@ -1,5 +1,6 @@
 package com.coco.modules.project.application.members;
 
+import com.coco.common.util.ConflictException;
 import com.coco.modules.project.application.port.MembershipRepositoryPort;
 import com.coco.modules.project.domain.Membership;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,7 @@ public class AddMemberUseCase {
     @Transactional
     public Membership execute(Long projectId, Long userId, Long roleId) {
         if (membershipRepo.exists(userId, projectId)) {
-            // Puedes cambiar esto a una excepción custom cuando tengas tu paquete common/errors.
-            throw new IllegalStateException("User already is member of project");
+            throw new ConflictException("User already is member of project");
         }
         return membershipRepo.save(new Membership(userId, projectId, roleId));
     }

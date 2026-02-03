@@ -1,12 +1,13 @@
 package com.coco.common.error;
 
 import com.coco.common.util.ForbiddenException;
+import com.coco.common.util.ConflictException;
+import com.coco.common.util.NotFoundException;
 import com.coco.common.util.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,9 +21,14 @@ import java.util.List;
 public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-    public ResponseEntity<ApiError> notFound(ChangeSetPersister.NotFoundException ex, HttpServletRequest req) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiError> notFound(NotFoundException ex, HttpServletRequest req) {
         return build(HttpStatus.NOT_FOUND, ErrorCodes.NOT_FOUND, messageOrDefault(ex.getMessage(), "Resource not found"), req);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ApiError> conflict(ConflictException ex, HttpServletRequest req) {
+        return build(HttpStatus.CONFLICT, ErrorCodes.CONFLICT, messageOrDefault(ex.getMessage(), "Resource conflict"), req);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
