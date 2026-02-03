@@ -12,7 +12,7 @@ public interface ProjectJpaRepository extends JpaRepository<ProjectEntity, Long>
 
     @Query(value = """
         SELECT p.*
-        FROM projects p
+        FROM project p
         JOIN cocouser_project_role m ON m.project_id = p.id
         WHERE m.user_id = :userId
           AND p.archived_at IS NULL
@@ -23,7 +23,7 @@ public interface ProjectJpaRepository extends JpaRepository<ProjectEntity, Long>
 
     @Query(value = """
         SELECT p.*
-        FROM projects p
+        FROM project p
         JOIN cocouser_project_role m ON m.project_id = p.id
         WHERE m.user_id = :userId
         ORDER BY p.created_at DESC
@@ -38,5 +38,13 @@ public interface ProjectJpaRepository extends JpaRepository<ProjectEntity, Long>
     where p.id = :id
     """)
     int archiveById(Long id, OffsetDateTime archivedAt);
+
+    @Modifying
+    @Query("""
+    delete from ProjectEntity p
+    where p.archivedAt is not null
+      and p.archivedAt <= :cutoff
+    """)
+    int deleteArchivedBefore(@Param("cutoff") OffsetDateTime cutoff);
 
 }

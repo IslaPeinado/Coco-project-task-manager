@@ -61,4 +61,10 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
         }
     }
 
+    @Override
+    @Transactional
+    public int purgeArchivedBefore(OffsetDateTime cutoff) {
+        return repo.deleteArchivedBefore(cutoff);
+    }
+
 }
