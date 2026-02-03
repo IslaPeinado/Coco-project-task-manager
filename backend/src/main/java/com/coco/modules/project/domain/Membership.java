@@ -1,20 +1,42 @@
 package com.coco.modules.project.domain;
 
-import com.coco.modules.project.infra.persistence.MembershipId;
-import com.coco.modules.project.infra.persistence.ProjectEntity;
-import com.coco.modules.user.infra.persistence.RoleEntity;
-import com.coco.modules.user.infra.persistence.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
+
+/**
+ * Representa la pertenencia de un usuario a un proyecto con un rol (roleId).
+ * Se apoya en la tabla cocouser_project_role: (user_id, project_id) PK compuesta + role_id.
+ */
 @Getter
 @Setter
 public class Membership {
 
-    private MembershipId id;
-    private UserEntity user;
-    private ProjectEntity project;
-    private RoleEntity role;
 
+    private Long userId;
+    private Long projectId;
+    private Long roleId;
 
+    public Membership() {}
+
+    public Membership(Long userId, Long projectId, Long roleId) {
+        this.userId = userId;
+        this.projectId = projectId;
+        this.roleId = roleId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Membership that)) return false;
+        return Objects.equals(userId, that.userId)
+                && Objects.equals(projectId, that.projectId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, projectId);
+    }
 }

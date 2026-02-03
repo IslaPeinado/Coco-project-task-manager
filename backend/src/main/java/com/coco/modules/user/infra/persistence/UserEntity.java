@@ -58,11 +58,6 @@ public class UserEntity {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private Set<MembershipEntity> membershipEntities = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "assignedTo")
-    private Set<TaskEntity> taskEntities = new LinkedHashSet<>();
 
     public static UserEntity fromDomain(User user) {
         UserEntity entity = new UserEntity();

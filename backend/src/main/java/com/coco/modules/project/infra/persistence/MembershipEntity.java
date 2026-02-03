@@ -15,47 +15,29 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "cocouser_project_role")
 public class MembershipEntity {
+
     @EmbeddedId
     private MembershipId id;
 
-    @MapsId("userId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @Column(name = "role_id", nullable = false)
+    private Long roleId;
 
-    @MapsId("projectId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "project_id", nullable = false)
-    private ProjectEntity project;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "role_id", nullable = false)
-    private RoleEntity role;
-
-    public static MembershipEntity fromDomain(Membership membership) {
-        MembershipEntity entity = new MembershipEntity();
-
-        entity.id = membership.getId();
-        entity.user = membership.getUser();
-        entity.project = membership.getProject();
-        entity.role = membership.getRole();
-
-        return entity;
+    protected MembershipEntity() {
     }
 
+    public MembershipEntity(MembershipId id, Long roleId) {
+        this.id = id;
+        this.roleId = roleId;
+    }
+
+    // --- mapping domain ---
+
     public Membership toDomain() {
-        Membership membership = new Membership();
+        return new Membership(id.getUserId(), id.getProjectId(), roleId);
+    }
 
-        membership.setId(this.id);
-        membership.setUser(this.user);
-        membership.setProject(this.project);
-        membership.setRole(this.role);
-
-        return membership;
+    public static MembershipEntity fromDomain(Membership m) {
+        return new MembershipEntity(new MembershipId(m.getUserId(), m.getProjectId()), m.getRoleId());
     }
 
 }

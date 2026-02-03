@@ -1,6 +1,5 @@
 package com.coco.modules.task.infra.persistence;
 
-import com.coco.modules.project.domain.Project;
 import com.coco.modules.task.domain.Task;
 import com.coco.modules.user.infra.persistence.UserEntity;
 import jakarta.persistence.*;
@@ -24,10 +23,8 @@ public class TaskEntity {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "project_id", nullable = false)
-    private Project project;
+    @Column(name = "project_id", nullable = false)
+    private Long projectId;
 
     @Size(max = 255)
     @NotNull

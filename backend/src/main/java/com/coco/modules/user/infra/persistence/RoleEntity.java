@@ -24,8 +24,6 @@ public class RoleEntity {
     @Column(name = "role_name", nullable = false)
     private String roleName;
 
-    @OneToMany(mappedBy = "role")
-    private Set<MembershipEntity> membershipEntities = new LinkedHashSet<>();
 
     public static RoleEntity fromDomain(Role role) {
         RoleEntity entity = new RoleEntity();
