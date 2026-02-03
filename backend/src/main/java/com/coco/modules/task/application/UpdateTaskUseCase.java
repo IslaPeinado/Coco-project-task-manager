@@ -3,7 +3,6 @@ package com.coco.modules.task.application;
 
 import com.coco.modules.task.api.dto.TaskUpdateRequest;
 import com.coco.modules.task.application.port.TaskRepositoryPort;
-import com.coco.modules.task.domain.Task;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +16,7 @@ public class UpdateTaskUseCase {
 
     public Task execute(Long taskId, TaskUpdateRequest request) {
         Task task = taskRepositoryPort.findById(taskId)
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+                .orElseThrow(() -> new IllegalArgumentException("TaskEntity not found"));
 
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
