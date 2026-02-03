@@ -4,7 +4,9 @@ import com.coco.modules.project.api.dto.*;
 import com.coco.modules.project.application.*;
 import com.coco.modules.project.domain.Project;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,6 +67,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void archive(@PathVariable Long id) {
         archive.execute(id);
     }
