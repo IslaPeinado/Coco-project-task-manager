@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface ProjectRepositoryPort {
 
-    List<Project> findAll(boolean includeArchived);
-
     Optional<Project> findById(Long id);
 
     Project save(Project project);

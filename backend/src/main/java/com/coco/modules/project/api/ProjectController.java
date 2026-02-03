@@ -1,5 +1,6 @@
 package com.coco.modules.project.api;
 
+import com.coco.modules.project.api.dto.CreateProjectCommand;
 import com.coco.modules.project.api.dto.ProjectCreateRequest;
 import com.coco.modules.project.api.dto.ProjectResponse;
 import com.coco.modules.project.api.dto.ProjectUpdateRequest;
@@ -46,11 +47,12 @@ public class ProjectController {
     // POST
     @PostMapping
     public ProjectResponse create(@Valid @RequestBody ProjectCreateRequest req) {
-        Project p = new Project();
-        p.setName(req.name());
-        p.setDescription(req.description());
-        p.setLogoUrl(req.logoUrl());
-        return toResponse(create.execute(p));
+        var cmd = new CreateProjectCommand(
+                req.name(),
+                req.description(),
+                req.logoUrl()
+        );
+        return toResponse(create.execute(cmd));
     }
 
     // UPDATE

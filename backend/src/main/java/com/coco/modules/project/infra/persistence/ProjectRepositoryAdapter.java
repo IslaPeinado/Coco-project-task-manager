@@ -19,14 +19,8 @@ public class ProjectRepositoryAdapter implements ProjectRepositoryPort {
     }
 
     @Override
-    public List<Project> findAll(boolean includeArchived) {
-        List<ProjectEntity> entities = includeArchived
-                ? repo.findAllOrdered()
-                : repo.findAllActive();
-
-        return entities.stream()
-                .map(ProjectEntity::toDomain)
-                .toList();
+    public List<Project> findAccessibleByUser(Long userId, boolean includeArchived) {
+        return List.of();
     }
 
     @Override
