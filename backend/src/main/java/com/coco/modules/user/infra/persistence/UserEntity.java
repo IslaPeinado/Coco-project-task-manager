@@ -1,5 +1,7 @@
 package com.coco.modules.user.infra.persistence;
 
+import com.coco.modules.project.infra.persistence.MembershipEntity;
+import com.coco.modules.task.infra.persistence.TaskEntity;
 import com.coco.modules.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -7,9 +9,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-
 import java.time.OffsetDateTime;
-
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,7 +19,6 @@ import java.time.OffsetDateTime;
 @Table(name = "cocouser")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -58,7 +59,23 @@ public class UserEntity {
     private OffsetDateTime updatedAt;
 
 
-    public User toDomain(){
+    public static UserEntity fromDomain(User user) {
+        UserEntity entity = new UserEntity();
+
+        entity.id = user.getId();
+        entity.login = user.getLogin();
+        entity.password = user.getPassword();
+        entity.firstName = user.getFirstName();
+        entity.lastName = user.getLastName();
+        entity.email = user.getEmail();
+        entity.imageUrl = user.getImageUrl();
+        entity.createdAt = user.getCreatedAt();
+        entity.updatedAt = user.getUpdatedAt();
+
+        return entity;
+    }
+
+    public User toDomain() {
         User user = new User();
 
         user.setId(this.id);
@@ -70,6 +87,8 @@ public class UserEntity {
         user.setImageUrl(this.imageUrl);
         user.setCreatedAt(this.createdAt);
         user.setUpdatedAt(this.updatedAt);
+
         return user;
     }
+
 }

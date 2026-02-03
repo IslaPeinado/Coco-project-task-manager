@@ -1,30 +1,32 @@
 package com.coco.common.error;
 
-import org.springframework.http.HttpStatus;
+import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.List;
 
+
+@Getter
 public class ApiError {
 
+    private final String code;
     private final String message;
-    private final HttpStatus status;
-    private final LocalDateTime timestamp;
+    private final String path;
+    private final Instant timestamp;
+    private final List<Detail> details;
 
-    public ApiError(String message, HttpStatus status) {
+    public ApiError(String code, String message, String path, Instant timestamp) {
+        this(code, message, path, timestamp, List.of());
+    }
+
+    public ApiError(String code, String message, String path, Instant timestamp, List<Detail> details) {
+        this.code = code;
         this.message = message;
-        this.status = status;
-        this.timestamp = LocalDateTime.now();
+        this.path = path;
+        this.timestamp = timestamp;
+        this.details = List.copyOf(details);
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public record Detail(String field, String message) {
     }
 }
