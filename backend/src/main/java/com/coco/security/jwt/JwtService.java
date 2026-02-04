@@ -53,6 +53,10 @@ public class JwtService {
         return parseClaims(token).getSubject();
     }
 
+    public long getExpirationSeconds() {
+        return props.expirationSeconds();
+    }
+
     public List<SimpleGrantedAuthority> extractAuthorities(String token) {
         parseClaims(token);
         return List.of();

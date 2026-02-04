@@ -10,6 +10,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.*;
@@ -74,9 +76,6 @@ public class SecurityConfig {
         config.setAllowedHeaders(splitCsv(env.getProperty("coco.cors.allowed-headers", "Authorization,Content-Type")));
         config.setAllowCredentials(Boolean.parseBoolean(env.getProperty("coco.cors.allow-credentials", "true")));
 
-        // Si quieres exponer headers (ej. Authorization), añade:
-        // config.setExposedHeaders(List.of("Authorization"));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
@@ -88,5 +87,10 @@ public class SecurityConfig {
                 .map(String::trim)
                 .filter(s -> !s.isBlank())
                 .toList();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
