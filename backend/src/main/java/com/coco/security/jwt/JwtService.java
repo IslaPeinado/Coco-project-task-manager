@@ -4,9 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import com.coco.modules.user.infra.persistence.UserJpaRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -16,17 +16,17 @@ import java.util.List;
 @Service
 public class JwtService {
 
-    public static final String CLAIM_ROLES = "roles";
-
     private final JwtProperties props;
     private final SecretKey key;
+    private final UserJpaRepository userJpaRepository;
 
-    public JwtService(JwtProperties props) {
+    public JwtService(JwtProperties props, UserJpaRepository userJpaRepository) {
         this.props = props;
+        this.userJpaRepository = userJpaRepository;
         this.key = Keys.hmacShaKeyFor(props.secret().getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(String subject, List<String> roles) {
+    public String generateToken(String subject) {
         Instant now = Instant.now();
         Instant exp = now.plusSeconds(props.expirationSeconds());
 
@@ -35,15 +35,15 @@ public class JwtService {
                 .setIssuer(props.issuer())
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(exp))
-                .claim(CLAIM_ROLES, roles)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public boolean isTokenValid(String token) {
         try {
-            parseClaims(token);
-            return true;
+            Claims claims = parseClaims(token);
+            Long userId = parseUserId(claims.getSubject());
+            return userJpaRepository.existsById(userId);
         } catch (Exception ex) {
             return false;
         }
@@ -53,19 +53,8 @@ public class JwtService {
         return parseClaims(token).getSubject();
     }
 
-    @SuppressWarnings("unchecked")
     public List<SimpleGrantedAuthority> extractAuthorities(String token) {
-        Claims claims = parseClaims(token);
-        Object rolesObj = claims.get(CLAIM_ROLES);
-
-        if (rolesObj instanceof List<?> list) {
-            return list.stream()
-                    .map(String::valueOf)
-                    .map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r)
-                    .map(SimpleGrantedAuthority::new)
-                    .toList();
-        }
-
+        parseClaims(token);
         return List.of();
     }
 
@@ -76,5 +65,12 @@ public class JwtService {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    private Long parseUserId(String subject) {
+        if (subject == null || subject.isBlank()) {
+            throw new IllegalArgumentException("Token subject is empty");
+        }
+        return Long.valueOf(subject);
     }
 }
