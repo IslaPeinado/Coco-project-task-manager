@@ -28,8 +28,13 @@ class RegisterUseCaseTest {
         var req = new RegisterRequest("a@a.com", "pass", "Ana");
 
         when(userRepository.existsByEmail("a@a.com")).thenReturn(false);
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User saved = invocation.getArgument(0);
+            saved.setId(1L);
+            return saved;
+        });
         when(passwordEncoder.encode("pass")).thenReturn("HASH");
-        when(jwtService.generateToken(anyString())).thenReturn("TOKEN");
+        when(jwtService.generateToken("1")).thenReturn("TOKEN");
         when(jwtService.getExpirationSeconds()).thenReturn(3600L);
 
         var res = registerUseCase.register(req);
@@ -39,13 +44,14 @@ class RegisterUseCaseTest {
 
         var saved = userCaptor.getValue();
         assertEquals("a@a.com", saved.getEmail());
+        assertEquals("a@a.com", saved.getLogin());
         assertEquals("HASH", saved.getPassword());
         assertEquals("Ana", saved.getFirstName());
 
         assertEquals("TOKEN", res.accessToken());
         assertEquals("Bearer", res.tokenType());
         assertEquals(3600, res.expiresIn());
-        verify(jwtService).generateToken(anyString());
+        verify(jwtService).generateToken("1");
         verify(jwtService).getExpirationSeconds();
     }
 
