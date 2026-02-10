@@ -24,14 +24,17 @@ public class RegisterUseCase {
         }
 
         User user = new User();
-                user.setEmail(request.email());
-                user.setPassword(passwordEncoder.encode(request.password()));
-                user.setFirstName(request.name());
+        user.setEmail(request.email());
+        user.setLogin(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
+        user.setFirstName(request.name());
 
+        User saved = userRepository.save(user);
+        if (saved.getId() == null) {
+            throw new IllegalStateException("User id not generated");
+        }
 
-        userRepository.save(user);
-
-        String token = jwtService.generateToken(String.valueOf(user));
+        String token = jwtService.generateToken(String.valueOf(saved.getId()));
 
         return new AuthResponse(
                 token,

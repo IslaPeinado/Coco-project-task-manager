@@ -39,22 +39,22 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public Optional<User> findById(Long id) {
-        return userJpaRepository.findById(id).map(UserEntity::toDomain);    }
+        return userJpaRepository.findById(id).map(UserEntity::toDomain);
+    }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return Optional.empty();
+        return userJpaRepository.findByEmail(email).map(UserEntity::toDomain);
     }
 
     @Override
     public boolean existsByEmail(String email) {
-        return false;
+        return userJpaRepository.existsByEmail(email);
     }
 
 
     @Override
     public void deleteById(Long id) {
         userJpaRepository.deleteById(id);
-
     }
 }
