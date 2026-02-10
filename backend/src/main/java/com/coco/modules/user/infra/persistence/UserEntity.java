@@ -1,7 +1,5 @@
 package com.coco.modules.user.infra.persistence;
 
-import com.coco.modules.project.infra.persistence.MembershipEntity;
-import com.coco.modules.task.infra.persistence.TaskEntity;
 import com.coco.modules.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -10,8 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import java.time.OffsetDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Getter
 @Setter
