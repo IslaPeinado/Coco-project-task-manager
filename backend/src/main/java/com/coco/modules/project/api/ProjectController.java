@@ -4,6 +4,7 @@ import com.coco.modules.project.api.dto.*;
 import com.coco.modules.project.application.*;
 import com.coco.modules.project.domain.Project;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/projects")
+@RequiredArgsConstructor
 public class ProjectController {
 
     private final ListProjectsUseCase listProjects;
@@ -20,14 +22,6 @@ public class ProjectController {
     private final UpdateProjectUseCase update;
     private final ArchiveProjectUseCase archive;
 
-
-    public ProjectController(ListProjectsUseCase listProjects, GetProjectUseCase getProject, CreateProjectUseCase create, UpdateProjectUseCase update, ArchiveProjectUseCase archive) {
-        this.listProjects = listProjects;
-        this.getProject = getProject;
-        this.create = create;
-        this.update = update;
-        this.archive = archive;
-    }
 
     // GET
     @GetMapping
