@@ -17,6 +17,10 @@ public interface UserRepositoryPort {
     // Obtener un usuario por su Email
     Optional<User> findByEmail(@Email @NotBlank String email);
 
+    // Comprobar si ya hay un usuario con ese nombre
+    boolean existsByEmail(@Email @NotBlank String email);
+
+
     // Eliminar un usuario por su ID
     void deleteById(Long id);
 }

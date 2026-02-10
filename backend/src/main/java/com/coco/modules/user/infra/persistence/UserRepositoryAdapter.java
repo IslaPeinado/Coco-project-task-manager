@@ -18,7 +18,6 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
 
-
     @Override
     public User save(User user) {
         UserEntity entity = new UserEntity();
@@ -46,6 +45,12 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     public Optional<User> findByEmail(String email) {
         return Optional.empty();
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return false;
+    }
+
 
     @Override
     public void deleteById(Long id) {
