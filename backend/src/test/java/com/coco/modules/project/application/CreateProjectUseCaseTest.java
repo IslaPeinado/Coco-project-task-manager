@@ -6,7 +6,6 @@ import com.coco.modules.project.application.port.MembershipRepositoryPort;
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Membership;
 import com.coco.modules.project.domain.Project;
-import com.coco.security.user.CurrentUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -28,7 +27,7 @@ class CreateProjectUseCaseTest {
     @Mock
     private MembershipRepositoryPort membershipRepo;
     @Mock
-    private CurrentUserService currentUser;
+    private ProjectAuthorizationService authz;
     @Mock
     private MembershipIdResolver roleIdResolver;
 
@@ -37,7 +36,7 @@ class CreateProjectUseCaseTest {
 
     @Test
     void execute_createsProjectAndOwnerMembership() {
-        when(currentUser.getRequiredUserId()).thenReturn(7L);
+        when(authz.currentUserId()).thenReturn(7L);
         when(roleIdResolver.ownerId()).thenReturn(1L);
         when(projectRepo.save(any(Project.class))).thenAnswer(invocation -> {
             Project saved = invocation.getArgument(0, Project.class);

@@ -6,7 +6,6 @@ import com.coco.modules.project.application.port.MembershipRepositoryPort;
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Membership;
 import com.coco.modules.project.domain.Project;
-import com.coco.security.user.CurrentUserService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -16,22 +15,22 @@ public class CreateProjectUseCase {
 
     private final ProjectRepositoryPort projectRepo;
     private final MembershipRepositoryPort membershipRepo;
-    private final CurrentUserService currentUser;
+    private final ProjectAuthorizationService authz;
     private final MembershipIdResolver roleIdResolver;
 
     public CreateProjectUseCase(ProjectRepositoryPort projectRepo,
                                 MembershipRepositoryPort membershipRepo,
-                                CurrentUserService currentUser,
+                                ProjectAuthorizationService authz,
                                 MembershipIdResolver roleIdResolver) {
         this.projectRepo = projectRepo;
         this.membershipRepo = membershipRepo;
-        this.currentUser = currentUser;
+        this.authz = authz;
         this.roleIdResolver = roleIdResolver;
     }
 
     @Transactional
     public Project execute(CreateProjectCommand cmd) {
-        Long userId = currentUser.getRequiredUserId();
+        Long userId = authz.currentUserId();
 
         Project project = new Project();
         project.setName(cmd.name());

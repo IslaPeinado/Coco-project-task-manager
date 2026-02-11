@@ -1,6 +1,8 @@
 package com.coco.modules.project.api;
 
 import com.coco.common.error.GlobalExceptionHandler;
+import com.coco.security.RestAccessDeniedHandler;
+import com.coco.security.RestAuthenticationEntryPoint;
 import com.coco.modules.project.application.ArchiveProjectUseCase;
 import com.coco.modules.project.application.CreateProjectUseCase;
 import com.coco.modules.project.application.GetProjectUseCase;
@@ -36,7 +38,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectController.class)
-@Import({SecurityConfig.class, GlobalExceptionHandler.class})
+@Import({
+        SecurityConfig.class,
+        GlobalExceptionHandler.class,
+        RestAuthenticationEntryPoint.class,
+        RestAccessDeniedHandler.class
+})
 class ProjectControllerSecurityIntegrationTest {
 
     @Autowired
@@ -67,9 +74,9 @@ class ProjectControllerSecurityIntegrationTest {
     }
 
     @Test
-    void list_withoutAuthentication_returnsForbidden() throws Exception {
+    void list_withoutAuthentication_returnsUnauthorized() throws Exception {
         mockMvc.perform(get("/api/projects"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -85,13 +92,13 @@ class ProjectControllerSecurityIntegrationTest {
     }
 
     @Test
-    void create_withoutAuthentication_returnsForbidden() throws Exception {
+    void create_withoutAuthentication_returnsUnauthorized() throws Exception {
         mockMvc.perform(post("/api/projects")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"name":"COCO","description":"d","logoUrl":"l"}
                                 """))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
