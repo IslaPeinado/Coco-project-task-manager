@@ -1,14 +1,10 @@
 package com.coco.modules.project.application;
 
-import com.coco.common.util.ForbiddenException;
 import com.coco.common.util.NotFoundException;
 import com.coco.modules.project.api.dto.UpdateProjectCommand;
-import com.coco.modules.project.application.members.MembershipIdResolver;
-import com.coco.modules.project.application.port.MembershipRepositoryPort;
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
-import com.coco.modules.project.domain.Membership;
+import com.coco.modules.project.domain.ProjectPermission;
 import com.coco.modules.project.domain.Project;
-import com.coco.security.user.CurrentUserService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -16,29 +12,17 @@ import org.springframework.stereotype.Service;
 public class UpdateProjectUseCase {
 
     private final ProjectRepositoryPort projectRepo;
-    private final MembershipRepositoryPort membershipRepo;
-    private final CurrentUserService currentUser;
-    private final MembershipIdResolver roleIds;
+    private final ProjectAuthorizationService authz;
 
     public UpdateProjectUseCase(ProjectRepositoryPort projectRepo,
-                                MembershipRepositoryPort membershipRepo,
-                                CurrentUserService currentUser,
-                                MembershipIdResolver roleIds) {
+                                ProjectAuthorizationService authz) {
         this.projectRepo = projectRepo;
-        this.membershipRepo = membershipRepo;
-        this.currentUser = currentUser;
-        this.roleIds = roleIds;
+        this.authz = authz;
     }
 
     @Transactional
     public Project execute(Long projectId, UpdateProjectCommand cmd) {
-        Long userId = currentUser.getRequiredUserId();
-
-        Membership m = membershipRepo.find(userId, projectId)
-                .orElseThrow(() -> new ForbiddenException("Not a project member"));
-
-        boolean canEdit = m.getRoleId().equals(roleIds.ownerId());
-        if (!canEdit) throw new ForbiddenException("Insufficient permissions to edit project");
+        authz.requirePermission(projectId, ProjectPermission.MANAGE);
 
         Project p = projectRepo.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
