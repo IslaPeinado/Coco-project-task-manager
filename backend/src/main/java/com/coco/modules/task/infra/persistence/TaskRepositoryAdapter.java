@@ -77,4 +77,12 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
         return taskRepo.save(current).toDomain();
     }
 
+    @Override
+    public void delete(Long projectId, Long taskId) {
+        if (!taskRepo.existsByIdAndProjectId(taskId, projectId)) {
+            throw new NotFoundException("Task not found: " + taskId);
+        }
+        taskRepo.deleteById(taskId);
+    }
+
 }

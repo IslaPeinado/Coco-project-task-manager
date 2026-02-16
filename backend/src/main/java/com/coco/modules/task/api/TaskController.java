@@ -2,10 +2,7 @@ package com.coco.modules.task.api;
 
 
 import com.coco.modules.task.api.dto.*;
-import com.coco.modules.task.application.CreateTaskUseCase;
-import com.coco.modules.task.application.GetTaskUseCase;
-import com.coco.modules.task.application.ListTasksUseCase;
-import com.coco.modules.task.application.UpdateTaskUseCase;
+import com.coco.modules.task.application.*;
 import com.coco.modules.task.domain.Task;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +20,7 @@ public class TaskController {
     private final GetTaskUseCase getTask;
     private final CreateTaskUseCase createTask;
     private final UpdateTaskUseCase updateTask;
+    private final DeleteTaskUseCase deleteTask;
 
 
     @GetMapping
@@ -58,6 +56,12 @@ public class TaskController {
                 request.dueDate()
         );
         return toResponse(updateTask.execute(projectId, taskId, cmd));
+    }
+
+    @DeleteMapping("/{taskId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long projectId, @PathVariable Long taskId) {
+        deleteTask.execute(projectId, taskId);
     }
 
 

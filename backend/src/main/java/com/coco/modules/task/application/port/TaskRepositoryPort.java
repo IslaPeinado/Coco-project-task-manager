@@ -14,4 +14,5 @@ public interface TaskRepositoryPort {
 
     Task update(Long projectId, Long taskId, Task task);
 
+    void delete(Long projectId, Long taskId);
 }
