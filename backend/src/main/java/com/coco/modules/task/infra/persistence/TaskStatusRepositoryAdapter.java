@@ -31,11 +31,11 @@ public class TaskStatusRepositoryAdapter implements TaskStatusRepositoryPort {
 
     @Override
     public Optional<TaskStatus> findById(String status) {
-        return taskStatusJpaRepository.findById(Long.valueOf(status)).map(TaskStatusEntity::toDomain);
+        return taskStatusJpaRepository.findById(status).map(TaskStatusEntity::toDomain);
     }
 
     @Override
     public void deleteById(String status) {
-
+        taskStatusJpaRepository.deleteById(status);
     }
 }

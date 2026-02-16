@@ -19,6 +19,7 @@ import java.time.OffsetDateTime;
 @Table(name = "tasks")
 public class TaskEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -62,10 +63,9 @@ public class TaskEntity {
         TaskEntity entity = new TaskEntity();
 
         entity.id = task.getId();
+        entity.projectId = task.getProjectId();
         entity.title = task.getTitle();
         entity.description = task.getDescription();
-        entity.status = task.getStatus();
-        entity.assignedTo = task.getAssignedTo();
         entity.dueDate = task.getDueDate();
         entity.createdAt = task.getCreatedAt();
         entity.updatedAt = task.getUpdatedAt();
@@ -77,10 +77,11 @@ public class TaskEntity {
         Task task = new Task();
 
         task.setId(this.id);
+        task.setProjectId(this.projectId);
         task.setTitle(this.title);
         task.setDescription(this.description);
-        task.setStatus(this.status);
-        task.setAssignedTo(this.assignedTo);
+        task.setStatus(this.status != null ? this.status.getStatus() : null);
+        task.setAssignedToId(this.assignedTo != null ? this.assignedTo.getId() : null);
         task.setDueDate(this.dueDate);
         task.setCreatedAt(this.createdAt);
         task.setUpdatedAt(this.updatedAt);

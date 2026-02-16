@@ -1,7 +1,5 @@
 package com.coco.modules.task.domain;
 
-import com.coco.modules.task.infra.persistence.TaskStatusEntity;
-import com.coco.modules.user.infra.persistence.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,13 +11,12 @@ import java.time.OffsetDateTime;
 public class Task {
 
     private Long id;
+    private Long projectId;
     private String title;
     private String description;
-    private TaskStatusEntity status;
-    private UserEntity assignedTo;
+    private String status;
+    private Long assignedToId;
     private LocalDate dueDate;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
-
-
 }
