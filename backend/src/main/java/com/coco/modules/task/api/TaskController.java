@@ -2,6 +2,7 @@ package com.coco.modules.task.api;
 
 
 import com.coco.modules.task.api.dto.TaskResponse;
+import com.coco.modules.task.application.GetTaskUseCase;
 import com.coco.modules.task.application.ListTasksUseCase;
 import com.coco.modules.task.domain.Task;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 public class TaskController {
 
     private final ListTasksUseCase listTasks;
+    private final GetTaskUseCase getTask;
 
 
     @GetMapping
@@ -25,6 +27,11 @@ public class TaskController {
         return listTasks.execute(projectId).stream()
                 .map(TaskController::toResponse)
                 .toList();
+    }
+
+    @GetMapping("/{taskId}")
+    public TaskResponse get(@PathVariable Long projectId, @PathVariable Long taskId) {
+        return toResponse(getTask.execute(projectId, taskId));
     }
 
 
