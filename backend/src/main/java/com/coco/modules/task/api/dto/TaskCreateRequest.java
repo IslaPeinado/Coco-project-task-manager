@@ -1,19 +1,17 @@
 package com.coco.modules.task.api.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-@Getter
-@Setter
-public class TaskCreateRequest {
-
-    private Long projectId;
-    private String title;
-    private String description;
-    private String status;
-    private Long assigned_to;
-    private LocalDateTime dueDate;
-
-}
+public record TaskCreateRequest(
+        @NotBlank
+        @Size(max = 255)
+        String title,
+        String description,
+        @NotBlank
+        @Size(max = 50)
+        String status,
+        LocalDate dueDate
+) { }

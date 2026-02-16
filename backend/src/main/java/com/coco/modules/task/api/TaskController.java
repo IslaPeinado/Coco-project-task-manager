@@ -1,15 +1,16 @@
 package com.coco.modules.task.api;
 
 
-import com.coco.modules.task.api.dto.TaskResponse;
+import com.coco.modules.task.api.dto.*;
+import com.coco.modules.task.application.CreateTaskUseCase;
 import com.coco.modules.task.application.GetTaskUseCase;
 import com.coco.modules.task.application.ListTasksUseCase;
+import com.coco.modules.task.application.UpdateTaskUseCase;
 import com.coco.modules.task.domain.Task;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class TaskController {
 
     private final ListTasksUseCase listTasks;
     private final GetTaskUseCase getTask;
+    private final CreateTaskUseCase createTask;
+    private final UpdateTaskUseCase updateTask;
 
 
     @GetMapping
@@ -32,6 +35,29 @@ public class TaskController {
     @GetMapping("/{taskId}")
     public TaskResponse get(@PathVariable Long projectId, @PathVariable Long taskId) {
         return toResponse(getTask.execute(projectId, taskId));
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public TaskResponse create(@PathVariable Long projectId, @Valid @RequestBody TaskCreateRequest request) {
+        var cmd = new TaskCreateCommand(
+                request.title(),
+                request.description(),
+                request.status(),
+                request.dueDate()
+        );
+        return toResponse(createTask.execute(projectId, cmd));
+    }
+
+    @PutMapping("/{taskId}")
+    public TaskResponse update(@PathVariable Long projectId, @PathVariable Long taskId, @Valid @RequestBody TaskUpdateRequest request) {
+        var cmd = new TaskUpdateCommand(
+                request.title(),
+                request.description(),
+                request.status(),
+                request.dueDate()
+        );
+        return toResponse(updateTask.execute(projectId, taskId, cmd));
     }
 
 
