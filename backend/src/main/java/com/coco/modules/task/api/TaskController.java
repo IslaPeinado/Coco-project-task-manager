@@ -20,6 +20,7 @@ public class TaskController {
     private final GetTaskUseCase getTask;
     private final CreateTaskUseCase createTask;
     private final UpdateTaskUseCase updateTask;
+    private final ChangeTaskStatusUseCase changeTaskStatus;
     private final DeleteTaskUseCase deleteTask;
 
 
@@ -56,6 +57,13 @@ public class TaskController {
                 request.dueDate()
         );
         return toResponse(updateTask.execute(projectId, taskId, cmd));
+    }
+
+    @PutMapping("/{taskId}/status")
+    public TaskResponse changeStatus(@PathVariable Long projectId,
+                                     @PathVariable Long taskId,
+                                     @Valid @RequestBody TaskStatusUpdateRequest request) {
+        return toResponse(changeTaskStatus.execute(projectId, taskId, request.status()));
     }
 
     @DeleteMapping("/{taskId}")
