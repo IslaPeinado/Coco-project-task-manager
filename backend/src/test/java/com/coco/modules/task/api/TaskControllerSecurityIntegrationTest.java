@@ -127,6 +127,20 @@ class TaskControllerSecurityIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "4", roles = "VIEWER")
+    void changeStatus_withViewerRole_returnsForbidden() throws Exception {
+        when(changeTaskStatus.execute(1L, 10L, "IN_PROGRESS"))
+                .thenThrow(new ForbiddenException("No tienes los suficientes pribilegios"));
+
+        mockMvc.perform(put("/api/projects/1/tasks/10/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"status":"IN_PROGRESS"}
+                                """))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     @WithMockUser(username = "1")
     void create_withAuthentication_returnsCreated() throws Exception {
         Task task = new Task();
@@ -176,5 +190,28 @@ class TaskControllerSecurityIntegrationTest {
                 .andExpect(jsonPath("$.status").value("IN_PROGRESS"));
 
         verify(changeTaskStatus).execute(eq(1L), eq(10L), eq("IN_PROGRESS"));
+    }
+
+    @Test
+    @WithMockUser(username = "2", roles = "MEMBER")
+    void changeStatus_withMemberRole_returnsOk() throws Exception {
+        Task task = new Task();
+        task.setId(10L);
+        task.setProjectId(1L);
+        task.setTitle("Task 1");
+        task.setDescription("d");
+        task.setStatus("DONE");
+        task.setCreatedAt(OffsetDateTime.now());
+        task.setUpdatedAt(OffsetDateTime.now());
+
+        when(changeTaskStatus.execute(1L, 10L, "DONE")).thenReturn(task);
+
+        mockMvc.perform(put("/api/projects/1/tasks/10/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"status":"DONE"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("DONE"));
     }
 }
