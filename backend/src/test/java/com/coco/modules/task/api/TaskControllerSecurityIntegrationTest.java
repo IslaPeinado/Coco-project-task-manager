@@ -6,6 +6,7 @@ import com.coco.modules.task.application.CreateTaskUseCase;
 import com.coco.modules.task.application.DeleteTaskUseCase;
 import com.coco.modules.task.application.GetTaskUseCase;
 import com.coco.modules.task.application.ListTasksUseCase;
+import com.coco.modules.task.application.ChangeTaskStatusUseCase;
 import com.coco.modules.task.application.UpdateTaskUseCase;
 import com.coco.modules.task.domain.Task;
 import com.coco.security.RestAccessDeniedHandler;
@@ -29,11 +30,13 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,6 +61,8 @@ class TaskControllerSecurityIntegrationTest {
     private CreateTaskUseCase createTask;
     @MockitoBean
     private UpdateTaskUseCase updateTask;
+    @MockitoBean
+    private ChangeTaskStatusUseCase changeTaskStatus;
     @MockitoBean
     private DeleteTaskUseCase deleteTask;
     @MockitoBean
@@ -112,6 +117,16 @@ class TaskControllerSecurityIntegrationTest {
     }
 
     @Test
+    void changeStatus_withoutAuthentication_returnsUnauthorized() throws Exception {
+        mockMvc.perform(put("/api/projects/1/tasks/10/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"status":"IN_PROGRESS"}
+                                """))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     @WithMockUser(username = "1")
     void create_withAuthentication_returnsCreated() throws Exception {
         Task task = new Task();
@@ -134,5 +149,32 @@ class TaskControllerSecurityIntegrationTest {
                 .andExpect(jsonPath("$.id").value(10))
                 .andExpect(jsonPath("$.projectId").value(1))
                 .andExpect(jsonPath("$.title").value("Task 1"));
+    }
+
+    @Test
+    @WithMockUser(username = "1")
+    void changeStatus_withAuthentication_returnsUpdatedTaskResponse() throws Exception {
+        Task task = new Task();
+        task.setId(10L);
+        task.setProjectId(1L);
+        task.setTitle("Task 1");
+        task.setDescription("d");
+        task.setStatus("IN_PROGRESS");
+        task.setCreatedAt(OffsetDateTime.now());
+        task.setUpdatedAt(OffsetDateTime.now());
+
+        when(changeTaskStatus.execute(1L, 10L, "IN_PROGRESS")).thenReturn(task);
+
+        mockMvc.perform(put("/api/projects/1/tasks/10/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"status":"IN_PROGRESS"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(10))
+                .andExpect(jsonPath("$.projectId").value(1))
+                .andExpect(jsonPath("$.status").value("IN_PROGRESS"));
+
+        verify(changeTaskStatus).execute(eq(1L), eq(10L), eq("IN_PROGRESS"));
     }
 }
