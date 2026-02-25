@@ -1,195 +1,148 @@
-# 📦 COCO – Database Documentation (PostgreSQL)
+﻿# COCO - Database Documentation (PostgreSQL)
 
-## 1. Visión general
+## 1. Alcance
 
-La base de datos de **COCO** está diseñada para dar soporte a una aplicación de gestión de proyectos y tareas con control de acceso por roles a nivel de proyecto.  
-El modelo sigue principios de **normalización**, **integridad referencial** y **auditabilidad**, y está preparado para escalar sin introducir complejidad innecesaria.
+Este documento describe el esquema **real** aplicado por Flyway segun los scripts disponibles en:
 
-Características principales:
+- `backend/src/main/resources/db/migration/V1__.sql`
+- `backend/src/main/resources/db/migration/V2__projects_archived_at.sql`
 
-- Gestión de usuarios con credenciales y metadatos
-- Proyectos con estados controlados
-- Asignación de roles por usuario y proyecto (RBAC)
-- Tareas con estados configurables (catálogo)
-- Timestamps automáticos (`created_at`, `updated_at`)
-- Reglas claras de borrado (`CASCADE`, `SET NULL`, `RESTRICT`)
+Nota: en el estado actual del repo no existe `V3__taskstatus_catalog_and_task_status_id.sql` dentro de `db/migration`.
 
----
+## 2. Historial de migraciones
 
-## 2. Diagrama
+| Version | Archivo | Objetivo |
+|---|---|---|
+| V1 | `V1__.sql` | Crea esquema inicial: usuarios, proyectos, roles, membresias, tareas y catalogo de estados de tarea. |
+| V2 | `V2__projects_archived_at.sql` | Agrega `project.archived_at` e indice por `status, archived_at`. |
 
-- Un **usuario** puede pertenecer a **muchos proyectos**
-- Un **proyecto** puede tener **muchos usuarios**
-- Cada usuario tiene **un único rol por proyecto**
-- Un **proyecto** tiene **muchas tareas**
-- Una **tarea** puede estar asignada a **un usuario o ninguno**
-- El estado de una tarea pertenece a un **catálogo controlado**
+## 3. Modelo relacional
 
-![alt text](diagrama_base_datos.png)
+Relaciones principales:
 
----
+- `project` 1:N `tasks`
+- `cocouser` N:M `project` via `cocouser_project_role`
+- `role` 1:N `cocouser_project_role`
+- `task_status` 1:N `tasks`
+- `cocouser` 1:N `tasks` (asignacion opcional)
 
-## 3. Tablas
+## 4. Tablas
 
+### 4.1 `cocouser`
 
-### 3.1 `cocoUser`
+| Columna | Tipo | Nulo | Default | Notas |
+|---|---|---|---|---|
+| id | BIGINT | NO | identity | PK |
+| login | VARCHAR(255) | NO | - | UNIQUE |
+| password | VARCHAR(255) | NO | - | hash de password |
+| first_name | VARCHAR(255) | SI | - | |
+| last_name | VARCHAR(255) | SI | - | |
+| email | VARCHAR(255) | NO | - | UNIQUE |
+| image_url | TEXT | SI | - | |
+| created_at | TIMESTAMP WITHOUT TIME ZONE | NO | NOW() | |
+| updated_at | TIMESTAMP WITHOUT TIME ZONE | NO | NOW() | |
 
-Tabla de usuarios del sistema.
+Constraints:
 
-| Columna | Tipo | Nulo | Descripción |
-|------|------|------|-------------|
-| id | BIGINT | NO | Identificador único |
-| login | VARCHAR(255) | NO | Nombre de usuario (único) |
-| password | VARCHAR(255) | NO | Hash de contraseña |
-| first_name | VARCHAR(255) | SÍ | Nombre |
-| last_name | VARCHAR(255) | SÍ | Apellidos |
-| email | VARCHAR(255) | NO | Email (único) |
-| image_url | TEXT | SÍ | Avatar / imagen de perfil |
-| created_at | TIMESTAMPTZ | NO | Fecha de creación |
-| updated_at | TIMESTAMPTZ | NO | Fecha de última modificación |
+- `cocouser_pkey`
+- `cocouser_login_key`
+- `cocouser_email_key`
 
-**Notas técnicas**
-- `login` y `email` son únicos.
-- `updated_at` se actualiza automáticamente mediante trigger.
-- La contraseña se almacena siempre como **hash**.
+### 4.2 `project`
 
----
+| Columna | Tipo | Nulo | Default | Notas |
+|---|---|---|---|---|
+| id | BIGINT | NO | identity | PK |
+| name | VARCHAR(255) | NO | - | UNIQUE |
+| description | TEXT | SI | - | |
+| logo_url | TEXT | SI | - | |
+| status | VARCHAR(50) | NO | 'ACTIVE' | sin CHECK en DB |
+| created_at | TIMESTAMP WITHOUT TIME ZONE | NO | NOW() | |
+| updated_at | TIMESTAMP WITHOUT TIME ZONE | NO | NOW() | |
+| archived_at | TIMESTAMPTZ | SI | NULL | agregado en V2 |
 
-### 3.2 `project`
+Constraints / indices:
 
-Representa proyectos dentro del sistema.
+- `project_pkey`
+- `project_name_key`
+- `idx_projects_status_archived_at` (V2)
 
-| Columna | Tipo | Nulo | Descripción |
-|------|------|------|-------------|
-| id | BIGINT | NO | Identificador único |
-| name | VARCHAR(255) | NO | Nombre del proyecto (único) |
-| description | TEXT | SÍ | Descripción funcional |
-| logo_url | TEXT | SÍ | Logo o imagen |
-| status | VARCHAR(50) | NO | Estado del proyecto |
-| created_at | TIMESTAMPTZ | NO | Fecha de creación |
-| updated_at | TIMESTAMPTZ | NO | Fecha de última modificación |
+### 4.3 `role`
 
-**Estados permitidos**
-- `ACTIVE`
-- `PAUSED`
-- `ARCHIVED`
+| Columna | Tipo | Nulo | Default | Notas |
+|---|---|---|---|---|
+| id | BIGINT | NO | identity | PK |
+| role_name | VARCHAR(255) | NO | - | UNIQUE |
 
-Controlados mediante `CHECK`.
+Constraints:
 
----
+- `role_pkey`
+- `role_role_name_key`
 
-### 3.3 `role`
+### 4.4 `cocouser_project_role`
 
-Catálogo de roles del sistema.
+Tabla puente de membresia/rol por proyecto.
 
-| Columna | Tipo | Nulo | Descripción |
-|------|------|------|-------------|
-| id | BIGINT | NO | Identificador único |
-| role_name | VARCHAR(255) | NO | Nombre del rol (único) |
+| Columna | Tipo | Nulo | Notas |
+|---|---|---|---|
+| user_id | BIGINT | NO | FK -> `cocouser(id)` |
+| project_id | BIGINT | NO | FK -> `project(id)` |
+| role_id | BIGINT | NO | FK -> `role(id)` |
 
-**Roles típicos**
-- ADMIN
-- MANAGER
-- MEMBER
-- VIEWER
+PK y FKs:
 
----
+- PK: `(user_id, project_id)`
+- `fk_upr_user` (`ON DELETE CASCADE`)
+- `fk_upr_project` (`ON DELETE CASCADE`)
+- `fk_upr_role` (`ON DELETE CASCADE`)
 
-### 3.4 `cocoUser_project_role`
+Indices:
 
-Tabla puente que implementa **RBAC por proyecto**.
+- `idx_upr_user_id`
+- `idx_upr_project_id`
+- `idx_upr_role_id`
 
-| Columna | Tipo | Nulo | Descripción |
-|------|------|------|-------------|
-| user_id | BIGINT | NO | Usuario |
-| project_id | BIGINT | NO | Proyecto |
-| role_id | BIGINT | NO | Rol asignado |
+### 4.5 `task_status`
 
-**Claves**
-- **PK**: `(user_id, project_id)`
-- Un usuario tiene **exactamente un rol por proyecto**
+Catalogo de estados de tarea.
 
-**Reglas de borrado**
-- Usuario eliminado → relaciones eliminadas (`CASCADE`)
-- Proyecto eliminado → relaciones eliminadas (`CASCADE`)
-- Rol eliminado → relaciones eliminadas (`CASCADE`)
+| Columna | Tipo | Nulo | Default | Notas |
+|---|---|---|---|---|
+| status | VARCHAR(50) | NO | - | PK |
+| display_name | VARCHAR(100) | NO | - | |
+| color_hex | CHAR(7) | NO | - | |
+| sort_order | SMALLINT | NO | 0 | |
+| is_terminal | BOOLEAN | NO | FALSE | |
 
----
+Constraints / indices:
 
-### 3.5 `task_status`
+- `task_status_pkey`
+- `idx_task_status_sort_order`
 
-Catálogo de estados de tareas (configurable).
+### 4.6 `tasks`
 
-| Columna | Tipo | Nulo | Descripción |
-|------|------|------|-------------|
-| status | VARCHAR(50) | NO | Identificador del estado |
-| display_name | VARCHAR(100) | NO | Nombre visible |
-| color_hex | CHAR(7) | NO | Color en formato HEX |
-| sort_order | SMALLINT | NO | Orden de visualización |
-| is_terminal | BOOLEAN | NO | Indica estado final |
+| Columna | Tipo | Nulo | Default | Notas |
+|---|---|---|---|---|
+| id | BIGINT | NO | identity | PK |
+| project_id | BIGINT | NO | - | FK -> `project(id)` |
+| title | VARCHAR(255) | NO | - | |
+| description | TEXT | SI | - | |
+| status | VARCHAR(50) | NO | - | FK -> `task_status(status)` |
+| assigned_to | BIGINT | SI | - | FK -> `cocouser(id)` |
+| due_date | DATE | SI | - | |
+| created_at | TIMESTAMP WITHOUT TIME ZONE | NO | NOW() | |
+| updated_at | TIMESTAMP WITHOUT TIME ZONE | NO | NOW() | |
 
-**Ejemplos**
-- TODO → Pendiente
-- IN_PROGRESS → En progreso
-- DONE → Hecho
-- BLOCKED → Bloqueado
+FKs y reglas de borrado:
 
----
+- `fk_tasks_project`: `project_id -> project(id)` (`ON DELETE CASCADE`)
+- `fk_tasks_status`: `status -> task_status(status)` (`ON DELETE RESTRICT`)
+- `fk_tasks_assignee`: `assigned_to -> cocouser(id)` (`ON DELETE SET NULL`)
 
-### 3.6 `tasks`
+Indices:
 
-Tareas pertenecientes a proyectos.
+- `idx_tasks_project_id`
+- `idx_tasks_status`
+- `idx_tasks_assigned_to`
 
-| Columna | Tipo | Nulo | Descripción |
-|------|------|------|-------------|
-| id | BIGINT | NO | Identificador único |
-| project_id | BIGINT | NO | Proyecto |
-| title | VARCHAR(255) | NO | Título |
-| description | TEXT | SÍ | Descripción |
-| status | VARCHAR(50) | NO | Estado de la tarea |
-| assigned_to | BIGINT | SÍ | Usuario asignado |
-| due_date | DATE | SÍ | Fecha límite |
-| created_at | TIMESTAMPTZ | NO | Fecha de creación |
-| updated_at | TIMESTAMPTZ | NO | Fecha de última modificación |
-
-**Relaciones**
-- `project_id` → `project(id)` (`CASCADE`)
-- `assigned_to` → `cocoUser(id)` (`SET NULL`)
-- `status` → `task_status(status)` (`RESTRICT`)
-
----
-
-## 4. Triggers y funciones
-
-### `set_updated_at()`
-
-Función reutilizable para mantener actualizado el campo `updated_at`.
-
-Se ejecuta automáticamente en:
-- `cocoUser`
-- `project`
-- `tasks`
-
-Antes de cada `UPDATE`.
-
----
-
-## 5. Reglas de integridad y diseño
-
-- No existen valores mágicos: los estados de tareas están normalizados
-- El control de acceso es **por proyecto**, no global
-- No se permiten tareas con estados inexistentes
-- El modelo soporta ejecución repetida de seeds sin duplicados
-- Preparado para auditoría y extensiones futuras
-
----
-
-## 6. Posibles extensiones futuras
-
-- Historial de cambios de tareas (auditoría)
-- Comentarios por tarea
-- Etiquetas (labels)
-- Asignación múltiple de usuarios a tareas
-- Soft delete (`deleted_at`)
-- Organización / tenant
 
