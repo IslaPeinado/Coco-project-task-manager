@@ -1,0 +1,23 @@
+@startuml global-application-architecture
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+title COCO - Arquitectura Global de la Aplicacion
+
+actor "Usuario" as user
+rectangle "Frontend\nAngular" as fe
+rectangle "Backend API\nSpring Boot" as be
+rectangle "JWT Auth + Security\nSpring Security" as sec
+database "PostgreSQL" as db
+rectangle "Flyway\nMigraciones" as flyway
+rectangle "Swagger/OpenAPI" as docs
+
+user --> fe : Navega y gestiona\nproyectos/tareas
+fe --> be : HTTPS REST + Bearer JWT
+be --> sec : Validacion token\ncontrol de acceso
+be --> db : JPA/Hibernate
+flyway --> db : Versionado de esquema
+docs ..> be : Documenta endpoints
+
+@enduml
