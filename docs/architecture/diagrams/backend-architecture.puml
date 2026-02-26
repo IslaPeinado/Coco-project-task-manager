@@ -1,0 +1,49 @@
+﻿@startuml backend-architecture
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam linetype ortho
+left to right direction
+
+title COCO Backend - Arquitectura por capas y modulos
+
+rectangle "Clientes" as clients
+rectangle "Spring Security\n(JWT Filter Chain)" as sec
+
+package "API Layer" as api {
+  rectangle "user.api" as uapi
+  rectangle "project.api" as papi
+  rectangle "task.api" as tapi
+}
+
+package "Application Layer" as app {
+  rectangle "user.application" as uapp
+  rectangle "project.application" as papp
+  rectangle "task.application" as tapp
+  rectangle "Ports\n(application.port)" as ports
+}
+
+package "Domain Layer" as dom {
+  rectangle "user.domain" as udom
+  rectangle "project.domain" as pdom
+  rectangle "task.domain" as tdom
+}
+
+package "Infrastructure Layer" as infra {
+  rectangle "Adapters\n(infra.persistence/security/mapper)" as adapters
+  database "PostgreSQL" as db
+  rectangle "Flyway\n(db/migration)" as flyway
+}
+
+rectangle "Cross-cutting\nGlobalExceptionHandler\nConfig" as cross
+
+clients --> sec
+sec --> api
+api --> app
+app --> dom
+app --> ports
+ports --> adapters
+adapters --> db
+flyway --> db
+app ..> cross
+api ..> cross
+@enduml
