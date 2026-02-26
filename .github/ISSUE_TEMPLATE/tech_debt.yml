@@ -1,23 +1,32 @@
-name: "🧹 Tech Debt / Refactor"
-description: Mejora técnica, deuda o hardening
+name: "Tech Debt / Refactor"
+description: Mejora tecnica, deuda o hardening
 title: "[DEBT] "
 labels: ["type: tech-debt", "status: triage"]
 body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Frontend (Angular)
+        - Backend (Spring Boot)
+        - API / Contrato
+        - Database (PostgreSQL)
+        - CI / DevOps
+
   - type: textarea
     id: context
     attributes:
       label: Contexto
       placeholder: "Actualmente la capa de servicios mezcla lógica de validación y mapeo..."
-    validations:
-      required: true
+
 
   - type: textarea
     id: proposal
     attributes:
       label: Propuesta técnica
       placeholder: "Introducir DTO mapper, centralizar validación, añadir tests..."
-    validations:
-      required: true
+
 
   - type: textarea
     id: risks

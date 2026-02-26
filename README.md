@@ -1,109 +1,126 @@
-# 🥥 coco
+# COCO
 
-COCO es una aplicación web orientada a entornos empresariales para la gestión de proyectos y tareas, diseñada con un enfoque de seguridad, mantenibilidad y escalabilidad. El frontend, construido con Angular 20, ofrece una experiencia fluida basada en formularios reactivos y navegación estructurada. El backend, desarrollado en Java 21 con Spring Boot, expone una API REST documentada con OpenAPI/Swagger, con endpoints protegidos mediante JWT y control de acceso por roles (USUARIO/ADMIN).
-La persistencia se realiza en Oracle Database utilizando JPA/Hibernate, cuidando el modelado relacional y las buenas prácticas de acceso a datos. El repositorio incluye documentación técnica y configuración de calidad (CI, plantillas, políticas de ramas) para reflejar un flujo de trabajo similar al de un equipo real.
+COCO es una aplicacion web fullstack para gestion de proyectos y tareas, construida como portfolio tecnico con enfoque profesional en arquitectura, seguridad y mantenibilidad.
 
----
-
-## 🚀 Tecnologías utilizadas
+## Stack principal
 
 ### Frontend
-- Angular
+- Angular 20
 - TypeScript
 - Angular Router
 - Formularios reactivos
-- Autenticación JWT (interceptor)
+- Interceptor JWT
 
 ### Backend
 - Java 21
 - Spring Boot
-- Spring Security
+- Spring Security (JWT stateless)
 - Spring Data JPA + Hibernate
-- API REST
-- Swagger / OpenAPI
+- Flyway
+- OpenAPI / Swagger
 
 ### Base de datos
-- Oracle Database
+- PostgreSQL
 
----
+## Funcionalidades principales
 
-## 🔐 Funcionalidades
+### Autenticacion y seguridad
+- Autenticacion con JWT.
+- Separacion entre endpoints publicos y privados.
+- Control de acceso por rol y contexto de proyecto.
 
-### Autenticación y autorización
-- Registro e inicio de sesión
-- Autenticación basada en JWT
-- Roles: USUARIO / ADMIN
-- Endpoints protegidos según permisos
+### Proyectos
+- CRUD de proyectos.
+- Gestion de miembros y roles.
+- Archivado logico de proyectos.
 
-### Gestión de proyectos
-- Crear, actualizar y eliminar proyectos
-- Asignación de proyectos a usuarios
+### Tareas
+- CRUD de tareas por proyecto.
+- Gestion de estado y asignacion.
+- Reglas de validacion de negocio.
 
-### Gestión de tareas
-- Operaciones CRUD para tareas
-- Estados: TODO / EN PROGRESO / TERMINADO
-- Tareas vinculadas a proyectos
+## Arquitectura
 
-### Otros
-- Patrón DTO
-- Manejo global de errores
-- Arquitectura por capas (enfoque limpio)
-- Documentación de la API con Swagger
+COCO sigue una arquitectura cliente-servidor en tres capas:
 
----
+1. Presentacion: Angular (UI, navegacion, consumo de API).
+2. Servicios: Spring Boot (casos de uso, seguridad, API REST).
+3. Datos: PostgreSQL (persistencia relacional + migraciones Flyway).
 
-## 📐 Arquitectura
+![diagrama global](docs/architecture/diagrams/global-application-architecture.png)
 
-Frontend (Angular)  
-↓  
-API REST (Spring Boot)  
-↓  
-Oracle Database
+## Calidad y buenas practicas
 
----
+- Separacion por capas (`api`, `application`, `domain`, `infra`).
+- Manejo global de errores.
+- Migraciones versionadas con Flyway.
+- Pruebas unitarias e integracion.
+- CI con GitHub Actions.
 
-## ✅ Requisitos
+## CI implementado
 
-- Node.js (LTS recomendado)
-- Angular CLI (si aplica)
-- Java 21
-- Maven o Gradle
-- Oracle DB (local, Docker o remoto)
+- Backend: `.github/workflows/ci-backend.yml`
+- Frontend: `.github/workflows/ci-frontend.yml`
 
----
+## Politica de ramas
 
-## ▶️ Puesta en marcha (resumen)
+- `main`:
+  - Rama virgen de referencia del portfolio.
+  - No se usa como rama de trabajo diario.
+- `dev`:
+  - Rama base activa para integracion.
+  - Aqui se integran cambios de frontend y backend.
+- `frontend`:
+  - Rama de trabajo del area frontend.
+  - Se divide en subramas por issue.
+- `backend`:
+  - Rama de trabajo del area backend.
+  - Se divide en subramas por issue.
 
+## Testing incluido
+
+Backend:
+- JUnit 5
+- Mockito
+- Spring Boot Test
+- Spring Security Test
+- Testcontainers (PostgreSQL)
+
+Comando base de pruebas backend (desde `backend/`):
+
+- `./mvnw test`
+
+## Documentacion tecnica
+
+- Indice general: `docs/README.md`
+- Arquitectura global: `docs/architecture/overview.md`
+- Roadmap de arquitectura: `docs/architecture/improvement-roadmap.md`
+- Backend: `docs/backend/architecture.md`
+- Frontend: `docs/frontend/architecture.md`
+- Seguridad: `docs/security/security-architecture.md`
+- Base de datos: `docs/database/schema.md`
+- Operacion: `docs/operations/runbook.md`
+- Diseno:
+  - `docs/design/design-system/design-system.md`
+  - `docs/design/mockups/light/`
+  - `docs/design/mockups/dark/`
+  - `docs/design/assets/Coco_Logo.svg`
+
+## Ejecucion local
 
 ### Backend
-1. Configurar la conexión a Oracle y variables de entorno.
-2. Ejecutar:
+1. Configurar variables de entorno (`DB_URL`, `DB_USER`, `DB_PASSWORD`, `JWT_SECRET`).
+2. Ejecutar desde `backend/`:
    - `./mvnw spring-boot:run`
-   - o `mvn spring-boot:run`
 
 ### Frontend
 1. Instalar dependencias:
-   - `npm install`
+   - `cd frontend && npm install`
 2. Ejecutar:
-   - `ng serve -o`
+   - `npm run start`
 
----
-
-## ⚙️ Variables de entorno (ejemplo)
-
-Backend:
-- `DB_URL=jdbc:oracle:thin:@localhost:1521/XEPDB1`
-- `DB_USERNAME=...`
-- `DB_PASSWORD=...`
-- `JWT_SECRET=...`
-- `JWT_EXP_MINUTES=60`
-
----
-
-## 📚 Swagger / OpenAPI
+## OpenAPI / Swagger
 
 Con el backend levantado:
-- Swagger UI: `http://localhost:8080/swagger-ui/index.html`
+- Swagger UI: `http://localhost:8080/swagger-ui`
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs`
-
-

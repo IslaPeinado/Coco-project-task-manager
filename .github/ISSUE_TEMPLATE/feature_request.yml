@@ -1,48 +1,47 @@
-name: "✨ Feature request"
+name: "Feature request"
 description: Propuesta funcional con impacto claro
 title: "[FEAT] "
 labels: ["type: feature", "status: triage"]
+
 body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Frontend (Angular)
+        - Backend (Spring Boot)
+        - API / Contrato
+        - Database (PostgreSQL)
+        - CI / DevOps
+    validations:
+
   - type: textarea
     id: descripcion
     attributes:
       label: Descripción
       placeholder: "Descripción general de la tarea"
-    validations:
-      required: true
+
+
   - type: textarea
     id: problem
     attributes:
       label: Problema / necesidad
       placeholder: "Como usuario, necesito filtrar tareas por estado y prioridad..."
-    validations:
-      required: true
+
 
   - type: textarea
     id: solution
     attributes:
-      label: Solución propuesta
+      label: Solucion propuesta
       description: Describe el comportamiento esperado.
-    validations:
-      required: true
 
-  - type: textarea
-    id: scope
-    attributes:
-      label: Alcance (Frontend/Backend/DB)
-      value: |
-        - Frontend:
-        - Backend:
-        - DB:
-    validations:
-      required: true
 
   - type: textarea
     id: acceptance
     attributes:
-      label: Criterios de aceptación
+      label: Criterios de aceptacion
       value: |
         - [ ] ...
         - [ ] ...
-    validations:
-      required: true
+

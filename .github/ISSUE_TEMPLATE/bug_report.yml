@@ -11,7 +11,7 @@ body:
         - Frontend (Angular)
         - Backend (Spring Boot)
         - API / Contrato
-        - Database (Oracle)
+        - Database (PostgreSQL)
         - CI / DevOps
     validations:
       required: true

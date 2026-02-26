@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - "backend/**"
+      - "infra/**"
       - ".github/workflows/ci-backend.yml"
   push:
-    branches: [ "dev"]
+    branches: ["backend"]
     paths:
       - "backend/**"
+      - "infra/**"
       - ".github/workflows/ci-backend.yml"
 
 concurrency:
@@ -24,6 +26,32 @@ jobs:
 
     env:
       SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/coco_test
+      SPRING_DATASOURCE_USERNAME: coco_user
+      SPRING_DATASOURCE_PASSWORD: coco_user
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_FLYWAY_ENABLED: "false"
+      DB_HOST: localhost
+      DB_PORT: "5432"
+      DB_NAME: coco_test
+      DB_USER: coco_user
+      DB_PASSWORD: coco_user
+      COCO_JWT_SECRET: "CI_SECRET_032c37e71fc74611174dfb03d65c3e941767a794377a0eaa3aba06da064951f6"
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: coco_test
+          POSTGRES_USER: coco_user
+          POSTGRES_PASSWORD: coco_user
+        options: >-
+          --health-cmd "pg_isready -U coco_user -d coco_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout
@@ -39,8 +67,29 @@ jobs:
       - name: Ensure mvnw is executable
         run: chmod +x mvnw
 
-      - name: Run tests (H2 profile)
-        run: ./mvnw -B -Dspring.profiles.active=test clean test
+      - name: Install psql client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Wait for PostgreSQL
+        run: |
+          for i in {1..30}; do
+            pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME && exit 0
+            sleep 2
+          done
+          echo "PostgreSQL did not become ready in time" >&2
+          exit 1
+        env:
+          PGPASSWORD: ${{ env.DB_PASSWORD }}
+        shell: bash
+
+      - name: Init DB schema from infra/cocoDB.sql
+        run: |
+          psql "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}" \
+            -v ON_ERROR_STOP=1 \
+            -f ../infra/cocoDB.sql
+
+      - name: Run tests
+        run: ./mvnw -B -Dspring.profiles.active=test test
 
       - name: Package (skip tests)
         run: ./mvnw -B -DskipTests package

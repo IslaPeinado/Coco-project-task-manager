@@ -1,5 +1,57 @@
-name: actions
-author: islap
-description: actions
+name: "COCO Frontend CI Composite Action"
+author: "islap"
+description: "Reusable CI action for frontend validation."
+
+inputs:
+  node-version:
+    description: "Node.js version for frontend when .nvmrc is unavailable"
+    required: false
+    default: "20"
+
 runs:
-  using:
+  using: "composite"
+  steps:
+    - name: Validate frontend directory
+      shell: bash
+      run: |
+        if [ ! -d "frontend" ]; then
+          echo "Frontend directory not found (expected frontend/)." >&2
+          exit 1
+        fi
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: npm
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Use .nvmrc when available
+      if: ${{ hashFiles('frontend/.nvmrc') != '' }}
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: frontend/.nvmrc
+        cache: npm
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install frontend dependencies
+      shell: bash
+      working-directory: frontend
+      run: npm ci
+
+    - name: Lint frontend
+      shell: bash
+      working-directory: frontend
+      run: npm run lint --if-present
+
+    - name: Test frontend
+      shell: bash
+      working-directory: frontend
+      env:
+        CI: "true"
+      run: npm test -- --watch=false
+
+    - name: Build frontend
+      shell: bash
+      working-directory: frontend
+      run: npm run build

@@ -1,26 +1,25 @@
 # Tipos de Commits
 
+### 1. `FEATURE`: Nueva funcionalidad
+- Ejemplo: `FEATURE: anadir formulario de login`
 
-### 1. `feat`: Nueva funcionalidad.
-* **Ejemplo**: `feat: añadir formulario de login`
+### 2. `FIX`: Correccion de errores
+- Ejemplo: `FIX: corregir bug en la validacion de email`
 
-### 2. `fix`: Corrección de errores.
-* **Ejemplo**: `fix: corregir bug en la validación de email`
+### 3. `DOCS`: Cambios en documentacion
+- Ejemplo: `DOCS: actualizar README con instrucciones de instalacion`
 
-### 3. `docs`: Cambios en la documentación.
-* **Ejemplo**: `docs: actualizar README con instrucciones de instalación`
+### 4. `STYLE`: Cambios de formato sin afectar comportamiento
+- Ejemplo: `STYLE: ajustar indentacion en archivos`
 
-### 4. `style`: Cambios en el formato, sin afectar el comportamiento.
-* **Ejemplo**: `style: ajustar indentación en archivos .js`
+### 5. `REFACTOR`: Refactor sin nuevas funcionalidades ni fixes
+- Ejemplo: `REFACTOR: simplificar validacion de contrasena`
 
-### 5. `refactor`: Refactorización de código, sin añadir funcionalidades ni corregir errores.
-* **Ejemplo**: `refactor: simplificar la función de validación de contraseña`
+### 6. `TEST`: Anadir o modificar pruebas
+- Ejemplo: `TEST: agregar pruebas unitarias para autenticacion`
 
-### 6. `test`: Añadir o modificar pruebas.
-* **Ejemplo**: `test: agregar pruebas unitarias para autenticación`
+### 7. `CHORE`: Tareas de mantenimiento o tooling
+- Ejemplo: `CHORE: actualizar version de dependencias`
 
-### 7. `chore`: Cambios menores, como configuración de tareas.
-* **Ejemplo**: `chore: actualizar versión de dependencias`
-
-### 8. `perf`: Mejoras en el rendimiento.
-* **Ejemplo**: `perf: optimizar la consulta de base de datos para tareas`
+### 8. `PERF`: Mejoras de rendimiento
+- Ejemplo: `PERF: optimizar consulta de base de datos de tareas`
