@@ -2,7 +2,7 @@
 
 ### 1) Project Identity
 - repo_root: `Coco-project-task-manager`
-- frontend_root: `fronted/` (intentional name, do not rename)
+- frontend_root: `frontend/` (intentional name, do not rename)
 - framework: `Angular 20.x`
 - style: `standalone APIs + strict TypeScript`
 - primary_scope: `UI, routing, app state, frontend auth integration`
@@ -14,11 +14,11 @@
 - strict flags:
   - `strict: true`
   - `strictTemplates: true`
-- global styles source: `fronted/src/styles.css`
+- global styles source: `frontend/src/styles.css`
 
 ### 3) Runbook
 - install dependencies:
-  - `cd fronted && npm install`
+  - `cd frontend && npm install`
 - start dev server:
   - `npm run start`
 - build:
@@ -96,7 +96,7 @@
 - do not introduce Jest or alternative frameworks unless explicitly requested.
 
 ### 11) Change Protocol For Agents
-1. verify real paths under `fronted/src/app`.
+1. verify real paths under `frontend/src/app`.
 2. identify impacted feature/domain boundary.
 3. implement minimal changes aligned with current conventions.
 4. update or add tests proportional to behavior change.
