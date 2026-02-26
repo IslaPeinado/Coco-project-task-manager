@@ -9,7 +9,7 @@
 
 ### 2) Repository Topology
 - backend_root: `backend/`
-- frontend_root: `fronted/` (intentional path name)
+- frontend_root: `frontend/`
 - docs_root: `README.md`
 - shared_agent_root: `agents/`
 
@@ -32,7 +32,7 @@
   - auth flow, DTO/JSON contract updates, role/permission behavior, error envelopes.
 
 ### 5) Global Change Protocol For Agents
-1. Identify impacted layer(s): `backend`, `fronted`, or both.
+1. Identify impacted layer(s): `backend`, `frontend`, or both.
 2. Load and follow the specialized contract(s).
 3. Apply minimal changes only for requested behavior.
 4. Preserve current naming, architecture, and compatibility constraints.
