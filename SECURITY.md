@@ -1,36 +1,38 @@
 # Security Policy - COCO
 
-Este proyecto forma parte de un portfolio tecnico y busca demostrar buenas practicas reales de seguridad en una aplicacion fullstack moderna.
+Este repositorio es parte de mi portfolio y quiero tratar la seguridad como lo haria en un proyecto real: con criterio, trazabilidad y mejora continua.
+
+## Como gestiono las ramas
+
+- `main`: snapshot estable del proyecto. No se usa como rama de trabajo diario.
+- `dev`: rama base activa. Aqui integro cambios, correcciones y mejoras de seguridad antes de promover a `main`.
+
+Por eso, cualquier hallazgo de seguridad se analiza y corrige sobre `dev`, y solo despues se refleja en `main`.
 
 ## Enfoque de seguridad del proyecto
 
-COCO esta disenado con una base de seguridad orientada a entornos empresariales:
+En COCO estoy aplicando practicas que considero clave:
 
-- Autenticacion stateless con JWT en backend.
-- Autorizacion basada en roles y contexto de proyecto.
-- Endpoints protegidos por defecto en Spring Security.
-- Manejo centralizado de errores para evitar fugas de informacion sensible.
-- Separacion por capas (api, application, domain, infra) para limitar acoplamiento y riesgo.
+- autenticacion stateless con JWT;
+- autorizacion por roles y contexto de proyecto;
+- endpoints protegidos por defecto en Spring Security;
+- manejo global de errores para evitar exponer informacion sensible;
+- separacion por capas (`api`, `application`, `domain`, `infra`) para reducir acoplamiento y riesgo.
 
-## Alcance y version soportada
+## Como reportar una vulnerabilidad
 
-Al tratarse de un proyecto portfolio, se mantiene activa la rama principal:
+Si detectas una vulnerabilidad, por favor no la publiques en un issue abierto.
 
-- Rama soportada para reportes de seguridad: `main`.
-
-## Gestion responsable de vulnerabilidades
-
-Si detectas una vulnerabilidad, no la publiques en un issue abierto.
-
-1. Crea un reporte privado en:
+1. Abre un reporte privado en:
    - https://github.com/IslaPeinado/Coco-project-task-manager/security/advisories/new
 2. Incluye:
    - descripcion tecnica del problema;
-   - pasos de reproduccion;
-   - impacto potencial;
-   - propuesta de mitigacion (si aplica).
-3. Se dara seguimiento y se priorizara la correccion en funcion del riesgo.
+   - pasos para reproducirlo;
+   - impacto estimado;
+   - posible mitigacion (si la tienes).
 
-## Compromiso de mejora continua
+Revisare el reporte, priorizare segun severidad y hare seguimiento hasta dejarlo corregido en `dev`.
 
-Este repositorio evoluciona de forma incremental. Las mejoras de seguridad (hardening, cobertura de tests, configuracion y control de acceso) forman parte del proceso normal de iteracion del proyecto.
+## Compromiso
+
+Este proyecto evoluciona de forma iterativa. La seguridad no es un check unico: es parte constante del ciclo de desarrollo.
