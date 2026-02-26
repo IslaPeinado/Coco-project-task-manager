@@ -1,0 +1,25 @@
+﻿@startuml target-architecture
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+title COCO - Target Architecture (Roadmap)
+
+actor "Usuario" as user
+rectangle "Angular SPA" as fe
+rectangle "API Layer\n(Spring Boot)" as api
+rectangle "AuthZ Service\n(roles + project permissions)" as authz
+rectangle "Observability\n(logs + metrics + traceId)" as obs
+database "PostgreSQL" as db
+rectangle "Optional Cache\n(Redis)" as cache
+rectangle "CI Contract Checks\n(OpenAPI + tests)" as ci
+
+user --> fe
+fe --> api : HTTPS + JWT
+api --> authz : permission checks
+api --> db : JPA
+api --> cache : hot reads (future)
+api --> obs : telemetry
+ci ..> api : quality gate
+
+@enduml

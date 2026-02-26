@@ -1,0 +1,41 @@
+@startuml frontend-architecture
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+title COCO Frontend - Arquitectura actual
+
+actor "Usuario" as user
+
+package "Angular App" {
+  [App Root] as app
+  [Router] as router
+  [Feature Routes\n(auth/dashboard/projects/tasks/users)] as features
+
+  package "Core" {
+    [AuthInterceptor] as interceptor
+    [AuthGuard] as guard
+    [AuthService] as auth
+    [TokenService] as token
+  }
+
+  package "Shared" {
+    [Button]
+    [Input]
+    [Modal]
+  }
+}
+
+rectangle "Backend API" as api
+
+user --> app : Navega
+app --> router
+router --> features : lazy loading
+router ..> guard : proteccion (pendiente)
+
+interceptor --> token : getAccessToken()
+interceptor --> api : Authorization Bearer JWT
+
+auth --> token : set/clear token (pendiente)
+auth --> api : login/logout (pendiente)
+@enduml
