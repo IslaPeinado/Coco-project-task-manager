@@ -47,6 +47,8 @@ class RegisterUseCaseTest {
         assertEquals("a@a.com", saved.getLogin());
         assertEquals("HASH", saved.getPassword());
         assertEquals("Ana", saved.getFirstName());
+        assertNotNull(saved.getCreatedAt());
+        assertNotNull(saved.getUpdatedAt());
 
         assertEquals("TOKEN", res.accessToken());
         assertEquals("Bearer", res.tokenType());
