@@ -28,7 +28,7 @@ Marca lo que aplica y pega comandos/salidas relevantes.
 ## Checklist tecnico
 - [ ] Si cambie contrato API, actualice OpenAPI/Swagger y DTOs
 - [ ] Si cambie validaciones/errores, revise `GlobalExceptionHandler` y codigos de error
-- [ ] Si cambie DB, actualice scripts necesarios (ej: `infra/cocoDB.sql` y/o `db/migration`)
+- [ ] Si cambie DB, actualice migraciones y scripts necesarios (ej: `backend/src/main/resources/db/migration`)
 - [ ] No rompo compatibilidad hacia atras sin documentarlo
 - [ ] Actualice README/docs si aplica
 

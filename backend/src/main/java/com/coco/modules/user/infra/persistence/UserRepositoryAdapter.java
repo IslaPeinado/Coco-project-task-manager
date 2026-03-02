@@ -4,6 +4,7 @@ package com.coco.modules.user.infra.persistence;
 
 import com.coco.modules.user.application.port.UserRepositoryPort;
 import com.coco.modules.user.domain.User;
+import com.coco.modules.user.infra.mapper.UserPersistenceMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -12,39 +13,29 @@ import java.util.Optional;
 public class UserRepositoryAdapter implements UserRepositoryPort {
 
     private final UserJpaRepository userJpaRepository;
+    private final UserPersistenceMapper userPersistenceMapper;
 
-    public UserRepositoryAdapter(UserJpaRepository userJpaRepository) {
+    public UserRepositoryAdapter(UserJpaRepository userJpaRepository, UserPersistenceMapper userPersistenceMapper) {
         this.userJpaRepository = userJpaRepository;
+        this.userPersistenceMapper = userPersistenceMapper;
     }
 
 
     @Override
     public User save(User user) {
-        UserEntity entity = new UserEntity();
-        if (user.getId() != null) {
-            entity.setId(user.getId());
-        }
-        entity.setLogin(user.getLogin());
-        entity.setPassword(user.getPassword());
-        entity.setFirstName(user.getFirstName());
-        entity.setLastName(user.getLastName());
-        entity.setEmail(user.getEmail());
-        entity.setImageUrl(user.getImageUrl());
-        entity.setCreatedAt(user.getCreatedAt());
-        entity.setUpdatedAt(user.getUpdatedAt());
-
+        UserEntity entity = userPersistenceMapper.toEntity(user);
         UserEntity saved = userJpaRepository.save(entity);
-        return saved.toDomain();
+        return userPersistenceMapper.toDomain(saved);
     }
 
     @Override
     public Optional<User> findById(Long id) {
-        return userJpaRepository.findById(id).map(UserEntity::toDomain);
+        return userJpaRepository.findById(id).map(userPersistenceMapper::toDomain);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return userJpaRepository.findByEmail(email).map(UserEntity::toDomain);
+        return userJpaRepository.findByEmail(email).map(userPersistenceMapper::toDomain);
     }
 
     @Override
