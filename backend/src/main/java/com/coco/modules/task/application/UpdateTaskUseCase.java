@@ -1,0 +1,70 @@
+package com.coco.modules.task.application;
+
+import com.coco.common.util.NotFoundException;
+import com.coco.modules.project.application.ProjectAuthorizationService;
+import com.coco.modules.project.application.port.ProjectRepositoryPort;
+import com.coco.modules.project.domain.ProjectPermission;
+import com.coco.modules.task.api.dto.TaskUpdateCommand;
+import com.coco.modules.task.application.port.TaskRepositoryPort;
+import com.coco.modules.task.application.port.TaskStatusRepositoryPort;
+import com.coco.modules.task.domain.Task;
+import org.springframework.stereotype.Service;
+
+import java.time.OffsetDateTime;
+
+@Service
+public class UpdateTaskUseCase {
+
+    private final TaskRepositoryPort taskRepo;
+    private final TaskStatusRepositoryPort statusRepo;
+    private final ProjectRepositoryPort projectRepo;
+    private final ProjectAuthorizationService authz;
+
+    public UpdateTaskUseCase(TaskRepositoryPort taskRepo,
+                             TaskStatusRepositoryPort statusRepo,
+                             ProjectRepositoryPort projectRepo,
+                             ProjectAuthorizationService authz) {
+        this.taskRepo = taskRepo;
+        this.statusRepo = statusRepo;
+        this.projectRepo = projectRepo;
+        this.authz = authz;
+    }
+
+    public Task execute(Long projectId, Long taskId, TaskUpdateCommand cmd) {
+        ensureProjectExists(projectId);
+        authz.requirePermission(projectId, ProjectPermission.WRITE);
+
+        Task current = taskRepo.findById(projectId, taskId)
+                .orElseThrow(() -> new NotFoundException("Task not found: " + taskId));
+
+        if (cmd.title() != null) {
+            current.setTitle(cmd.title());
+        }
+        if (cmd.description() != null) {
+            current.setDescription(cmd.description());
+        }
+        if (cmd.status() != null) {
+            ensureStatusExists(cmd.status());
+            current.setStatus(cmd.status());
+        }
+        if (cmd.dueDate() != null) {
+            current.setDueDate(cmd.dueDate());
+        }
+
+        current.setUpdatedAt(OffsetDateTime.now());
+
+        return taskRepo.update(projectId, taskId, current);
+    }
+
+    private void ensureProjectExists(Long projectId) {
+        if (projectRepo.findById(projectId).isEmpty()) {
+            throw new NotFoundException("Project not found: " + projectId);
+        }
+    }
+
+    private void ensureStatusExists(String status) {
+        if (statusRepo.findById(status).isEmpty()) {
+            throw new NotFoundException("Task status not found: " + status);
+        }
+    }
+}

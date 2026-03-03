@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - "backend/**"
+      - "infra/**"
       - ".github/workflows/ci-backend.yml"
   push:
     branches: ["backend"]
     paths:
       - "backend/**"
+      - "infra/**"
       - ".github/workflows/ci-backend.yml"
 
 concurrency:
@@ -80,11 +82,14 @@ jobs:
           PGPASSWORD: ${{ env.DB_PASSWORD }}
         shell: bash
 
-      - name: Init DB schema from infra/cocoDB.sql
+      - name: Init DB schema from SQL migrations
         run: |
           psql "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}" \
             -v ON_ERROR_STOP=1 \
-            -f ../infra/cocoDB.sql
+            -f src/main/resources/db/migration/V1__.sql
+          psql "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}" \
+            -v ON_ERROR_STOP=1 \
+            -f src/main/resources/db/migration/V2__projects_archived_at.sql
 
       - name: Run tests
         run: ./mvnw -B -Dspring.profiles.active=test test

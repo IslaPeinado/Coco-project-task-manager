@@ -1,0 +1,26 @@
+﻿@startuml request-flow
+skinparam shadowing false
+skinparam linetype ortho
+
+title COCO Backend - Flujo de peticion
+
+actor Client
+participant "JwtAuthFilter" as jwt
+participant "TaskController" as controller
+participant "CreateTaskUseCase" as usecase
+participant "ProjectAuthorizationService" as authz
+participant "TaskRepositoryPort" as port
+participant "TaskRepositoryAdapter" as adapter
+database "PostgreSQL" as db
+
+Client -> jwt: HTTP POST /api/projects/{id}/tasks
+jwt -> controller: Request autenticada
+controller -> usecase: execute(projectId, command)
+usecase -> authz: requirePermission(projectId, WRITE)
+usecase -> port: save(task)
+port -> adapter: save(task)
+adapter -> db: INSERT task
+adapter --> usecase: Task creado
+usecase --> controller: Task
+controller --> Client: 201 Created + TaskResponse
+@enduml
