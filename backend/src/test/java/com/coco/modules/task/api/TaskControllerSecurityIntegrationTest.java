@@ -8,6 +8,7 @@ import com.coco.modules.task.application.GetTaskUseCase;
 import com.coco.modules.task.application.ListTasksUseCase;
 import com.coco.modules.task.application.ChangeTaskStatusUseCase;
 import com.coco.modules.task.application.AssignTaskUseCase;
+import com.coco.modules.task.application.MoveTaskUseCase;
 import com.coco.modules.task.application.UnassignTaskUseCase;
 import com.coco.modules.task.application.UpdateTaskUseCase;
 import com.coco.modules.task.domain.Task;
@@ -65,6 +66,8 @@ class TaskControllerSecurityIntegrationTest {
     private UpdateTaskUseCase updateTask;
     @MockitoBean
     private ChangeTaskStatusUseCase changeTaskStatus;
+    @MockitoBean
+    private MoveTaskUseCase moveTask;
     @MockitoBean
     private AssignTaskUseCase assignTask;
     @MockitoBean
@@ -125,6 +128,16 @@ class TaskControllerSecurityIntegrationTest {
     @Test
     void changeStatus_withoutAuthentication_returnsUnauthorized() throws Exception {
         mockMvc.perform(put("/api/projects/1/tasks/10/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"status":"IN_PROGRESS"}
+                                """))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void move_withoutAuthentication_returnsUnauthorized() throws Exception {
+        mockMvc.perform(put("/api/projects/1/tasks/10/move")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"status":"IN_PROGRESS"}
@@ -212,6 +225,58 @@ class TaskControllerSecurityIntegrationTest {
                 .andExpect(jsonPath("$.status").value("IN_PROGRESS"));
 
         verify(changeTaskStatus).execute(eq(1L), eq(10L), eq("IN_PROGRESS"));
+    }
+
+    @Test
+    @WithMockUser(username = "1")
+    void move_withAuthentication_returnsUpdatedTaskResponse() throws Exception {
+        Task task = new Task();
+        task.setId(10L);
+        task.setProjectId(1L);
+        task.setTitle("Task 1");
+        task.setDescription("d");
+        task.setStatus("IN_PROGRESS");
+        task.setCreatedAt(OffsetDateTime.now());
+        task.setUpdatedAt(OffsetDateTime.now());
+
+        when(moveTask.execute(1L, 10L, "IN_PROGRESS")).thenReturn(task);
+
+        mockMvc.perform(put("/api/projects/1/tasks/10/move")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"status":"IN_PROGRESS"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(10))
+                .andExpect(jsonPath("$.projectId").value(1))
+                .andExpect(jsonPath("$.status").value("IN_PROGRESS"));
+
+        verify(moveTask).execute(eq(1L), eq(10L), eq("IN_PROGRESS"));
+    }
+
+    @Test
+    @WithMockUser(username = "4", roles = "VIEWER")
+    void move_withViewerRole_returnsForbidden() throws Exception {
+        when(moveTask.execute(1L, 10L, "IN_PROGRESS"))
+                .thenThrow(new ForbiddenException("No tienes los suficientes pribilegios"));
+
+        mockMvc.perform(put("/api/projects/1/tasks/10/move")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"status":"IN_PROGRESS"}
+                                """))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "1")
+    void move_withInvalidBody_returnsBadRequest() throws Exception {
+        mockMvc.perform(put("/api/projects/1/tasks/10/move")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"status":""}
+                                """))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

@@ -21,6 +21,7 @@ public class TaskController {
     private final CreateTaskUseCase createTask;
     private final UpdateTaskUseCase updateTask;
     private final ChangeTaskStatusUseCase changeTaskStatus;
+    private final MoveTaskUseCase moveTask;
     private final AssignTaskUseCase assignTask;
     private final UnassignTaskUseCase unassignTask;
     private final DeleteTaskUseCase deleteTask;
@@ -66,6 +67,13 @@ public class TaskController {
                                      @PathVariable Long taskId,
                                      @Valid @RequestBody TaskStatusUpdateRequest request) {
         return toResponse(changeTaskStatus.execute(projectId, taskId, request.status()));
+    }
+
+    @PutMapping("/{taskId}/move")
+    public TaskResponse move(@PathVariable Long projectId,
+                             @PathVariable Long taskId,
+                             @Valid @RequestBody TaskMoveRequest request) {
+        return toResponse(moveTask.execute(projectId, taskId, request.status()));
     }
 
     @PutMapping("/{taskId}/assignee")
