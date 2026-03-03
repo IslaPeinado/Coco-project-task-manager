@@ -7,6 +7,8 @@ import com.coco.modules.task.application.DeleteTaskUseCase;
 import com.coco.modules.task.application.GetTaskUseCase;
 import com.coco.modules.task.application.ListTasksUseCase;
 import com.coco.modules.task.application.ChangeTaskStatusUseCase;
+import com.coco.modules.task.application.AssignTaskUseCase;
+import com.coco.modules.task.application.UnassignTaskUseCase;
 import com.coco.modules.task.application.UpdateTaskUseCase;
 import com.coco.modules.task.domain.Task;
 import com.coco.security.RestAccessDeniedHandler;
@@ -63,6 +65,10 @@ class TaskControllerSecurityIntegrationTest {
     private UpdateTaskUseCase updateTask;
     @MockitoBean
     private ChangeTaskStatusUseCase changeTaskStatus;
+    @MockitoBean
+    private AssignTaskUseCase assignTask;
+    @MockitoBean
+    private UnassignTaskUseCase unassignTask;
     @MockitoBean
     private DeleteTaskUseCase deleteTask;
     @MockitoBean
@@ -123,6 +129,22 @@ class TaskControllerSecurityIntegrationTest {
                         .content("""
                                 {"status":"IN_PROGRESS"}
                                 """))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void assign_withoutAuthentication_returnsUnauthorized() throws Exception {
+        mockMvc.perform(put("/api/projects/1/tasks/10/assignee")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"userId":7}
+                                """))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void unassign_withoutAuthentication_returnsUnauthorized() throws Exception {
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete("/api/projects/1/tasks/10/assignee"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -190,6 +212,70 @@ class TaskControllerSecurityIntegrationTest {
                 .andExpect(jsonPath("$.status").value("IN_PROGRESS"));
 
         verify(changeTaskStatus).execute(eq(1L), eq(10L), eq("IN_PROGRESS"));
+    }
+
+    @Test
+    @WithMockUser(username = "1")
+    void assign_withAuthentication_returnsUpdatedTaskResponse() throws Exception {
+        Task task = new Task();
+        task.setId(10L);
+        task.setProjectId(1L);
+        task.setTitle("Task 1");
+        task.setDescription("d");
+        task.setStatus("TODO");
+        task.setAssignedToId(7L);
+        task.setCreatedAt(OffsetDateTime.now());
+        task.setUpdatedAt(OffsetDateTime.now());
+
+        when(assignTask.execute(1L, 10L, 7L)).thenReturn(task);
+
+        mockMvc.perform(put("/api/projects/1/tasks/10/assignee")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"userId":7}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(10))
+                .andExpect(jsonPath("$.assignedToId").value(7));
+
+        verify(assignTask).execute(eq(1L), eq(10L), eq(7L));
+    }
+
+    @Test
+    @WithMockUser(username = "1")
+    void unassign_withAuthentication_returnsUpdatedTaskResponse() throws Exception {
+        Task task = new Task();
+        task.setId(10L);
+        task.setProjectId(1L);
+        task.setTitle("Task 1");
+        task.setDescription("d");
+        task.setStatus("TODO");
+        task.setAssignedToId(null);
+        task.setCreatedAt(OffsetDateTime.now());
+        task.setUpdatedAt(OffsetDateTime.now());
+
+        when(unassignTask.execute(1L, 10L)).thenReturn(task);
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete("/api/projects/1/tasks/10/assignee"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(10))
+                .andExpect(jsonPath("$.assignedToId").doesNotExist());
+
+        verify(unassignTask).execute(eq(1L), eq(10L));
+    }
+
+    @Test
+    @WithMockUser(username = "4", roles = "VIEWER")
+    void assign_withViewerRole_returnsForbidden() throws Exception {
+        when(assignTask.execute(1L, 10L, 7L))
+                .thenThrow(new ForbiddenException("No tienes los suficientes pribilegios"));
+
+        mockMvc.perform(put("/api/projects/1/tasks/10/assignee")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"userId":7}
+                                """))
+                .andExpect(status().isForbidden());
     }
 
     @Test

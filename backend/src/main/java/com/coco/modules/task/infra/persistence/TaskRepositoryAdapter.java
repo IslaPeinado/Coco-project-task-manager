@@ -72,6 +72,8 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
         if (task.getAssignedToId() != null) {
             current.setAssignedTo(userRepo.getReferenceById(task.getAssignedToId()));
+        } else {
+            current.setAssignedTo(null);
         }
 
         return taskRepo.save(current).toDomain();
