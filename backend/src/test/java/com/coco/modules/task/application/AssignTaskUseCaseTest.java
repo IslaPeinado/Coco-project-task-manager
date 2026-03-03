@@ -5,6 +5,7 @@ import com.coco.modules.project.application.ProjectAuthorizationService;
 import com.coco.modules.project.application.port.MembershipRepositoryPort;
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Project;
+import com.coco.modules.project.domain.ProjectPermission;
 import com.coco.modules.task.application.port.TaskRepositoryPort;
 import com.coco.modules.task.domain.Task;
 import com.coco.modules.user.application.port.UserRepositoryPort;
@@ -69,6 +70,7 @@ class AssignTaskUseCaseTest {
         assertEquals(7L, persisted.getAssignedToId());
         assertNotNull(persisted.getUpdatedAt());
         assertEquals(7L, result.getAssignedToId());
+        verify(authz).requirePermission(10L, ProjectPermission.WRITE);
     }
 
     @Test

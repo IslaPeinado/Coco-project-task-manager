@@ -8,20 +8,19 @@ import com.coco.modules.task.application.port.TaskRepositoryPort;
 import com.coco.modules.task.domain.Task;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UnassignTaskUseCaseTest {
+class ListTasksUseCaseTest {
 
     @Mock
     private TaskRepositoryPort taskRepo;
@@ -31,29 +30,21 @@ class UnassignTaskUseCaseTest {
     private ProjectAuthorizationService authz;
 
     @InjectMocks
-    private UnassignTaskUseCase useCase;
+    private ListTasksUseCase useCase;
 
     @Test
-    void execute_removesAssignedUserFromTask() {
+    void execute_requiresReadPermission() {
         Project project = new Project();
         project.setId(10L);
         when(projectRepo.findById(10L)).thenReturn(Optional.of(project));
 
         Task task = new Task();
-        task.setId(99L);
-        task.setProjectId(10L);
-        task.setAssignedToId(7L);
-        when(taskRepo.findById(10L, 99L)).thenReturn(Optional.of(task));
-        when(taskRepo.update(10L, 99L, task)).thenReturn(task);
+        task.setId(1L);
+        when(taskRepo.findByProjectId(10L)).thenReturn(List.of(task));
 
-        useCase.execute(10L, 99L);
+        List<Task> result = useCase.execute(10L);
 
-        ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
-        verify(taskRepo).update(org.mockito.ArgumentMatchers.eq(10L), org.mockito.ArgumentMatchers.eq(99L), taskCaptor.capture());
-        Task persisted = taskCaptor.getValue();
-
-        assertNull(persisted.getAssignedToId());
-        assertNotNull(persisted.getUpdatedAt());
-        verify(authz).requirePermission(10L, ProjectPermission.WRITE);
+        assertEquals(1, result.size());
+        verify(authz).requirePermission(10L, ProjectPermission.READ);
     }
 }

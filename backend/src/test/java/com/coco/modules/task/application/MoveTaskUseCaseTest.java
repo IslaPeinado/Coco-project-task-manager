@@ -4,6 +4,7 @@ import com.coco.common.util.NotFoundException;
 import com.coco.modules.project.application.ProjectAuthorizationService;
 import com.coco.modules.project.application.port.ProjectRepositoryPort;
 import com.coco.modules.project.domain.Project;
+import com.coco.modules.project.domain.ProjectPermission;
 import com.coco.modules.task.application.port.TaskRepositoryPort;
 import com.coco.modules.task.application.port.TaskStatusRepositoryPort;
 import com.coco.modules.task.domain.Task;
@@ -65,6 +66,7 @@ class MoveTaskUseCaseTest {
         assertEquals("IN_PROGRESS", persisted.getStatus());
         assertNotNull(persisted.getUpdatedAt());
         assertEquals("IN_PROGRESS", result.getStatus());
+        verify(authz).requirePermission(10L, ProjectPermission.WRITE);
     }
 
     @Test
