@@ -54,3 +54,4 @@ Errores centralizados en `GlobalExceptionHandler`.
 - Global: `../architecture/overview.md`
 - Seguridad: `../security/security-architecture.md`
 - Datos: `../database/schema.md`
+- Testing backend: `testing.md`
