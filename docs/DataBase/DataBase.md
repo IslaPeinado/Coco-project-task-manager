@@ -7,6 +7,7 @@ Este documento describe el esquema **real** aplicado por Flyway segun los script
 - `backend/src/main/resources/db/migration/V1__.sql`
 - `backend/src/main/resources/db/migration/V2__projects_archived_at.sql`
 - `backend/src/main/resources/db/migration/V3__normalize_project_roles.sql`
+- `backend/src/main/resources/db/migration/V4__seed_roles_and_task_status.sql`
 
 ## 2. Historial de migraciones
 
@@ -15,6 +16,7 @@ Este documento describe el esquema **real** aplicado por Flyway segun los script
 | V1 | `V1__.sql` | Crea esquema inicial: usuarios, proyectos, roles, membresias, tareas y catalogo de estados de tarea. |
 | V2 | `V2__projects_archived_at.sql` | Agrega `project.archived_at` e indice por `status, archived_at`. |
 | V3 | `V3__normalize_project_roles.sql` | Normaliza roles de proyecto a `OWNER/MANAGER/MEMBER/VIEWER` y migra `ADMIN -> OWNER`. |
+| V4 | `V4__seed_roles_and_task_status.sql` | Siembra catalogos base idempotentes: roles por proyecto y estados de tarea (`TODO`, `IN_PROGRESS`, `DONE`). |
 
 ## 3. Modelo relacional
 
