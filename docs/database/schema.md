@@ -8,6 +8,7 @@ Migraciones base:
 - `V1__.sql`
 - `V2__projects_archived_at.sql`
 - `V3__normalize_project_roles.sql`
+- `V4__seed_roles_and_task_status.sql`
 
 ## Entidades principales
 
