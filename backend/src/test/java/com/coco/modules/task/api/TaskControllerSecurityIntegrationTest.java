@@ -127,7 +127,7 @@ class TaskControllerSecurityIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "4", roles = "VIEWER")
+    @WithMockUser(username = "4")
     void changeStatus_withViewerRole_returnsForbidden() throws Exception {
         when(changeTaskStatus.execute(1L, 10L, "IN_PROGRESS"))
                 .thenThrow(new ForbiddenException("No tienes los suficientes pribilegios"));
@@ -193,7 +193,7 @@ class TaskControllerSecurityIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "2", roles = "MEMBER")
+    @WithMockUser(username = "2")
     void changeStatus_withMemberRole_returnsOk() throws Exception {
         Task task = new Task();
         task.setId(10L);

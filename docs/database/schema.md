@@ -7,6 +7,7 @@ Este documento describe el modelo relacional actual y mejoras recomendadas.
 Migraciones base:
 - `V1__.sql`
 - `V2__projects_archived_at.sql`
+- `V3__normalize_project_roles.sql`
 
 ## Entidades principales
 
@@ -16,6 +17,12 @@ Migraciones base:
 - `cocouser_project_role`
 - `task_status`
 - `tasks`
+
+Roles canonicos por proyecto:
+- `OWNER`
+- `MANAGER`
+- `MEMBER`
+- `VIEWER`
 
 ## Relaciones clave
 
