@@ -18,14 +18,7 @@ public class MembershipIdResolver {
         if (ownerId != null) {
             return ownerId;
         }
-
-        // Backward compatibility with existing seeds that use ADMIN.
-        Long adminId = findRoleId("ADMIN");
-        if (adminId != null) {
-            return adminId;
-        }
-
-        throw new IllegalStateException("Owner role not found (OWNER/ADMIN)");
+        throw new IllegalStateException("Owner role not found (OWNER)");
     }
 
     public Long managerId() {

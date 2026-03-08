@@ -12,9 +12,15 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class JwtService {
+
+    private static final String CLAIM_AUTHORITIES = "authorities";
+    private static final String CLAIM_AUTHZ_MODEL = "authz_model";
+    private static final String AUTHZ_MODEL_PROJECT_MEMBERSHIP = "PROJECT_MEMBERSHIP";
+    private static final List<String> DEFAULT_AUTHORITIES = List.of("AUTHENTICATED");
 
     private final JwtProperties props;
     private final SecretKey key;
@@ -31,6 +37,10 @@ public class JwtService {
         Instant exp = now.plusSeconds(props.expirationSeconds());
 
         return Jwts.builder()
+                .setClaims(Map.of(
+                        CLAIM_AUTHORITIES, DEFAULT_AUTHORITIES,
+                        CLAIM_AUTHZ_MODEL, AUTHZ_MODEL_PROJECT_MEMBERSHIP
+                ))
                 .setSubject(subject)
                 .setIssuer(props.issuer())
                 .setIssuedAt(Date.from(now))
@@ -58,8 +68,19 @@ public class JwtService {
     }
 
     public List<SimpleGrantedAuthority> extractAuthorities(String token) {
-        parseClaims(token);
-        return List.of();
+        Claims claims = parseClaims(token);
+        Object rawAuthorities = claims.get(CLAIM_AUTHORITIES);
+        if (!(rawAuthorities instanceof List<?> listAuthorities)) {
+            return defaultAuthorities();
+        }
+
+        List<SimpleGrantedAuthority> authorities = listAuthorities.stream()
+                .filter(String.class::isInstance)
+                .map(String.class::cast)
+                .map(SimpleGrantedAuthority::new)
+                .toList();
+
+        return authorities.isEmpty() ? defaultAuthorities() : authorities;
     }
 
     private Claims parseClaims(String token) {
@@ -76,5 +97,11 @@ public class JwtService {
             throw new IllegalArgumentException("Token subject is empty");
         }
         return Long.valueOf(subject);
+    }
+
+    private List<SimpleGrantedAuthority> defaultAuthorities() {
+        return DEFAULT_AUTHORITIES.stream()
+                .map(SimpleGrantedAuthority::new)
+                .toList();
     }
 }
