@@ -25,6 +25,14 @@ src/app
 - Carga lazy de features.
 - Pruebas unitarias con Karma/Jasmine.
 
+## Pruebas frontend (estado documentado)
+
+- Framework de unit testing: Karma + Jasmine.
+- Pipeline CI frontend: `npm ci`, `npm run lint --if-present`, `npm test -- --watch=false`, `npm run build`.
+- Definicion CI: `.github/workflows/ci-frontend.yml` + `.github/actions/action.yml`.
+- Estado en este repositorio/rama: no existe la carpeta `frontend/`, por lo que no hay suites de pruebas frontend inspeccionables aqui.
+- Si se trabaja desde una rama o repositorio que si incluye `frontend/`, las pruebas activas deben revisarse en `frontend/src/**/*.spec.ts`.
+
 ## Estado actual (as-is)
 
 - Routing parcial.
@@ -48,3 +56,4 @@ src/app
 - Global: `../architecture/overview.md`
 - Design system: `../design/design-system/design-system.md`
 - Runbook: `../operations/runbook.md`
+- Testing frontend: `testing.md`

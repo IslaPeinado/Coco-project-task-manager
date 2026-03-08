@@ -7,11 +7,13 @@ Esta carpeta esta organizada para entender rapido el proyecto desde una perspect
 1. `architecture/overview.md`
 2. `architecture/improvement-roadmap.md`
 3. `backend/architecture.md`
-4. `frontend/architecture.md`
-5. `database/schema.md`
-6. `security/security-architecture.md`
-7. `operations/runbook.md`
-8. `design/README.md`
+4. `backend/testing.md`
+5. `frontend/architecture.md`
+6. `frontend/testing.md`
+7. `database/schema.md`
+8. `security/security-architecture.md`
+9. `operations/runbook.md`
+10. `design/README.md`
 
 ## Estructura
 
@@ -23,9 +25,11 @@ docs/
 |  |- improvement-roadmap.md
 |  `- diagrams/
 |- backend/
-|  `- architecture.md
+|  |- architecture.md
+|  `- testing.md
 |- frontend/
 |  |- architecture.md
+|  |- testing.md
 |  `- diagrams/
 |- database/
 |  |- README.md
