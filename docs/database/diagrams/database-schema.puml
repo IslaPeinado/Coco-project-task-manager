@@ -3,7 +3,7 @@ hide circle
 skinparam linetype ortho
 skinparam shadowing false
 
-title COCO - Database Schema (Flyway V1 + V2)
+title COCO - Database Schema (Flyway V1 + V2 + V3 dev-seed)
 
 entity "cocouser" as cocouser {
   *id : BIGINT <<PK>>
@@ -30,7 +30,7 @@ entity "project" as project {
   archived_at : TIMESTAMPTZ
 }
 
-entity "role" as role {
+entity "project_role" as project_role {
   *id : BIGINT <<PK>>
   --
   role_name : VARCHAR(255) <<UNIQUE>>
@@ -71,7 +71,7 @@ cocouser ||--o{ tasks : assigned_to (SET NULL)
 
 cocouser ||--o{ upr : user_id
 project ||--o{ upr : project_id
-role ||--o{ upr : role_id
+project_role ||--o{ upr : role_id
 
 note right of upr
   PK compuesta:

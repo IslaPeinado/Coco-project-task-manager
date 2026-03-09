@@ -4,23 +4,31 @@
 
 Este documento describe el modelo relacional actual y mejoras recomendadas.
 
-Migraciones base:
-- `V1__.sql`
-- `V2__projects_archived_at.sql`
+Migraciones y seeds:
+- `db/migration/V1__schema.sql`
+- `db/migration/V2__seed_catalogs.sql`
+- `db/dev-seed/V3__seed_dev_data.sql` (solo entornos de desarrollo/local)
 
 ## Entidades principales
 
 - `cocouser`
 - `project`
-- `role`
+- `project_role`
 - `cocouser_project_role`
 - `task_status`
 - `tasks`
+
+Roles canonicos por proyecto:
+- `OWNER`
+- `MANAGER`
+- `MEMBER`
+- `VIEWER`
 
 ## Relaciones clave
 
 - `project` 1:N `tasks`
 - `cocouser` N:M `project` via `cocouser_project_role`
+- `project_role` 1:N `cocouser_project_role`
 - `task_status` 1:N `tasks`
 - `cocouser` 1:N `tasks` (asignacion opcional)
 

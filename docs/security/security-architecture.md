@@ -10,6 +10,12 @@ Describe controles de seguridad actuales y hardening recomendado para evolucion 
 - Endpoints publicos limitados (`/api/auth/**`, docs y health checks).
 - Endpoints restantes protegidos por autenticacion.
 
+### Estrategia RBAC final
+
+- Se adopta `RBAC por proyecto` como modelo unico de autorizacion de negocio.
+- No se usan roles globales de negocio (`USER/ADMIN`) para conceder permisos funcionales.
+- Los permisos se resuelven por membresia de proyecto (`OWNER/MANAGER/MEMBER/VIEWER`) en capa de aplicacion.
+
 Base tecnica:
 - `SecurityFilterChain`
 - `JwtAuthFilter`
@@ -19,6 +25,7 @@ Base tecnica:
 
 - Permisos por proyecto evaluados en casos de uso.
 - Rechazo `403` cuando no existe permiso suficiente.
+- Politica centralizada en `ProjectPolicy` y aplicada desde `ProjectAuthorizationService`.
 
 ## Passwords y tokens
 
@@ -27,6 +34,10 @@ Base tecnica:
   - `coco.jwt.secret`
   - `coco.jwt.expiration-seconds`
   - `coco.jwt.issuer`
+- Claims JWT de autorizacion:
+  - `authorities: ["AUTHENTICATED"]` (autoridad tecnica para contexto Spring Security).
+  - `authz_model: "PROJECT_MEMBERSHIP"` (declaracion explicita del modelo de autorizacion).
+- El JWT no serializa permisos por proyecto porque dependen del `projectId` de cada request y se validan contra membresias persistidas.
 
 ## Riesgos actuales
 

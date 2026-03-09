@@ -4,17 +4,17 @@
 
 Este documento describe el esquema **real** aplicado por Flyway segun los scripts disponibles en:
 
-- `backend/src/main/resources/db/migration/V1__.sql`
-- `backend/src/main/resources/db/migration/V2__projects_archived_at.sql`
-
-Nota: en el estado actual del repo no existe `V3__taskstatus_catalog_and_task_status_id.sql` dentro de `db/migration`.
+- `backend/src/main/resources/db/migration/V1__schema.sql`
+- `backend/src/main/resources/db/migration/V2__seed_catalogs.sql`
+- `backend/src/main/resources/db/dev-seed/V3__seed_dev_data.sql` (solo local/dev)
 
 ## 2. Historial de migraciones
 
 | Version | Archivo | Objetivo |
 |---|---|---|
-| V1 | `V1__.sql` | Crea esquema inicial: usuarios, proyectos, roles, membresias, tareas y catalogo de estados de tarea. |
-| V2 | `V2__projects_archived_at.sql` | Agrega `project.archived_at` e indice por `status, archived_at`. |
+| V1 | `V1__schema.sql` | Crea esquema completo: usuarios, proyectos, `project_role`, membresias, catalogo de estados y tareas. |
+| V2 | `V2__seed_catalogs.sql` | Siembra catalogos base idempotentes (`project_role` y `task_status`). |
+| V3 | `db/dev-seed/V3__seed_dev_data.sql` | Seed de datos de desarrollo (usuarios, proyectos, membresias y tareas). |
 
 ## 3. Modelo relacional
 
@@ -22,7 +22,7 @@ Relaciones principales:
 
 - `project` 1:N `tasks`
 - `cocouser` N:M `project` via `cocouser_project_role`
-- `role` 1:N `cocouser_project_role`
+- `project_role` 1:N `cocouser_project_role`
 - `task_status` 1:N `tasks`
 - `cocouser` 1:N `tasks` (asignacion opcional)
 
@@ -67,7 +67,7 @@ Constraints / indices:
 - `project_name_key`
 - `idx_projects_status_archived_at` (V2)
 
-### 4.3 `role`
+### 4.3 `project_role`
 
 | Columna | Tipo | Nulo | Default | Notas |
 |---|---|---|---|---|
@@ -76,8 +76,8 @@ Constraints / indices:
 
 Constraints:
 
-- `role_pkey`
-- `role_role_name_key`
+- `project_role_pkey`
+- `project_role_role_name_key`
 
 ### 4.4 `cocouser_project_role`
 
@@ -87,7 +87,7 @@ Tabla puente de membresia/rol por proyecto.
 |---|---|---|---|
 | user_id | BIGINT | NO | FK -> `cocouser(id)` |
 | project_id | BIGINT | NO | FK -> `project(id)` |
-| role_id | BIGINT | NO | FK -> `role(id)` |
+| role_id | BIGINT | NO | FK -> `project_role(id)` |
 
 PK y FKs:
 
