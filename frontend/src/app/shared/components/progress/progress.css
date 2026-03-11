@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+.coco-progress {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.coco-progress__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(45, 26, 14, 0.72);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+:host-context(.dark) .coco-progress__meta {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.coco-progress__track {
+  height: 0.7rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(45, 26, 14, 0.08);
+}
+
+:host-context(.dark) .coco-progress__track {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.coco-progress__bar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.coco-progress__bar--primary {
+  background: linear-gradient(90deg, #8b4513, #c98a5c);
+}
+
+.coco-progress__bar--success {
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+}
+
+.coco-progress__bar--warning {
+  background: linear-gradient(90deg, #d97706, #fbbf24);
+}

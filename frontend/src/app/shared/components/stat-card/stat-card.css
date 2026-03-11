@@ -1,0 +1,108 @@
+:host {
+  display: block;
+}
+
+.coco-stat-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.4rem;
+  border-radius: 1.25rem;
+  border: 1px solid #e5dcd3;
+  background: #fff;
+  box-shadow: 0 18px 36px rgba(45, 26, 14, 0.08);
+}
+
+:host-context(.dark) .coco-stat-card {
+  border-color: #3d3f41;
+  background: #333638;
+  box-shadow: none;
+}
+
+.coco-stat-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.coco-stat-card__icon {
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+  font-size: 1.05rem;
+}
+
+.coco-stat-card__trend {
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.coco-stat-card__label {
+  margin: 0;
+  color: rgba(45, 26, 14, 0.62);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.coco-stat-card__value {
+  color: #2d1a0e;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+:host-context(.dark) .coco-stat-card__label {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+:host-context(.dark) .coco-stat-card__value {
+  color: #fff;
+}
+
+.coco-stat-card--primary .coco-stat-card__icon,
+.coco-stat-card--primary .coco-stat-card__trend {
+  background: rgba(139, 69, 19, 0.12);
+  color: #8b4513;
+}
+
+.coco-stat-card--success .coco-stat-card__icon,
+.coco-stat-card--success .coco-stat-card__trend {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+}
+
+.coco-stat-card--warning .coco-stat-card__icon,
+.coco-stat-card--warning .coco-stat-card__trend {
+  background: rgba(245, 158, 11, 0.14);
+  color: #b45309;
+}
+
+.coco-stat-card--danger .coco-stat-card__icon,
+.coco-stat-card--danger .coco-stat-card__trend {
+  background: rgba(244, 63, 94, 0.12);
+  color: #be123c;
+}
+
+:host-context(.dark) .coco-stat-card--primary .coco-stat-card__icon,
+:host-context(.dark) .coco-stat-card--primary .coco-stat-card__trend {
+  color: #d7a277;
+}
+
+:host-context(.dark) .coco-stat-card--success .coco-stat-card__icon,
+:host-context(.dark) .coco-stat-card--success .coco-stat-card__trend {
+  color: #86efac;
+}
+
+:host-context(.dark) .coco-stat-card--warning .coco-stat-card__icon,
+:host-context(.dark) .coco-stat-card--warning .coco-stat-card__trend {
+  color: #fcd34d;
+}
+
+:host-context(.dark) .coco-stat-card--danger .coco-stat-card__icon,
+:host-context(.dark) .coco-stat-card--danger .coco-stat-card__trend {
+  color: #fda4af;
+}

@@ -1,0 +1,40 @@
+<label class="coco-select" [attr.for]="id">
+  @if (label) {
+    <span class="coco-select__label">
+      {{ label }}
+      @if (required) {
+        <span class="coco-select__required">*</span>
+      }
+    </span>
+  }
+
+  <span
+    class="coco-select__control"
+    [class.coco-select__control--focused]="isFocused"
+    [class.coco-select__control--error]="!!error"
+  >
+    <select
+      class="coco-select__field"
+      [id]="id"
+      [disabled]="disabled"
+      [required]="required"
+      [ngModel]="value"
+      (focus)="isFocused = true"
+      (blur)="handleBlur()"
+      (ngModelChange)="handleValueChange($event)"
+    >
+      <option value="" disabled>{{ placeholder }}</option>
+      @for (option of options; track option.value) {
+        <option [value]="option.value" [disabled]="option.disabled">{{ option.label }}</option>
+      }
+    </select>
+
+    <span class="coco-select__chevron" aria-hidden="true">▾</span>
+  </span>
+
+  @if (error) {
+    <span class="coco-select__message coco-select__message--error">{{ error }}</span>
+  } @else if (hint) {
+    <span class="coco-select__message">{{ hint }}</span>
+  }
+</label>

@@ -1,0 +1,12 @@
+<section class="coco-empty-state" [class.coco-empty-state--compact]="compact">
+  <span class="coco-empty-state__icon" aria-hidden="true">{{ icon }}</span>
+  @if (title) {
+    <h3 class="coco-empty-state__title">{{ title }}</h3>
+  }
+  @if (description) {
+    <p class="coco-empty-state__description">{{ description }}</p>
+  }
+  <div class="coco-empty-state__actions">
+    <ng-content></ng-content>
+  </div>
+</section>
