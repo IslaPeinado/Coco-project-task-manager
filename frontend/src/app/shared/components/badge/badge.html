@@ -1,0 +1,12 @@
+<span
+  class="coco-badge"
+  [class.coco-badge--neutral]="variant === 'neutral'"
+  [class.coco-badge--success]="variant === 'success'"
+  [class.coco-badge--warning]="variant === 'warning'"
+  [class.coco-badge--danger]="variant === 'danger'"
+  [class.coco-badge--primary]="variant === 'primary'"
+  [class.coco-badge--sm]="size === 'sm'"
+  [class.coco-badge--md]="size === 'md'"
+>
+  <ng-content></ng-content>
+</span>
