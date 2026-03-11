@@ -1,0 +1,122 @@
+:host {
+  --coco-primary: #8b4513;
+  --coco-primary-hover: #723910;
+  --coco-text-light: #2d1a0e;
+  --coco-text-dark: #ffffff;
+  --coco-surface-light: #fffdf9;
+  --coco-surface-dark: rgba(255, 255, 255, 0.06);
+  --coco-border-light: #e5dcd3;
+  --coco-border-dark: #3d3f41;
+  display: inline-flex;
+}
+
+:host-context(.dark) {
+  --coco-primary-hover: #a0522d;
+}
+
+.coco-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-width: 8rem;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.coco-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.coco-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.coco-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.16);
+}
+
+.coco-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.coco-button--primary {
+  background: var(--coco-primary);
+  color: var(--coco-text-dark);
+  box-shadow: 0 16px 30px rgba(45, 26, 14, 0.18);
+}
+
+.coco-button--primary:hover:not(:disabled) {
+  background: var(--coco-primary-hover);
+}
+
+.coco-button--secondary {
+  background: var(--coco-surface-light);
+  border-color: var(--coco-border-light);
+  color: var(--coco-text-light);
+}
+
+:host-context(.dark) .coco-button--secondary {
+  background: var(--coco-surface-dark);
+  border-color: var(--coco-border-dark);
+  color: var(--coco-text-dark);
+}
+
+.coco-button--ghost {
+  background: transparent;
+  color: var(--coco-primary);
+}
+
+:host-context(.dark) .coco-button--ghost {
+  color: #c98a5c;
+}
+
+.coco-button--sm {
+  min-height: 2.5rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+}
+
+.coco-button--md {
+  min-height: 3rem;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.95rem;
+}
+
+.coco-button--lg {
+  min-height: 3.5rem;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+}
+
+.coco-button--full {
+  width: 100%;
+}
+
+.coco-button__content--loading {
+  opacity: 0.2;
+}
+
+.coco-button__spinner {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: coco-spin 700ms linear infinite;
+}
+
+@keyframes coco-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
