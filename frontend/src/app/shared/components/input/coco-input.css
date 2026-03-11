@@ -1,0 +1,112 @@
+:host {
+  --coco-primary: #8b4513;
+  --coco-text-light: #2d1a0e;
+  --coco-text-dark: #ffffff;
+  --coco-muted-light: rgba(45, 26, 14, 0.6);
+  --coco-muted-dark: rgba(255, 255, 255, 0.6);
+  --coco-surface-light: #ffffff;
+  --coco-surface-dark: #333638;
+  --coco-border-light: #e5dcd3;
+  --coco-border-dark: #3d3f41;
+  --coco-error: #f44336;
+  display: block;
+}
+
+.coco-input {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.coco-input__label {
+  color: var(--coco-text-light);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+:host-context(.dark) .coco-input__label {
+  color: var(--coco-text-dark);
+}
+
+.coco-input__required {
+  color: var(--coco-primary);
+}
+
+.coco-input__control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3.5rem;
+  padding: 0 1rem;
+  border: 1px solid var(--coco-border-light);
+  border-radius: 1rem;
+  background: var(--coco-surface-light);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+:host-context(.dark) .coco-input__control {
+  border-color: transparent;
+  background: var(--coco-surface-dark);
+}
+
+.coco-input__control--focused {
+  border-color: var(--coco-primary);
+  box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.12);
+}
+
+.coco-input__control--error {
+  border-color: var(--coco-error);
+  box-shadow: 0 0 0 4px rgba(244, 67, 54, 0.12);
+}
+
+.coco-input__field {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--coco-text-light);
+  font: inherit;
+  font-size: 1rem;
+}
+
+:host-context(.dark) .coco-input__field {
+  color: var(--coco-text-dark);
+}
+
+.coco-input__field::placeholder {
+  color: rgba(139, 69, 19, 0.35);
+}
+
+:host-context(.dark) .coco-input__field::placeholder {
+  color: rgba(255, 255, 255, 0.24);
+}
+
+.coco-input__field:focus {
+  outline: none;
+}
+
+.coco-input__field:disabled {
+  cursor: not-allowed;
+}
+
+.coco-input__affix {
+  color: var(--coco-muted-light);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+:host-context(.dark) .coco-input__affix {
+  color: var(--coco-muted-dark);
+}
+
+.coco-input__message {
+  color: var(--coco-muted-light);
+  font-size: 0.75rem;
+}
+
+:host-context(.dark) .coco-input__message {
+  color: var(--coco-muted-dark);
+}
+
+.coco-input__message--error {
+  color: var(--coco-error);
+}
