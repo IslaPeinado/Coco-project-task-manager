@@ -16,43 +16,36 @@ export const routes: Routes = [
     canActivateChild: [authGuard],
     children: [
       {
-        path: 'home',
+        path: 'Inicio',
         loadChildren: () =>
           import('./features/home/home.routes').then((m) => m.HOME_ROUTES),
       },
       {
-        path: 'dashboard',
-        loadChildren: () =>
-          import('./features/dashboard/dashboard.routes').then(
-            (m) => m.DASHBOARD_ROUTES,
-          ),
-      },
-      {
-        path: 'tasks',
+        path: 'Tareas',
         loadChildren: () =>
           import('./features/tasks/tasks.routes').then((m) => m.TASKS_ROUTES),
       },
       {
-        path: 'projects',
+        path: 'Proyectos',
         loadChildren: () =>
           import('./features/projects/projects.routes').then(
             (m) => m.PROJECTS_ROUTES,
           ),
       },
       {
-        path: 'users',
+        path: 'Ususrios',
         loadChildren: () =>
           import('./features/users/users.routes').then((m) => m.USERS_ROUTES),
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'home',
+        redirectTo: 'Inicio',
       },
     ],
   },
   {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: 'Inicio',
   },
 ];

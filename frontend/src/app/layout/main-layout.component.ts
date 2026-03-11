@@ -1,20 +1,15 @@
 ﻿import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {Navbar} from '../shared/components/navbar/navbar';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Navbar],
   styleUrl: './main-layout.component.css',
   template: `
     <header class="layout-header">
-      <nav>
-        <a routerLink="/home" routerLinkActive="active">Home</a>
-        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-        <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
-        <a routerLink="/projects" routerLinkActive="active">Projects</a>
-        <a routerLink="/users" routerLinkActive="active">Users</a>
-      </nav>
+      <app-navbar></app-navbar>
     </header>
     <main>
       <router-outlet></router-outlet>
