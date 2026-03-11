@@ -1,0 +1,56 @@
+<footer class="coco-footer" [class.coco-footer--compact]="compact">
+  <div class="coco-footer__main">
+    <div class="coco-footer__brand">
+      <div class="coco-footer__brand-mark" aria-hidden="true">
+        <img src="..\..\assets\Coco_Logo.svg">
+      </div>
+
+      <div class="coco-footer__brand-copy">
+        <strong class="coco-footer__brand-title">{{ brand }}</strong>
+        <span class="coco-footer__brand-caption">{{ caption }}</span>
+        <p class="coco-footer__tagline">{{ tagline }}</p>
+      </div>
+    </div>
+
+    <div class="coco-footer__sections">
+      @for (section of sections; track section.title) {
+        <section class="coco-footer__section">
+          <h3 class="coco-footer__section-title">{{ section.title }}</h3>
+
+          <div class="coco-footer__section-links">
+            @for (link of section.links; track link.label) {
+              <a class="coco-footer__link" [attr.href]="link.href || null">{{ link.label }}</a>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </div>
+
+  <div class="coco-footer__bottom">
+    <div class="coco-footer__legal">
+      <span>{{ copyright }}</span>
+      <span class="coco-footer__dot"></span>
+      <span>{{ legalText }}</span>
+    </div>
+
+    <div class="coco-footer__meta">
+      @for (link of metaLinks; track link.label) {
+        <a class="coco-footer__meta-link" [attr.href]="link.href || null">{{ link.label }}</a>
+      }
+    </div>
+
+    <div class="coco-footer__social">
+      @for (social of socialLinks; track social.id) {
+        <a
+          class="coco-footer__social-link"
+          [attr.href]="social.href || null"
+          [attr.aria-label]="social.ariaLabel"
+          [attr.title]="social.ariaLabel"
+        >
+          <span class="material-symbols-outlined">{{ social.icon }}</span>
+        </a>
+      }
+    </div>
+  </div>
+</footer>
