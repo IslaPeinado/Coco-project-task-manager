@@ -40,7 +40,7 @@
   color: rgba(45, 26, 14, 0.72);
 }
 
-:host-context(.dark) .coco-icon-button--surface {
+:host-context([data-theme="dark"]) .coco-icon-button--surface {
   background: var(--coco-surface-dark);
   border-color: transparent;
   color: rgba(255, 255, 255, 0.72);
@@ -51,7 +51,7 @@
   color: var(--coco-primary);
 }
 
-:host-context(.dark) .coco-icon-button--ghost {
+:host-context([data-theme="dark"]) .coco-icon-button--ghost {
   color: #d7a277;
 }
 
@@ -79,3 +79,4 @@
   width: 3.25rem;
   height: 3.25rem;
 }
+

@@ -14,7 +14,7 @@
   background: #fff;
 }
 
-:host-context(.dark) .coco-toast {
+:host-context([data-theme="dark"]) .coco-toast {
   background: #262829;
   box-shadow: 0 22px 40px rgba(0, 0, 0, 0.34);
 }
@@ -36,11 +36,11 @@
   line-height: 1.45;
 }
 
-:host-context(.dark) .coco-toast__title {
+:host-context([data-theme="dark"]) .coco-toast__title {
   color: #fff;
 }
 
-:host-context(.dark) .coco-toast__description {
+:host-context([data-theme="dark"]) .coco-toast__description {
   color: rgba(255, 255, 255, 0.64);
 }
 
@@ -68,3 +68,4 @@
 .coco-toast--danger {
   border-color: rgba(244, 63, 94, 0.18);
 }
+

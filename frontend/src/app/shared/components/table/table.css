@@ -9,7 +9,7 @@
   background: #fff;
 }
 
-:host-context(.dark) .coco-table__shell {
+:host-context([data-theme="dark"]) .coco-table__shell {
   border-color: #3d3f41;
   background: #333638;
 }
@@ -33,7 +33,7 @@
   background: rgba(45, 26, 14, 0.04);
 }
 
-:host-context(.dark) .coco-table__head {
+:host-context([data-theme="dark"]) .coco-table__head {
   color: rgba(255, 255, 255, 0.52);
   background: rgba(0, 0, 0, 0.14);
 }
@@ -42,7 +42,7 @@
   border-top: 1px solid #e5dcd3;
 }
 
-:host-context(.dark) .coco-table__row + .coco-table__row {
+:host-context([data-theme="dark"]) .coco-table__row + .coco-table__row {
   border-top-color: #3d3f41;
 }
 
@@ -51,7 +51,7 @@
   font-size: 0.92rem;
 }
 
-:host-context(.dark) .coco-table__cell {
+:host-context([data-theme="dark"]) .coco-table__cell {
   color: #fff;
 }
 
@@ -74,10 +74,11 @@
   color: rgba(45, 26, 14, 0.68);
 }
 
-:host-context(.dark) .coco-table__empty {
+:host-context([data-theme="dark"]) .coco-table__empty {
   color: rgba(255, 255, 255, 0.68);
 }
 
 .coco-table__empty p {
   margin: 0;
 }
+

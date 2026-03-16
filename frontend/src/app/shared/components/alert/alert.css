@@ -75,18 +75,19 @@
   background: rgba(244, 63, 94, 0.14);
 }
 
-:host-context(.dark) .coco-alert--info {
+:host-context([data-theme="dark"]) .coco-alert--info {
   color: #93c5fd;
 }
 
-:host-context(.dark) .coco-alert--success {
+:host-context([data-theme="dark"]) .coco-alert--success {
   color: #86efac;
 }
 
-:host-context(.dark) .coco-alert--warning {
+:host-context([data-theme="dark"]) .coco-alert--warning {
   color: #fcd34d;
 }
 
-:host-context(.dark) .coco-alert--danger {
+:host-context([data-theme="dark"]) .coco-alert--danger {
   color: #fda4af;
 }
+

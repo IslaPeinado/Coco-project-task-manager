@@ -10,7 +10,7 @@
   background: rgba(45, 26, 14, 0.05);
 }
 
-:host-context(.dark) .coco-tabs {
+:host-context([data-theme="dark"]) .coco-tabs {
   background: rgba(255, 255, 255, 0.06);
 }
 
@@ -37,7 +37,7 @@
   transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
 
-:host-context(.dark) .coco-tabs__item {
+:host-context([data-theme="dark"]) .coco-tabs__item {
   color: rgba(255, 255, 255, 0.68);
 }
 
@@ -73,6 +73,7 @@
   background: rgba(45, 26, 14, 0.1);
 }
 
-:host-context(.dark) .coco-tabs__item:not(.coco-tabs__item--active) .coco-tabs__badge {
+:host-context([data-theme="dark"]) .coco-tabs__item:not(.coco-tabs__item--active) .coco-tabs__badge {
   background: rgba(255, 255, 255, 0.1);
 }
+

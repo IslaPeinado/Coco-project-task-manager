@@ -55,7 +55,7 @@
   border-radius: 999px;
 }
 
-:host-context(.dark) .coco-avatar__status {
+:host-context([data-theme="dark"]) .coco-avatar__status {
   border-color: #262829;
 }
 
@@ -70,3 +70,4 @@
 .coco-avatar__status--away {
   background: #f59e0b;
 }
+

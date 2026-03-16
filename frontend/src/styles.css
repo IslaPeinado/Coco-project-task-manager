@@ -1,4 +1,22 @@
 :root {
+  --font-family-base: Inter, "Segoe UI", sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.2;
+  --line-height-base: 1.5;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
   --coco-primary: #8b4513;
   --coco-primary-hover: #7a3e10;
   --coco-accent: #a0522d;
@@ -11,26 +29,60 @@
   --radius-xl: 1.5rem;
   --shadow-soft: 0 10px 24px rgb(0 0 0 / 8%);
   --shadow-strong: 0 16px 40px rgb(0 0 0 / 20%);
+  --focus-ring: 0 0 0 4px color-mix(in srgb, var(--coco-primary) 16%, transparent);
+  --focus-ring-error: 0 0 0 4px color-mix(in srgb, var(--coco-danger) 16%, transparent);
 }
 
 [data-theme="light"] {
   --coco-bg: #f7f4ef;
   --coco-bg-2: #e9e1d6;
   --coco-surface: #ffffff;
+  --coco-surface-raised: #fffdf9;
+  --coco-surface-overlay: rgb(255 255 255 / 80%);
   --coco-surface-alt: #f3ece8;
   --coco-border: #d9d1c5;
   --coco-text: #2d2723;
   --coco-text-muted: #6b5a4d;
+  --coco-text-soft: rgb(45 39 35 / 74%);
+  --coco-border-strong: #e5dcd3;
+  --coco-shadow-elevated: 0 20px 40px rgb(45 26 14 / 12%);
+  --coco-shadow-overlay: 0 16px 30px rgb(45 26 14 / 18%);
+  --coco-badge-neutral-bg: rgb(45 26 14 / 8%);
+  --coco-badge-neutral-text: rgb(45 26 14 / 74%);
+  --coco-badge-primary-bg: rgb(139 69 19 / 14%);
+  --coco-badge-primary-text: var(--coco-primary);
+  --coco-badge-success-bg: rgb(34 197 94 / 16%);
+  --coco-badge-success-text: #15803d;
+  --coco-badge-warning-bg: rgb(245 158 11 / 16%);
+  --coco-badge-warning-text: #b45309;
+  --coco-badge-danger-bg: rgb(244 63 94 / 16%);
+  --coco-badge-danger-text: #be123c;
 }
 
 [data-theme="dark"] {
   --coco-bg: #1d1f20;
   --coco-bg-2: #2c2f32;
   --coco-surface: #333638;
+  --coco-surface-raised: rgb(255 255 255 / 6%);
+  --coco-surface-overlay: rgb(51 54 56 / 80%);
   --coco-surface-alt: #25201c;
   --coco-border: #404345;
   --coco-text: #ffffff;
   --coco-text-muted: #a9a9a9;
+  --coco-text-soft: rgb(255 255 255 / 74%);
+  --coco-border-strong: #3d3f41;
+  --coco-shadow-elevated: 0 24px 40px rgb(0 0 0 / 28%);
+  --coco-shadow-overlay: 0 16px 30px rgb(0 0 0 / 28%);
+  --coco-badge-neutral-bg: rgb(255 255 255 / 8%);
+  --coco-badge-neutral-text: rgb(255 255 255 / 74%);
+  --coco-badge-primary-bg: rgb(139 69 19 / 24%);
+  --coco-badge-primary-text: #d7a277;
+  --coco-badge-success-bg: rgb(34 197 94 / 20%);
+  --coco-badge-success-text: #86efac;
+  --coco-badge-warning-bg: rgb(245 158 11 / 20%);
+  --coco-badge-warning-text: #fcd34d;
+  --coco-badge-danger-bg: rgb(244 63 94 / 20%);
+  --coco-badge-danger-text: #fda4af;
 }
 
 * {
@@ -39,7 +91,9 @@
 
 body {
   margin: 0;
-  font-family: Inter, "Segoe UI", sans-serif;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-base);
   background: var(--coco-bg);
   color: var(--coco-text);
 }
@@ -53,7 +107,7 @@ body {
 .coco-sidebar {
   border-right: 1px solid var(--coco-border);
   background: var(--coco-surface);
-  padding: 1rem;
+  padding: var(--space-4);
 }
 
 .coco-main {
@@ -66,9 +120,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
+  padding: var(--space-4) var(--space-5);
   border-bottom: 1px solid var(--coco-border);
-  background: color-mix(in srgb, var(--coco-surface) 80%, transparent);
+  background: var(--coco-surface-overlay);
   backdrop-filter: blur(8px);
   z-index: 10;
 }
@@ -81,9 +135,9 @@ body {
 }
 
 .coco-demo-card {
-  padding: 1rem;
+  padding: var(--space-4);
   display: grid;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
 .coco-demo-title {
@@ -92,7 +146,7 @@ body {
 
 .coco-demo-row {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 
@@ -124,12 +178,12 @@ body {
 
 .coco-field {
   display: grid;
-  gap: 0.35rem;
+  gap: var(--space-1);
 }
 
 .coco-label {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
   color: var(--coco-text);
 }
 
@@ -140,7 +194,7 @@ body {
 .coco-help,
 .coco-error {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: var(--font-size-xs);
 }
 
 .coco-help {
@@ -159,17 +213,17 @@ body {
 .coco-input-split {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 0.45rem;
+  gap: var(--space-2);
 }
 
 .coco-check-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .coco-check-label {
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   color: var(--coco-text);
 }
 
@@ -183,12 +237,12 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
+  gap: var(--space-2);
   border: none;
   border-radius: var(--radius-md);
   padding: 0 0.95rem;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   position: relative;
   background: var(--btn-bg);
@@ -308,11 +362,11 @@ body {
 .coco-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--space-1);
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
   border: 1px solid transparent;
 }
 
@@ -337,22 +391,22 @@ body {
 .coco-kanban {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .coco-kanban-column {
   background: var(--coco-bg-2);
   border: 1px solid var(--coco-border);
   border-radius: var(--radius-lg);
-  padding: 0.85rem;
+  padding: var(--space-4);
 }
 
 .coco-kanban-task {
   background: var(--coco-surface);
   border: 1px solid var(--coco-border);
   border-radius: var(--radius-md);
-  padding: 0.75rem;
-  margin-bottom: 0.75rem;
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 @media (max-width: 960px) {
@@ -366,5 +420,5 @@ body {
 }
 
 .page {
-  padding: 2rem;
+  padding: var(--space-8);
 }

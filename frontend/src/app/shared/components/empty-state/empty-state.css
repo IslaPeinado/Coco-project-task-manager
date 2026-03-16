@@ -13,7 +13,7 @@
   text-align: center;
 }
 
-:host-context(.dark) .coco-empty-state {
+:host-context([data-theme="dark"]) .coco-empty-state {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.14);
 }
@@ -49,14 +49,15 @@
   line-height: 1.55;
 }
 
-:host-context(.dark) .coco-empty-state__title {
+:host-context([data-theme="dark"]) .coco-empty-state__title {
   color: #fff;
 }
 
-:host-context(.dark) .coco-empty-state__description {
+:host-context([data-theme="dark"]) .coco-empty-state__description {
   color: rgba(255, 255, 255, 0.64);
 }
 
 .coco-empty-state__actions:empty {
   display: none;
 }
+

@@ -22,7 +22,7 @@
   font-weight: 600;
 }
 
-:host-context(.dark) .coco-select__label {
+:host-context([data-theme="dark"]) .coco-select__label {
   color: var(--coco-text-dark);
 }
 
@@ -42,7 +42,7 @@
   transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 }
 
-:host-context(.dark) .coco-select__control {
+:host-context([data-theme="dark"]) .coco-select__control {
   border-color: transparent;
   background: var(--coco-surface-dark);
 }
@@ -68,7 +68,7 @@
   padding-right: 1.4rem;
 }
 
-:host-context(.dark) .coco-select__field {
+:host-context([data-theme="dark"]) .coco-select__field {
   color: var(--coco-text-dark);
 }
 
@@ -83,8 +83,8 @@
   pointer-events: none;
 }
 
-:host-context(.dark) .coco-select__chevron,
-:host-context(.dark) .coco-select__message {
+:host-context([data-theme="dark"]) .coco-select__chevron,
+:host-context([data-theme="dark"]) .coco-select__message {
   color: var(--coco-muted-dark);
 }
 
@@ -96,3 +96,4 @@
 .coco-select__message--error {
   color: var(--coco-error);
 }
+

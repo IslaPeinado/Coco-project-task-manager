@@ -1,17 +1,9 @@
 :host {
-  --coco-primary: #8b4513;
-  --coco-primary-hover: #723910;
-  --coco-text-light: #2d1a0e;
-  --coco-text-dark: #ffffff;
-  --coco-surface-light: #fffdf9;
-  --coco-surface-dark: rgba(255, 255, 255, 0.06);
-  --coco-border-light: #e5dcd3;
-  --coco-border-dark: #3d3f41;
   display: inline-flex;
 }
 
-:host-context(.dark) {
-  --coco-primary-hover: #a0522d;
+:host-context([data-theme="dark"]) {
+  --coco-primary-hover: var(--coco-accent);
 }
 
 .coco-button {
@@ -19,12 +11,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
+  gap: var(--space-2);
   min-width: 8rem;
   border: 1px solid transparent;
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease;
@@ -40,7 +32,7 @@
 
 .coco-button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.16);
+  box-shadow: var(--focus-ring);
 }
 
 .coco-button:disabled {
@@ -50,8 +42,8 @@
 
 .coco-button--primary {
   background: var(--coco-primary);
-  color: var(--coco-text-dark);
-  box-shadow: 0 16px 30px rgba(45, 26, 14, 0.18);
+  color: #fff;
+  box-shadow: var(--coco-shadow-overlay);
 }
 
 .coco-button--primary:hover:not(:disabled) {
@@ -59,15 +51,15 @@
 }
 
 .coco-button--secondary {
-  background: var(--coco-surface-light);
-  border-color: var(--coco-border-light);
-  color: var(--coco-text-light);
+  background: var(--coco-surface-raised);
+  border-color: var(--coco-border-strong);
+  color: var(--coco-text);
 }
 
-:host-context(.dark) .coco-button--secondary {
-  background: var(--coco-surface-dark);
-  border-color: var(--coco-border-dark);
-  color: var(--coco-text-dark);
+:host-context([data-theme="dark"]) .coco-button--secondary {
+  background: var(--coco-surface-raised);
+  border-color: var(--coco-border-strong);
+  color: var(--coco-text);
 }
 
 .coco-button--ghost {
@@ -75,26 +67,26 @@
   color: var(--coco-primary);
 }
 
-:host-context(.dark) .coco-button--ghost {
-  color: #c98a5c;
+:host-context([data-theme="dark"]) .coco-button--ghost {
+  color: var(--coco-badge-primary-text);
 }
 
 .coco-button--sm {
   min-height: 2.5rem;
-  padding: 0.625rem 1rem;
-  font-size: 0.875rem;
+  padding: 0.625rem var(--space-4);
+  font-size: var(--font-size-sm);
 }
 
 .coco-button--md {
   min-height: 3rem;
-  padding: 0.875rem 1.25rem;
-  font-size: 0.95rem;
+  padding: 0.875rem var(--space-5);
+  font-size: var(--font-size-sm);
 }
 
 .coco-button--lg {
   min-height: 3.5rem;
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-md);
 }
 
 .coco-button--full {
@@ -120,3 +112,4 @@
     transform: rotate(360deg);
   }
 }
+

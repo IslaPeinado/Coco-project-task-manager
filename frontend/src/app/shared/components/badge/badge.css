@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
@@ -15,61 +15,62 @@
 .coco-badge--sm {
   min-height: 1.5rem;
   padding: 0.2rem 0.55rem;
-  font-size: 0.7rem;
+  font-size: var(--font-size-xs);
 }
 
 .coco-badge--md {
   min-height: 1.75rem;
   padding: 0.3rem 0.7rem;
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
 }
 
 .coco-badge--neutral {
-  background: rgba(45, 26, 14, 0.08);
-  color: rgba(45, 26, 14, 0.74);
+  background: var(--coco-badge-neutral-bg);
+  color: var(--coco-badge-neutral-text);
 }
 
-:host-context(.dark) .coco-badge--neutral {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.74);
+:host-context([data-theme="dark"]) .coco-badge--neutral {
+  background: var(--coco-badge-neutral-bg);
+  color: var(--coco-badge-neutral-text);
 }
 
 .coco-badge--primary {
-  background: rgba(139, 69, 19, 0.14);
-  color: #8b4513;
+  background: var(--coco-badge-primary-bg);
+  color: var(--coco-badge-primary-text);
 }
 
 .coco-badge--success {
-  background: rgba(34, 197, 94, 0.16);
-  color: #15803d;
+  background: var(--coco-badge-success-bg);
+  color: var(--coco-badge-success-text);
 }
 
 .coco-badge--warning {
-  background: rgba(245, 158, 11, 0.16);
-  color: #b45309;
+  background: var(--coco-badge-warning-bg);
+  color: var(--coco-badge-warning-text);
 }
 
 .coco-badge--danger {
-  background: rgba(244, 63, 94, 0.16);
-  color: #be123c;
+  background: var(--coco-badge-danger-bg);
+  color: var(--coco-badge-danger-text);
 }
 
-:host-context(.dark) .coco-badge--primary {
-  background: rgba(139, 69, 19, 0.24);
-  color: #d7a277;
+:host-context([data-theme="dark"]) .coco-badge--primary {
+  background: var(--coco-badge-primary-bg);
+  color: var(--coco-badge-primary-text);
 }
 
-:host-context(.dark) .coco-badge--success {
-  background: rgba(34, 197, 94, 0.2);
-  color: #86efac;
+:host-context([data-theme="dark"]) .coco-badge--success {
+  background: var(--coco-badge-success-bg);
+  color: var(--coco-badge-success-text);
 }
 
-:host-context(.dark) .coco-badge--warning {
-  background: rgba(245, 158, 11, 0.2);
-  color: #fcd34d;
+:host-context([data-theme="dark"]) .coco-badge--warning {
+  background: var(--coco-badge-warning-bg);
+  color: var(--coco-badge-warning-text);
 }
 
-:host-context(.dark) .coco-badge--danger {
-  background: rgba(244, 63, 94, 0.2);
-  color: #fda4af;
+:host-context([data-theme="dark"]) .coco-badge--danger {
+  background: var(--coco-badge-danger-bg);
+  color: var(--coco-badge-danger-text);
 }
+
