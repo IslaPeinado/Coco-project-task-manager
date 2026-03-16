@@ -1,0 +1,31 @@
+<div class="coco-table__shell">
+  @if (rows.length) {
+    <table class="coco-table">
+      <thead>
+        <tr>
+          @for (column of columns; track column.key) {
+            <th [class]="'coco-table__head coco-table__head--' + (column.align || 'left')">
+              {{ column.label }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows; track $index) {
+          <tr class="coco-table__row">
+            @for (column of columns; track column.key) {
+              <td [class]="'coco-table__cell coco-table__cell--' + (column.align || 'left')">
+                {{ row[column.key] }}
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <div class="coco-table__empty">
+      <strong>{{ emptyTitle }}</strong>
+      <p>{{ emptyDescription }}</p>
+    </div>
+  }
+</div>

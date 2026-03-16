@@ -1,0 +1,20 @@
+<button
+  class="coco-button"
+  [class.coco-button--primary]="variant === 'primary'"
+  [class.coco-button--secondary]="variant === 'secondary'"
+  [class.coco-button--ghost]="variant === 'ghost'"
+  [class.coco-button--sm]="size === 'sm'"
+  [class.coco-button--md]="size === 'md'"
+  [class.coco-button--lg]="size === 'lg'"
+  [class.coco-button--full]="fullWidth"
+  [disabled]="disabled || loading"
+  [attr.type]="type"
+>
+  <span class="coco-button__content" [class.coco-button__content--loading]="loading">
+    <ng-content></ng-content>
+  </span>
+
+  @if (loading) {
+    <span class="coco-button__spinner" aria-hidden="true"></span>
+  }
+</button>

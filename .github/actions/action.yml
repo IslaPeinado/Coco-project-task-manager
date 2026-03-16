@@ -49,7 +49,7 @@ runs:
       working-directory: frontend
       env:
         CI: "true"
-      run: npm test -- --watch=false
+      run: npm test -- --watch=false --browsers=ChromeHeadless
 
     - name: Build frontend
       shell: bash

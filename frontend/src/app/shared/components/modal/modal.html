@@ -1,0 +1,41 @@
+@if (open) {
+  <div class="coco-modal__backdrop" (click)="handleBackdrop()">
+    <section
+      class="coco-modal"
+      [class.coco-modal--sm]="size === 'sm'"
+      [class.coco-modal--md]="size === 'md'"
+      [class.coco-modal--lg]="size === 'lg'"
+      (click)="$event.stopPropagation()"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="title || 'Dialog'"
+    >
+      @if (title || subtitle || showCloseButton) {
+        <header class="coco-modal__header">
+          <div class="coco-modal__heading">
+            @if (title) {
+              <h2 class="coco-modal__title">{{ title }}</h2>
+            }
+            @if (subtitle) {
+              <p class="coco-modal__subtitle">{{ subtitle }}</p>
+            }
+          </div>
+
+          @if (showCloseButton) {
+            <button class="coco-modal__close" type="button" aria-label="Close dialog" (click)="handleClose()">
+              ×
+            </button>
+          }
+        </header>
+      }
+
+      <div class="coco-modal__body">
+        <ng-content></ng-content>
+      </div>
+
+      <footer class="coco-modal__footer">
+        <ng-content select="[modal-footer]"></ng-content>
+      </footer>
+    </section>
+  </div>
+}
