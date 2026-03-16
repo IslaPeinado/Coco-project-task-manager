@@ -1,0 +1,43 @@
+<label class="coco-input" [attr.for]="id">
+  @if (label) {
+    <span class="coco-input__label">
+      {{ label }}
+      @if (required) {
+        <span class="coco-input__required">*</span>
+      }
+    </span>
+  }
+
+  <span
+    class="coco-input__control"
+    [class.coco-input__control--focused]="isFocused"
+    [class.coco-input__control--error]="!!error"
+  >
+    @if (prefix) {
+      <span class="coco-input__affix">{{ prefix }}</span>
+    }
+
+    <input
+      class="coco-input__field"
+      [id]="id"
+      [type]="type"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      [required]="required"
+      (focus)="isFocused = true"
+      (blur)="handleBlur()"
+      (input)="handleInput($event)"
+    />
+
+    @if (suffix) {
+      <span class="coco-input__affix">{{ suffix }}</span>
+    }
+  </span>
+
+  @if (error) {
+    <span class="coco-input__message coco-input__message--error">{{ error }}</span>
+  } @else if (hint) {
+    <span class="coco-input__message">{{ hint }}</span>
+  }
+</label>

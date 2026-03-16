@@ -1,0 +1,73 @@
+:host {
+  display: inline-flex;
+}
+
+.coco-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #8b4513, #c98a5c);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.coco-avatar--sm {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.72rem;
+}
+
+.coco-avatar--md {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.82rem;
+}
+
+.coco-avatar--lg {
+  width: 3.25rem;
+  height: 3.25rem;
+  font-size: 1rem;
+}
+
+.coco-avatar--xl {
+  width: 4rem;
+  height: 4rem;
+  font-size: 1.15rem;
+}
+
+.coco-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coco-avatar__status {
+  position: absolute;
+  right: 0.1rem;
+  bottom: 0.1rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border: 2px solid #fff;
+  border-radius: 999px;
+}
+
+:host-context([data-theme="dark"]) .coco-avatar__status {
+  border-color: #262829;
+}
+
+.coco-avatar__status--online {
+  background: #22c55e;
+}
+
+.coco-avatar__status--busy {
+  background: #f43f5e;
+}
+
+.coco-avatar__status--away {
+  background: #f59e0b;
+}
+

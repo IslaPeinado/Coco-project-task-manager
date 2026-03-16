@@ -17,6 +17,6 @@ describe('App', () => {
   it('should define the app title', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
-    expect(app['title']()).toBe('coco');
+    expect(app['title']()).toBe('COCO');
   });
 });

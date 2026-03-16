@@ -1,0 +1,63 @@
+:host {
+  display: block;
+}
+
+.coco-empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  border: 1px dashed rgba(139, 69, 19, 0.28);
+  border-radius: 1.5rem;
+  background: rgba(139, 69, 19, 0.04);
+  text-align: center;
+}
+
+:host-context([data-theme="dark"]) .coco-empty-state {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.coco-empty-state--compact {
+  padding: 1.25rem;
+}
+
+.coco-empty-state__icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(139, 69, 19, 0.12);
+  color: #8b4513;
+  font-size: 1.4rem;
+}
+
+.coco-empty-state__title {
+  margin: 0;
+  color: #2d1a0e;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.coco-empty-state__description {
+  margin: 0;
+  max-width: 32rem;
+  color: rgba(45, 26, 14, 0.64);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+:host-context([data-theme="dark"]) .coco-empty-state__title {
+  color: #fff;
+}
+
+:host-context([data-theme="dark"]) .coco-empty-state__description {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.coco-empty-state__actions:empty {
+  display: none;
+}
+

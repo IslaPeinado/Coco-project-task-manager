@@ -1,0 +1,127 @@
+:host {
+  --coco-primary: #8b4513;
+  --coco-text-light: #2d1a0e;
+  --coco-text-dark: #ffffff;
+  --coco-muted-light: rgba(45, 26, 14, 0.62);
+  --coco-muted-dark: rgba(255, 255, 255, 0.62);
+  --coco-surface-light: #fffdf9;
+  --coco-surface-dark: #262829;
+  --coco-border-light: #e5dcd3;
+  display: contents;
+}
+
+.coco-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(24, 18, 15, 0.56);
+  backdrop-filter: blur(8px);
+}
+
+.coco-modal {
+  width: min(100%, 40rem);
+  max-height: calc(100vh - 3rem);
+  display: grid;
+  gap: 1.25rem;
+  overflow: auto;
+  border: 1px solid var(--coco-border-light);
+  border-radius: 1.5rem;
+  background: var(--coco-surface-light);
+  box-shadow: 0 28px 64px rgba(26, 18, 13, 0.24);
+}
+
+:host-context([data-theme="dark"]) .coco-modal {
+  border-color: rgba(255, 255, 255, 0.06);
+  background: var(--coco-surface-dark);
+  box-shadow: 0 32px 72px rgba(0, 0, 0, 0.4);
+}
+
+.coco-modal--sm {
+  max-width: 28rem;
+}
+
+.coco-modal--md {
+  max-width: 40rem;
+}
+
+.coco-modal--lg {
+  max-width: 56rem;
+}
+
+.coco-modal__header,
+.coco-modal__body,
+.coco-modal__footer {
+  padding-inline: 1.5rem;
+}
+
+.coco-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+
+.coco-modal__title {
+  margin: 0;
+  color: var(--coco-text-light);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.coco-modal__subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--coco-muted-light);
+  font-size: 0.9rem;
+}
+
+:host-context([data-theme="dark"]) .coco-modal__title {
+  color: var(--coco-text-dark);
+}
+
+:host-context([data-theme="dark"]) .coco-modal__subtitle {
+  color: var(--coco-muted-dark);
+}
+
+.coco-modal__close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 0.9rem;
+  background: rgba(45, 26, 14, 0.06);
+  color: var(--coco-text-light);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+:host-context([data-theme="dark"]) .coco-modal__close {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--coco-text-dark);
+}
+
+.coco-modal__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.16);
+}
+
+.coco-modal__body {
+  padding-bottom: 0.25rem;
+}
+
+.coco-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-bottom: 1.5rem;
+}
+
+.coco-modal__footer:empty {
+  display: none;
+}
+

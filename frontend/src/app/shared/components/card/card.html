@@ -1,0 +1,30 @@
+<article
+  class="coco-card"
+  [class.coco-card--padded]="padded"
+  [class.coco-card--elevated]="elevated"
+  [class.coco-card--interactive]="interactive"
+>
+  @if (title || subtitle) {
+    <header class="coco-card__header">
+      <div>
+        @if (title) {
+          <h3 class="coco-card__title">{{ title }}</h3>
+        }
+        @if (subtitle) {
+          <p class="coco-card__subtitle">{{ subtitle }}</p>
+        }
+      </div>
+      <div class="coco-card__actions">
+        <ng-content select="[card-actions]"></ng-content>
+      </div>
+    </header>
+  }
+
+  <div class="coco-card__body">
+    <ng-content></ng-content>
+  </div>
+
+  <footer class="coco-card__footer">
+    <ng-content select="[card-footer]"></ng-content>
+  </footer>
+</article>

@@ -9,12 +9,5 @@
       <p>Ruta base para la gestión de tareas.</p>
     </section>
   `,
-  styles: [
-    `
-      .page {
-        padding: 2rem;
-      }
-    `,
-  ],
 })
 export class TasksPageComponent {}

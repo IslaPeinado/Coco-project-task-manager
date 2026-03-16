@@ -5,7 +5,7 @@
   standalone: true,
   template: `
     <section class="page">
-      <h1>Users</h1>
+      <h1>Usuarios</h1>
       <p>Administracion base de usuarios.</p>
     </section>
   `,
