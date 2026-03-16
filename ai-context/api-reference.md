@@ -4,17 +4,11 @@ Generated from repository state.
 
 ## Frontend Route Entry Points
 
-- `auth`
-- `Inicio`
-- `Tareas`
-- `Proyectos`
-- `Ususrios`
-- `**`
+- None detected
 
 ## Backend Types Related To API/Security
 
-- `MembershipIdResolver (class)`
-- `JwtService (class)`
+- None detected
 
 ## Gap Notes
 

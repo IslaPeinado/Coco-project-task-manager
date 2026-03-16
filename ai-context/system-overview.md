@@ -8,10 +8,10 @@ COCO is a portfolio-oriented full-stack project manager with Angular frontend as
 
 ## High-Signal Facts
 
-- Frontend routes: `auth`, `Inicio`, `Tareas`, `Proyectos`, `Ususrios`, `**`
-- Frontend spec count: 22
-- Backend public types: `MembershipIdResolver`, `JwtService`
-- Migration count: 2
+- Frontend routes: none detected
+- Frontend spec count: 0
+- Backend public types: none detected
+- Migration count: 0
 
 ## Critical Caveats
 

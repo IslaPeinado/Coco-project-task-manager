@@ -16,16 +16,16 @@ COCO is currently a split-stack project with:
 ### Frontend
 
 - Framework: Angular 20
-- Entry routes: `auth`, `Inicio`, `Tareas`, `Proyectos`, `Ususrios`, `**`
-- Source files tracked: 41
-- Test files tracked: 22
+- Entry routes: none detected
+- Source files tracked: 0
+- Test files tracked: 0
 
 ### Backend
 
-- Java source files tracked: 2
-- Java test files tracked: 5
-- Public backend types: `MembershipIdResolver`, `JwtService`
-- SQL migrations: 2
+- Java source files tracked: 0
+- Java test files tracked: 1
+- Public backend types: none detected
+- SQL migrations: 0
 
 ### Delivery and Automation
 

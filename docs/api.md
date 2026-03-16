@@ -8,22 +8,15 @@ The current repository snapshot does not expose controller annotations in tracke
 
 ### Backend Types
 
-- `MembershipIdResolver (class) in backend/src/main/java/com/coco/modules/project/application/members/MembershipIdResolver.java`
-- `JwtService (class) in backend/src/main/java/com/coco/security/jwt/JwtService.java`
+- None detected
 
 ### Database Contracts
 
-- `backend/src/main/resources/db/migration/V3__normalize_project_roles.sql`
-- `backend/src/main/resources/db/migration/V4__normalice_task_status.sql`
+- None detected
 
 ## Frontend Route Contracts
 
-- `auth`
-- `Inicio`
-- `Tareas`
-- `Proyectos`
-- `Ususrios`
-- `**`
+- None detected
 
 ## API Documentation Policy
 

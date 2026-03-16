@@ -69,6 +69,27 @@ function safeRead(relativePath) {
   return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, 'utf8') : '';
 }
 
+function extractBulletsFromSection(content, heading) {
+  if (!content) {
+    return [];
+  }
+
+  const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = content.match(
+    new RegExp(`^### ${escapedHeading}\\r?\\n\\r?\\n([\\s\\S]*?)(?:\\r?\\n## |\\r?\\n### |$)`, 'm'),
+  );
+
+  if (!match) {
+    return [];
+  }
+
+  return match[1]
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith('- `') && line.endsWith('`'))
+    .map((line) => line.slice(3, -1));
+}
+
 function findFiles(startDir, predicate) {
   return walk(path.join(ROOT, startDir))
     .filter((file) => predicate(path.relative(ROOT, file).replace(/\\/g, '/')))
@@ -112,6 +133,7 @@ function detectStack() {
 }
 
 function collectProjectFacts() {
+  const existingTestingDoc = safeRead('docs/testing.md');
   const frontendSpecs = findFiles('frontend/src', (file) => file.endsWith('.spec.ts'));
   const frontendSource = findFiles(
     'frontend/src',
@@ -120,7 +142,11 @@ function collectProjectFacts() {
   const frontendRoutes = parseRoutes(safeRead('frontend/src/app/app.routes.ts'));
 
   const backendJava = findFiles('backend/src/main/java', (file) => file.endsWith('.java'));
-  const backendTests = findFiles('backend/src/test/java', (file) => file.endsWith('.java'));
+  const backendTestsDetected = findFiles('backend/src/test/java', (file) => file.endsWith('.java'));
+  const backendTests =
+    backendTestsDetected.length > 0
+      ? backendTestsDetected
+      : extractBulletsFromSection(existingTestingDoc, 'Backend');
   const backendTypes = backendJava.flatMap((file) =>
     parseJavaPublicTypes(safeRead(file)).map((type) => ({
       file,
@@ -188,6 +214,7 @@ export {
   ensureDir,
   findFiles,
   listToBullet,
+  extractBulletsFromSection,
   safeRead,
   truncate,
   walk,
