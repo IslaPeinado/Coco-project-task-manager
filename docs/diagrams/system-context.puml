@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+
+Person(developer, "Developer")
+Person(aiAgent, "AI Agent")
+System(coco, "COCO", "Project and task management system")
+System_Ext(github, "GitHub Actions", "CI/CD and automation")
+System_Ext(rag, "Local RAG Index", "Generated JSON retrieval store")
+
+Rel(developer, coco, "Builds and operates")
+Rel(aiAgent, rag, "Queries")
+Rel(rag, coco, "Indexes code and docs")
+Rel(github, coco, "Validates and regenerates artifacts")
+
+@enduml

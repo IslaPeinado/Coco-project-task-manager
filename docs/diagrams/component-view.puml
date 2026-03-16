@@ -1,0 +1,15 @@
+@startuml
+package "Automation" {
+  [generate-docs.mjs]
+  [generate-ai-context.mjs]
+  [build-rag-index.mjs]
+  [query-rag.mjs]
+  [validate-system.mjs]
+}
+
+[generate-docs.mjs] --> [generate-ai-context.mjs]
+[generate-ai-context.mjs] --> [build-rag-index.mjs]
+[query-rag.mjs] --> [build-rag-index.mjs]
+[validate-system.mjs] --> [generate-docs.mjs]
+
+@enduml

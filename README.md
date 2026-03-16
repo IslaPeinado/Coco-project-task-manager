@@ -61,6 +61,25 @@ COCO sigue una arquitectura cliente-servidor en tres capas:
 
 - Backend: `.github/workflows/ci-backend.yml`
 - Frontend: `.github/workflows/ci-frontend.yml`
+- Docs + AI platform: `.github/workflows/docs-ai-platform.yml`
+
+## Automatizacion viva
+
+La raiz del repositorio incluye una capa de automatizacion orientada a Docs-as-Code, AI-TDD y RAG:
+
+- `npm run docs:generate`: genera documentacion canonica en `docs/*.md`
+- `npm run ai-context:generate`: genera contexto optimizado para agentes en `ai-context/`
+- `npm run rag:index`: construye un indice local consultable
+- `npm run automation:sync`: regenera todo y valida artefactos obligatorios
+- `npm run test:automation`: valida que los artefactos generados existan y sean consumibles
+
+Prompts reutilizables:
+
+- `prompts/feature-delivery.md`
+- `prompts/test-generation.md`
+- `prompts/refactor.md`
+- `prompts/architecture-explainer.md`
+- `prompts/bug-detection.md`
 
 ## Politica de ramas
 

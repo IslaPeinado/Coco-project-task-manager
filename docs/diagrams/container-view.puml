@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Container>
+
+Person(developer, "Developer")
+System_Boundary(coco, "COCO") {
+  Container(frontend, "Frontend", "Angular", "User interface and routing")
+  Container(backend, "Backend", "Java", "Business logic and security services")
+  ContainerDb(db, "PostgreSQL", "SQL", "Persistent storage")
+  Container(docs, "Docs Automation", "Node.js scripts", "Generates docs, AI context and RAG index")
+}
+
+Rel(developer, frontend, "Uses")
+Rel(frontend, backend, "Calls APIs")
+Rel(backend, db, "Reads/Writes")
+Rel(docs, frontend, "Scans")
+Rel(docs, backend, "Scans")
+Rel(docs, db, "Documents schema from migrations")
+
+@enduml
