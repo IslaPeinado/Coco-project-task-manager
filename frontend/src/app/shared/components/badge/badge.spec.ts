@@ -22,7 +22,7 @@ describe('Badge', () => {
   });
 
   it('should apply selected variant class', () => {
-    component.variant = 'warning';
+    fixture.componentRef.setInput('variant', 'warning');
     fixture.detectChanges();
 
     const badge = fixture.nativeElement.querySelector('.coco-badge');

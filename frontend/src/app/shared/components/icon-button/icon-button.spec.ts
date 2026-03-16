@@ -22,7 +22,7 @@ describe('IconButton', () => {
   });
 
   it('should set aria label', () => {
-    component.ariaLabel = 'Close dialog';
+    fixture.componentRef.setInput('ariaLabel', 'Close dialog');
     fixture.detectChanges();
 
     const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');

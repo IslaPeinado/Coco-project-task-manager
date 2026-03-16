@@ -22,7 +22,7 @@ describe('Card', () => {
   });
 
   it('should render title when provided', () => {
-    component.title = 'Overview';
+    fixture.componentRef.setInput('title', 'Overview');
     fixture.detectChanges();
 
     const title = fixture.nativeElement.querySelector('.coco-card__title');
