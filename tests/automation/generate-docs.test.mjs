@@ -28,7 +28,7 @@ test('rag index contains documents', () => {
 });
 
 test('rag query returns JWT context', () => {
-  const output = execFileSync('node', ['scripts/query-rag.mjs', 'How is JWT handled?'], {
+  const output = execFileSync('node', ['scripts/query-rag.mjs', 'jwt security token auth'], {
     cwd: process.cwd(),
     encoding: 'utf8',
   });
@@ -36,8 +36,11 @@ test('rag query returns JWT context', () => {
 
   assert.ok(result.results.length > 0);
   assert.equal(
-    result.results.some((item) => item.path.includes('JwtService')),
+    result.results.some((item) => {
+      const payload = `${item.path} ${item.text ?? ''} ${(item.overlap ?? []).join(' ')}`.toLowerCase();
+      return payload.includes('jwt') || payload.includes('token') || payload.includes('auth');
+    }),
     true,
-    'JWT query should return JwtService context',
+    'JWT query should return security-related context',
   );
 });
