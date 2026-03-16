@@ -9,7 +9,7 @@ const backendBuildNote = facts.stack.backendBuildPresent
 function buildArchitectureDoc() {
   return `# Architecture
 
-Generated from repository state on ${facts.generatedAt}.
+Generated from repository state.
 
 ## System Overview
 
@@ -53,7 +53,7 @@ COCO is currently a split-stack project with:
 function buildApiDoc() {
   return `# API
 
-Generated from repository state on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Backend API Surface
 
@@ -82,7 +82,7 @@ ${listToBullet(facts.frontend.routes)}
 function buildWorkflowsDoc() {
   return `# Workflows
 
-Generated from repository state on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Feature Workflow
 
@@ -113,7 +113,7 @@ Generated from repository state on ${facts.generatedAt}.
 function buildDevelopmentDoc() {
   return `# Development
 
-Generated from repository state on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Repository Layout
 
@@ -142,7 +142,7 @@ Generated from repository state on ${facts.generatedAt}.
 function buildTestingDoc() {
   return `# Testing
 
-Generated from repository state on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Current Coverage Signals
 
@@ -178,7 +178,7 @@ ${listToBullet(facts.backend.tests)}
 function buildAiAgentsDoc() {
   return `# AI Agents
 
-Generated from repository state on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Agent Operating Model
 
@@ -204,7 +204,7 @@ Generated from repository state on ${facts.generatedAt}.
 function buildTroubleshootingDoc() {
   return `# Troubleshooting
 
-Generated from repository state on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Known Repository Issues
 

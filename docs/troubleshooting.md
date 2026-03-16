@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Generated from repository state on 2026-03-16T13:25:26.764Z.
+Generated from repository state.
 
 ## Known Repository Issues
 

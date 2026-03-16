@@ -6,7 +6,7 @@ writeFile(
   'ai-context/system-overview.md',
   `# System Overview
 
-Generated on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Purpose
 
@@ -30,7 +30,7 @@ writeFile(
   'ai-context/domain-knowledge.md',
   `# Domain Knowledge
 
-Generated on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Business Areas
 
@@ -51,7 +51,7 @@ writeFile(
   'ai-context/api-reference.md',
   `# API Reference
 
-Generated on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Frontend Route Entry Points
 
@@ -72,7 +72,7 @@ writeFile(
   'ai-context/common-errors.md',
   `# Common Errors
 
-Generated on ${facts.generatedAt}.
+Generated from repository state.
 
 ## Repository-Specific Risks
 

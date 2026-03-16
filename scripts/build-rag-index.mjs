@@ -78,7 +78,6 @@ writeFile(
   'ai-context/rag-index.json',
   JSON.stringify(
     {
-      generatedAt: facts.generatedAt,
       strategy: 'hashed-token-embedding',
       embeddingDimension: 32,
       documents,
