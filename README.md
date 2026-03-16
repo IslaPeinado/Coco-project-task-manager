@@ -96,6 +96,7 @@ Comando base de pruebas backend (desde `backend/`):
 - Arquitectura global: `docs/architecture/overview.md`
 - Roadmap de arquitectura: `docs/architecture/improvement-roadmap.md`
 - Backend: `docs/backend/architecture.md`
+- Backend testing: `docs/backend/testing.md`
 - Frontend: `docs/frontend/architecture.md`
 - Seguridad: `docs/security/security-architecture.md`
 - Base de datos: `docs/database/schema.md`
