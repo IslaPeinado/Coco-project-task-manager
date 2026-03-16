@@ -3,7 +3,6 @@
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  styleUrl: './tasks-page.component.css',
   template: `
     <section class="page">
       <h1>Tasks</h1>

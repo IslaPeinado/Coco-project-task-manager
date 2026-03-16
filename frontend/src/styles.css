@@ -364,3 +364,7 @@ body {
     display: none;
   }
 }
+
+.page {
+  padding: 2rem;
+}
