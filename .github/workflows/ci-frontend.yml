@@ -25,5 +25,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Detect frontend directory
+        id: detect-frontend
+        shell: bash
+        run: |
+          if [ -d "frontend" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip frontend CI when directory is absent
+        if: steps.detect-frontend.outputs.exists != 'true'
+        shell: bash
+        run: echo "frontend/ directory not found. Skipping frontend CI."
+
       - name: Run frontend CI composite action
+        if: steps.detect-frontend.outputs.exists == 'true'
         uses: ./.github/actions

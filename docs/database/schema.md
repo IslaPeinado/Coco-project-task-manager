@@ -4,10 +4,11 @@
 
 Este documento describe el modelo relacional actual y mejoras recomendadas.
 
-Migraciones y seeds:
-- `db/migration/V1__schema.sql`
-- `db/migration/V2__seed_catalogs.sql`
-- `db/dev-seed/V3__seed_dev_data.sql` (solo entornos de desarrollo/local)
+Migraciones base:
+- `V1__.sql`
+- `V2__projects_archived_at.sql`
+- `V3__normalize_project_roles.sql`
+- `V4__seed_roles_and_task_status.sql`
 
 ## Entidades principales
 

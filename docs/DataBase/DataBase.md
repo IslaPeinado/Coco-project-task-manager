@@ -4,17 +4,19 @@
 
 Este documento describe el esquema **real** aplicado por Flyway segun los scripts disponibles en:
 
-- `backend/src/main/resources/db/migration/V1__schema.sql`
-- `backend/src/main/resources/db/migration/V2__seed_catalogs.sql`
-- `backend/src/main/resources/db/dev-seed/V3__seed_dev_data.sql` (solo local/dev)
+- `backend/src/main/resources/db/migration/V1__.sql`
+- `backend/src/main/resources/db/migration/V2__projects_archived_at.sql`
+- `backend/src/main/resources/db/migration/V3__normalize_project_roles.sql`
+- `backend/src/main/resources/db/migration/V4__seed_roles_and_task_status.sql`
 
 ## 2. Historial de migraciones
 
 | Version | Archivo | Objetivo |
 |---|---|---|
-| V1 | `V1__schema.sql` | Crea esquema completo: usuarios, proyectos, `project_role`, membresias, catalogo de estados y tareas. |
-| V2 | `V2__seed_catalogs.sql` | Siembra catalogos base idempotentes (`project_role` y `task_status`). |
-| V3 | `db/dev-seed/V3__seed_dev_data.sql` | Seed de datos de desarrollo (usuarios, proyectos, membresias y tareas). |
+| V1 | `V1__.sql` | Crea esquema inicial: usuarios, proyectos, roles, membresias, tareas y catalogo de estados de tarea. |
+| V2 | `V2__projects_archived_at.sql` | Agrega `project.archived_at` e indice por `status, archived_at`. |
+| V3 | `V3__normalize_project_roles.sql` | Normaliza roles de proyecto a `OWNER/MANAGER/MEMBER/VIEWER` y migra `ADMIN -> OWNER`. |
+| V4 | `V4__seed_roles_and_task_status.sql` | Siembra catalogos base idempotentes: roles por proyecto y estados de tarea (`TODO`, `IN_PROGRESS`, `DONE`). |
 
 ## 3. Modelo relacional
 

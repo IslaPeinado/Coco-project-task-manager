@@ -1,0 +1,54 @@
+name: Docs and AI Platform
+
+on:
+  pull_request:
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - "docs/**"
+      - "adr/**"
+      - "ai-context/**"
+      - "prompts/**"
+      - "scripts/**"
+      - "tests/automation/**"
+      - "package.json"
+      - ".github/workflows/docs-ai-platform.yml"
+  push:
+    branches: ["dev", "frontend", "backend", "main"]
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - "docs/**"
+      - "adr/**"
+      - "ai-context/**"
+      - "prompts/**"
+      - "scripts/**"
+      - "tests/automation/**"
+      - "package.json"
+      - ".github/workflows/docs-ai-platform.yml"
+
+concurrency:
+  group: docs-ai-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs-ai:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Sync docs and AI artifacts
+        run: npm run automation:sync
+
+      - name: Run automation tests
+        run: npm run test:automation
+
+      - name: Check generated files are committed
+        run: git diff --exit-code
