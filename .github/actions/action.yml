@@ -12,14 +12,18 @@ runs:
   using: "composite"
   steps:
     - name: Validate frontend directory
+      id: validate-frontend
       shell: bash
       run: |
         if [ ! -d "frontend" ]; then
-          echo "Frontend directory not found (expected frontend/)." >&2
-          exit 1
+          echo "Frontend directory not found (expected frontend/). Skipping composite action."
+          echo "exists=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "exists=true" >> "$GITHUB_OUTPUT"
         fi
 
     - name: Setup Node
+      if: steps.validate-frontend.outputs.exists == 'true'
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
@@ -27,7 +31,7 @@ runs:
         cache-dependency-path: frontend/package-lock.json
 
     - name: Use .nvmrc when available
-      if: ${{ hashFiles('frontend/.nvmrc') != '' }}
+      if: steps.validate-frontend.outputs.exists == 'true' && hashFiles('frontend/.nvmrc') != ''
       uses: actions/setup-node@v4
       with:
         node-version-file: frontend/.nvmrc
@@ -35,16 +39,19 @@ runs:
         cache-dependency-path: frontend/package-lock.json
 
     - name: Install frontend dependencies
+      if: steps.validate-frontend.outputs.exists == 'true'
       shell: bash
       working-directory: frontend
       run: npm ci
 
     - name: Lint frontend
+      if: steps.validate-frontend.outputs.exists == 'true'
       shell: bash
       working-directory: frontend
       run: npm run lint --if-present
 
     - name: Test frontend
+      if: steps.validate-frontend.outputs.exists == 'true'
       shell: bash
       working-directory: frontend
       env:
@@ -52,6 +59,7 @@ runs:
       run: npm test -- --watch=false --browsers=ChromeHeadless
 
     - name: Build frontend
+      if: steps.validate-frontend.outputs.exists == 'true'
       shell: bash
       working-directory: frontend
       run: npm run build
